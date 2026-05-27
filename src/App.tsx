@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Theme, presetGpnDefault } from '@consta/uikit/Theme';
 import Layout from './Layout';
-import ContractsRegistry from './pages/ContractsRegistry';
+import ContractsPage from './pages/ContractsPage';
 import ContractCard from './pages/ContractCard';
 
 type Page = 'registry' | 'contract';
@@ -13,7 +13,7 @@ const App = () => {
     <Theme preset={presetGpnDefault}>
       <Layout>
         {page === 'registry' ? (
-          <ContractsRegistry onOpenContract={() => setPage('contract')} />
+          <ContractsPage onOpenContract={() => setPage('contract')} />
         ) : (
           <ContractCard onBack={() => setPage('registry')} />
         )}

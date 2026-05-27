@@ -68,17 +68,6 @@ const contracts: Contract[] = [
 const ContractsRegistry = ({ onOpenContract }: { onOpenContract: () => void }) => (
   <>
     <section className="card">
-      <div className="breadcrumbs">
-        Главная / Управление исполнением договора / <span>Договоры</span>
-      </div>
-      <h1 className="page-title">Договоры</h1>
-      <div className="tabs">
-        <div className="tab tab--active">Реестр</div>
-        <div className="tab">Показатели</div>
-      </div>
-    </section>
-
-    <section className="card">
       <div className="registry-head">
         <div className="section-title">Реестр</div>
         <button className="btn-outline">
