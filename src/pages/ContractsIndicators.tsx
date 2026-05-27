@@ -104,7 +104,12 @@ const ContractsIndicators = () => {
         if (wrap && !wrap.contains(e.target)) { $('drop' + id).classList.remove('open'); $('btn' + id).classList.remove('open'); }
       });
     };
-    document.addEventListener('click', docClick);
+    const cleanups: Array<() => void> = [];
+    const on = (el: EventTarget, ev: string, fn: any) => {
+      el.addEventListener(ev, fn);
+      cleanups.push(() => el.removeEventListener(ev, fn));
+    };
+    on(document, 'click', docClick);
 
     const charts: Record<string, Chart> = {};
     function mkChart(id: string, cfg: any) { if (charts[id]) charts[id].destroy(); charts[id] = new Chart($(id) as HTMLCanvasElement, cfg); }
@@ -291,19 +296,19 @@ const ContractsIndicators = () => {
     function showTab(idx: number) { root!.querySelectorAll('.section').forEach((s, i) => s.classList.toggle('active', i === idx)); root!.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', i === idx)); }
 
     // wiring
-    ($('fMonthFrom') as HTMLSelectElement).addEventListener('change', applyFilters);
-    ($('fMonthTo') as HTMLSelectElement).addEventListener('change', applyFilters);
-    $('btnContractor').addEventListener('click', () => toggleDropdown('contractor'));
-    $('btnCategory').addEventListener('click', () => toggleDropdown('category'));
-    $('btnReset').addEventListener('click', resetFilters);
-    root.querySelectorAll<HTMLElement>('.nav-tab').forEach((t, i) => t.addEventListener('click', () => showTab(i)));
+    on($('fMonthFrom'), 'change', applyFilters);
+    on($('fMonthTo'), 'change', applyFilters);
+    on($('btnContractor'), 'click', (e: any) => { e.stopPropagation(); toggleDropdown('contractor'); });
+    on($('btnCategory'), 'click', (e: any) => { e.stopPropagation(); toggleDropdown('category'); });
+    on($('btnReset'), 'click', resetFilters);
+    root.querySelectorAll<HTMLElement>('.nav-tab').forEach((t, i) => on(t, 'click', () => showTab(i)));
     $('hdate').textContent = new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' });
     buildMultiSelect('contractor', CONTRACTORS, CON_COLORS, 'contractors');
     buildMultiSelect('category', CATEGORIES, CAT_COLORS, 'categories');
     renderAll();
 
     return () => {
-      document.removeEventListener('click', docClick);
+      cleanups.forEach(fn => fn());
       Object.values(charts).forEach(ch => ch.destroy());
     };
   }, []);
