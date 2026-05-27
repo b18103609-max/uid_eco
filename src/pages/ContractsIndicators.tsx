@@ -65,6 +65,39 @@ const ContractsIndicators = () => {
       drillPaidWithCrit: { 'Альфа-Строй': 0.62, 'БетаГрупп': 0.78, 'Гамма-ТЭК': 0.41, 'Дельта Инж': 0.56, 'Сигма Плюс': 0.18, 'Омега-Сервис': 0.88 },
     };
 
+    // === НАРУШЕНИЯ ФЛАГМАН (источники фиксации: ВА / ВК / ПБ) ===
+    const FL_SOURCES = ['ВА', 'ВК', 'ПБ'];
+    const FL_SRC_COLORS = [C.blue2, C.purple, C.cyan];
+    const FL_CRIT_RATIO = [0.35, 0.5, 0.15]; // доля критичных по источнику ВА/ВК/ПБ
+    const FIELDS = ['Ярудейское', 'Новопортовское', 'Мессояхское', 'Вынгапуровское', 'Ямбургское'];
+    const FIELD_W = [0.28, 0.22, 0.2, 0.16, 0.14];
+    const FIELD_CRIT = [0.5, 0.3, 0.2, 0.42, 0.25];
+    const BRIGADES = ['Бр-101', 'Бр-204', 'Бр-307', 'Бр-415', 'Бр-512', 'Бр-628'];
+    const BRIG_W = [0.2, 0.18, 0.17, 0.16, 0.15, 0.14];
+    const BRIG_CRIT = [0.4, 0.3, 0.52, 0.25, 0.35, 0.18];
+    const WELLS = ['Скв-1024', 'Скв-877', 'Скв-2156', 'Скв-413', 'Скв-1890', 'Скв-602', 'Скв-1337', 'Скв-744', 'Скв-2009', 'Скв-318', 'Скв-1551', 'Скв-980', 'Скв-2233', 'Скв-455', 'Скв-1102'];
+    const WELL_W = [0.12, 0.11, 0.1, 0.09, 0.085, 0.08, 0.072, 0.066, 0.06, 0.055, 0.05, 0.045, 0.04, 0.035, 0.03];
+    const WELL_CRIT = [0.55, 0.2, 0.45, 0.15, 0.4, 0.3, 0.5, 0.18, 0.35, 0.25, 0.48, 0.22, 0.38, 0.12, 0.3];
+    const FL_DIRECTIONS = ['Бурение', 'ТКРС', 'ГРП', 'Обустройство'];
+    const DIR_W = [0.38, 0.26, 0.2, 0.16];
+    const DIR_CRIT = [0.45, 0.18, 0.3, 0.22];
+    // матрица «бригада × месторождение» (веса распределения нарушений)
+    const HEAT_W = [
+      [0.9, 0.5, 0.4, 0.3, 0.2], [0.4, 0.8, 0.3, 0.5, 0.2], [0.6, 0.3, 0.9, 0.2, 0.4],
+      [0.3, 0.5, 0.2, 0.7, 0.3], [0.5, 0.2, 0.4, 0.3, 0.6], [0.2, 0.4, 0.3, 0.2, 0.5],
+    ];
+    // flCounts[contractor] = [ВА[8], ВК[8], ПБ[8]] — число нарушений по месяцам
+    const FL: any = {
+      flCounts: {
+        'Альфа-Строй': [[6, 7, 8, 7, 8, 7, 9, 8], [4, 5, 5, 5, 5, 5, 6, 5], [3, 3, 4, 3, 4, 3, 4, 3]],
+        'БетаГрупп': [[8, 9, 11, 10, 11, 10, 12, 11], [5, 6, 7, 6, 7, 6, 8, 7], [4, 4, 5, 4, 5, 4, 5, 4]],
+        'Гамма-ТЭК': [[4, 5, 6, 5, 6, 5, 7, 6], [3, 3, 4, 3, 4, 3, 4, 3], [2, 2, 3, 2, 3, 2, 3, 2]],
+        'Дельта Инж': [[5, 6, 7, 6, 7, 6, 8, 7], [4, 4, 5, 4, 5, 4, 5, 4], [2, 3, 3, 3, 3, 3, 4, 3]],
+        'Сигма Плюс': [[3, 3, 4, 3, 4, 3, 4, 3], [2, 2, 3, 2, 3, 2, 3, 2], [1, 1, 2, 1, 2, 1, 2, 1]],
+        'Омега-Сервис': [[10, 12, 14, 13, 14, 13, 16, 14], [7, 8, 9, 8, 9, 8, 10, 9], [5, 5, 6, 5, 6, 5, 7, 6]],
+      },
+    };
+
     let filterState: any = { monthFrom: 0, monthTo: 7, contractors: [...CONTRACTORS], categories: [...CATEGORIES] };
 
     function buildMultiSelect(id: string, items: string[], colors: string[], stateKey: string) {
@@ -158,6 +191,60 @@ const ContractsIndicators = () => {
       const npvByCon = cons.map(c => sumOverMonths(MASTER.npv[c]));
       const sortedIdx = cons.map((_, i) => i).sort((x, y) => npvByCon[y] - npvByCon[x]);
       mkChart('c9', { type: 'bar', data: { labels: sortedIdx.map(i => cons[i]), datasets: [{ label: 'НПВ, ч', data: sortedIdx.map(i => npvByCon[i]), backgroundColor: (ctx: any) => ctx.raw > 500 ? a(C.red, .8) : ctx.raw > 300 ? a(C.orange, .8) : a(C.yellow, .8), borderRadius: 3 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.parsed.x} ч` } } }, scales: { x: { grid: { color: GRID } }, y: { grid: { display: false } } } } });
+    }
+
+    function renderFlagman() {
+      const cons = filteredContractors(), cats = filteredCategories(), midxs = monthIdxs(), months = getMonths();
+      const GRAY = '#aab4bd';
+      const srcSum = (c: string, si: number) => sumOverMonths(FL.flCounts[c][si]);
+      const srcTotals = FL_SOURCES.map((_, si) => cons.reduce((s, c) => s + srcSum(c, si), 0));
+      const flTotal = srcTotals.reduce((s, v) => s + v, 0);
+      const sc = (w: number) => Math.round(flTotal * w);
+
+      // П1 — структура по типу источника (donut)
+      mkChart('cFl1', { type: 'doughnut', data: { labels: FL_SOURCES.map((s) => ({ 'ВА': 'Видеоаналитика (ВА)', 'ВК': 'Видеоконтроль (ВК)', 'ПБ': 'Прочие ПБ' } as any)[s] || s), datasets: [{ data: srcTotals, backgroundColor: FL_SRC_COLORS.map(c => a(c, .85)), borderColor: PT, borderWidth: 3, hoverOffset: 8 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { position: 'right', labels: { padding: 12, boxWidth: 10, usePointStyle: true, pointStyle: 'rectRounded' } }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.label}: ${ctx.parsed} (${flTotal ? Math.round(ctx.parsed / flTotal * 100) : 0}%)` } } } } });
+
+      // П2 — по уровню критичности (grouped bar per source)
+      const critBySrc = srcTotals.map((t, i) => Math.round(t * FL_CRIT_RATIO[i]));
+      const minorBySrc = srcTotals.map((t, i) => t - critBySrc[i]);
+      mkChart('cFl2', { type: 'bar', data: { labels: FL_SOURCES, datasets: [{ label: 'Критичные', data: critBySrc, backgroundColor: a(C.red, .85), borderRadius: 3 }, { label: 'Незначительные', data: minorBySrc, backgroundColor: a(GRAY, .85), borderRadius: 3 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 12 } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: GRID } } } } });
+
+      // П3 — по подрядчикам и типу источника (h-stacked, sorted desc)
+      const conTotal: any = {}; cons.forEach(c => { conTotal[c] = FL_SOURCES.reduce((s, _, si) => s + srcSum(c, si), 0); });
+      const sortedCons = [...cons].sort((x, y) => conTotal[y] - conTotal[x]);
+      mkChart('cFl3', { type: 'bar', data: { labels: sortedCons, datasets: FL_SOURCES.map((src, si) => ({ label: src, data: sortedCons.map(c => srcSum(c, si)), backgroundColor: a(FL_SRC_COLORS[si], .85) })) }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 10, boxWidth: 10 } } }, scales: { x: { stacked: true, grid: { color: GRID } }, y: { stacked: true, grid: { display: false } } } } });
+
+      // П4 — по месторождениям (h-bar, цвет по доле критичных)
+      const fieldData = FIELDS.map((f, i) => ({ f, total: sc(FIELD_W[i]), crit: FIELD_CRIT[i] })).sort((x, y) => y.total - x.total);
+      mkChart('cFl4', { type: 'bar', data: { labels: fieldData.map(d => d.f), datasets: [{ label: 'Нарушения', data: fieldData.map(d => d.total), backgroundColor: fieldData.map(d => d.crit > 0.4 ? a(C.red, .8) : d.crit > 0.25 ? a(C.yellow, .85) : a(C.green, .8)), borderRadius: 3 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.parsed.x} нар. (крит. ${Math.round(fieldData[ctx.dataIndex].crit * 100)}%)` } } }, scales: { x: { grid: { color: GRID } }, y: { grid: { display: false } } } } });
+
+      // П5 — по бригадам (h-bar stacked crit/minor, sorted desc)
+      const brigData = BRIGADES.map((b, i) => { const total = sc(BRIG_W[i]); const crit = Math.round(total * BRIG_CRIT[i]); return { b, total, crit, minor: total - crit }; }).sort((x, y) => y.total - x.total);
+      mkChart('cFl5', { type: 'bar', data: { labels: brigData.map(d => d.b), datasets: [{ label: 'Критичные', data: brigData.map(d => d.crit), backgroundColor: a(C.red, .85), borderRadius: 3, stack: 's' }, { label: 'Незначительные', data: brigData.map(d => d.minor), backgroundColor: a(GRAY, .85), borderRadius: 3, stack: 's' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 10, boxWidth: 10 } } }, scales: { x: { stacked: true, grid: { color: GRID } }, y: { stacked: true, grid: { display: false } } } } });
+
+      // П6 — по скважинам ТОП-15 (h-bar, цвет по критичности)
+      const wellData = WELLS.map((w, i) => ({ w, total: sc(WELL_W[i]), crit: WELL_CRIT[i] })).sort((x, y) => y.total - x.total);
+      mkChart('cFl6', { type: 'bar', data: { labels: wellData.map(d => d.w), datasets: [{ label: 'Нарушения', data: wellData.map(d => d.total), backgroundColor: wellData.map(d => d.crit > 0.4 ? a(C.red, .8) : d.crit > 0.25 ? a(C.orange, .8) : a(C.yellow, .85)), borderRadius: 3 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.parsed.x} нар. (крит. ${Math.round(wellData[ctx.dataIndex].crit * 100)}%)` } } }, scales: { x: { grid: { color: GRID } }, y: { grid: { display: false }, ticks: { font: { size: 10 } } } } } });
+
+      // П7 — динамика по месяцам и типу источника (stacked bar)
+      mkChart('cFl7', { type: 'bar', data: { labels: months, datasets: FL_SOURCES.map((src, si) => ({ label: src, data: midxs.map(m => cons.reduce((s, c) => s + FL.flCounts[c][si][m], 0)), backgroundColor: a(FL_SRC_COLORS[si], .85), borderRadius: 2 })) }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 10, boxWidth: 10 } } }, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: GRID } } } } });
+
+      // П8 — критичные нарушения по направлению работ (grouped bar)
+      const dirCrit = FL_DIRECTIONS.map((_, i) => sc(DIR_W[i] * DIR_CRIT[i]));
+      const dirMinor = FL_DIRECTIONS.map((_, i) => sc(DIR_W[i]) - sc(DIR_W[i] * DIR_CRIT[i]));
+      mkChart('cFl8', { type: 'bar', data: { labels: FL_DIRECTIONS, datasets: [{ label: 'Критичные', data: dirCrit, backgroundColor: a(C.red, .85), borderRadius: 3 }, { label: 'Незначительные', data: dirMinor, backgroundColor: a(GRAY, .85), borderRadius: 3 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 12 } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: GRID } } } } });
+
+      // П9 — ВА/ВК/ПБ vs основной реестр (dual axis line)
+      const flByM = midxs.map(m => FL_SOURCES.reduce((s, _, si) => s + cons.reduce((ss, c) => ss + FL.flCounts[c][si][m], 0), 0));
+      const mainByM = midxs.map(m => cats.reduce((s, cat) => s + cons.reduce((ss, c) => ss + MASTER.viol[cat][c][m], 0), 0));
+      mkChart('cFl9', { type: 'line', data: { labels: months, datasets: [{ label: 'Флагман (ВА/ВК/ПБ)', data: flByM, borderColor: C.blue2, backgroundColor: a(C.blue2, .12), borderWidth: 2.5, tension: .4, fill: true, pointRadius: 4, pointBackgroundColor: C.blue2, pointBorderColor: PT, pointBorderWidth: 2, yAxisID: 'y' }, { label: 'Основной реестр', data: mainByM, borderColor: C.red, backgroundColor: 'transparent', borderWidth: 2.5, tension: .4, fill: false, pointRadius: 4, pointBackgroundColor: C.red, pointBorderColor: PT, pointBorderWidth: 2, yAxisID: 'y2', borderDash: [5, 3] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 14 } } }, scales: { x: { grid: { color: GRID } }, y: { position: 'left', title: { display: true, text: 'Флагман', color: AXIS }, grid: { color: GRID } }, y2: { position: 'right', title: { display: true, text: 'Реестр', color: AXIS }, grid: { display: false } } } } });
+
+      // П10 — тепловая карта «бригада × месторождение»
+      const heatNorm = HEAT_W.reduce((s, row) => s + row.reduce((a2, v) => a2 + v, 0), 0);
+      const heat = HEAT_W.map(row => row.map(w => Math.round(flTotal * w / heatNorm)));
+      const maxCell = Math.max(1, ...heat.flat());
+      const heatHtml = `<table class="heat-table"><thead><tr><th></th>${FIELDS.map(f => `<th>${f}</th>`).join('')}</tr></thead><tbody>${BRIGADES.map((b, bi) => `<tr><td class="heat-row">${b}</td>${heat[bi].map(v => { const t = v / maxCell; const isCrit = t > 0.66; return `<td class="heat-cell" style="background:${a(C.red, 0.08 + t * 0.55)};color:${isCrit ? '#fff' : '#002033'}">${v}</td>`; }).join('')}</tr>`).join('')}</tbody></table>`;
+      $('flHeat').innerHTML = heatHtml;
     }
 
     function renderDPR() {
@@ -271,7 +358,7 @@ const ContractsIndicators = () => {
       charts['c18'] = new Chart($('c18') as HTMLCanvasElement, { type: 'bar', data: { labels: accData.map(d => d.name), datasets: [{ label: '% принятых', data: accData.map(d => d.pct), backgroundColor: accData.map(d => d.pct >= 70 ? a(C.green, .8) : a(C.red, .8)), borderRadius: 3 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.parsed.x}%` } } }, scales: { x: { min: 0, max: 100, ticks: { callback: (v: any) => v + '%' }, grid: { color: GRID } }, y: { grid: { display: false } } } }, plugins: [thr70] } as any);
     }
 
-    function renderAll() { renderFinance(); renderViolations(); renderDPR(); renderActivities(); renderMotivation(); renderRating(); }
+    function renderAll() { renderFinance(); renderViolations(); renderFlagman(); renderDPR(); renderActivities(); renderMotivation(); renderRating(); }
     function applyFilters() {
       filterState.monthFrom = +($('fMonthFrom') as HTMLSelectElement).value;
       filterState.monthTo = +($('fMonthTo') as HTMLSelectElement).value;
@@ -393,6 +480,29 @@ const ContractsIndicators = () => {
             <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">Статус нарушений</div><span className="card-num">#8 Bar</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="c8" /></div></div>
           </div>
           <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">НПВ по нарушениям</div><span className="card-num">#9 H-Bar</span></div><div style={{ position: 'relative', height: 200 }}><canvas id="c9" /></div></div>
+
+          <p className="subsection-title">Нарушения Флагман<span className="subsection-badge">⚡ Источники фиксации: ВА / ВК / ПБ</span></p>
+          <div className="subsection-note">
+            <strong>Источник данных:</strong> система «Флагман» — нарушения, зафиксированные средствами видеоаналитики (ВА), видеоконтроля (ВК) и прочими каналами ПБ. Разрезы по подрядчикам, месторождениям, бригадам и скважинам, а также сопоставление с основным реестром нарушений.
+          </div>
+          <div className="grid grid-2 mb">
+            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">Структура нарушений по типу источника</div><span className="card-num">П1 Donut</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="cFl1" /></div></div>
+            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">Нарушения по уровню критичности</div><span className="card-num">П2 Bar</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="cFl2" /></div></div>
+          </div>
+          <div className="grid grid-2 mb">
+            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">Нарушения по подрядчикам и типу источника</div><span className="card-num">П3 H-Stacked</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="cFl3" /></div></div>
+            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">Нарушения по месторождениям</div><span className="card-num">П4 H-Bar</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="cFl4" /></div></div>
+          </div>
+          <div className="grid grid-2 mb">
+            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">Нарушения по бригадам</div><span className="card-num">П5 H-Bar</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="cFl5" /></div></div>
+            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">Нарушения по скважинам (ТОП-15)</div><span className="card-num">П6 H-Bar</span></div><div style={{ position: 'relative', height: 300 }}><canvas id="cFl6" /></div></div>
+          </div>
+          <div className="grid grid-2 mb">
+            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">Динамика нарушений по месяцам и типу источника</div><span className="card-num">П7 Stacked Bar</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="cFl7" /></div></div>
+            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">Критичные нарушения по направлению работ</div><span className="card-num">П8 Grouped Bar</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="cFl8" /></div></div>
+          </div>
+          <div className="dash-card mb" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">Нарушения ВА/ВК/ПБ vs. основной реестр</div><span className="card-num">П9 Dual Axis</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="cFl9" /></div></div>
+          <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">Тепловая карта: бригада × месторождение</div><span className="card-num">П10 Heatmap</span></div><div style={{ overflowX: 'auto' }} id="flHeat" /></div>
         </section>
 
         <section className="section" id="tab-2">
