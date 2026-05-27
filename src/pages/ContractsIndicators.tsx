@@ -38,7 +38,7 @@ const ContractsIndicators = () => {
     const SERVICES = ['Эксплуатационное бурение', 'Разведочное бурение', 'ГРП', 'КРС/ТРС', 'Обустройство куста', 'Строительство трубопровода'];
     const SERVICE_COLORS = [C.orange, C.yellow, C.blue2, C.green, C.purple, C.cyan];
 
-    const MASTER: any = {
+    const BASE: any = {
       fine: { 'Альфа-Строй': [[0.9, 0.5, 0.3], [1.1, 0.6, 0.4], [1.3, 0.7, 0.5], [1.1, 0.6, 0.4], [1.0, 0.5, 0.3], [1.2, 0.7, 0.4], [1.4, 0.8, 0.5], [1.3, 0.7, 0.4]], 'БетаГрупп': [[1.1, 0.6, 0.4], [1.3, 0.7, 0.4], [1.5, 0.8, 0.5], [1.3, 0.7, 0.4], [1.2, 0.6, 0.4], [1.4, 0.7, 0.5], [1.6, 0.9, 0.5], [1.5, 0.8, 0.5]], 'Гамма-ТЭК': [[0.6, 0.4, 0.2], [0.7, 0.4, 0.3], [0.8, 0.5, 0.3], [0.7, 0.4, 0.3], [0.6, 0.4, 0.2], [0.7, 0.4, 0.3], [0.9, 0.5, 0.3], [0.8, 0.4, 0.3]], 'Дельта Инж': [[0.8, 0.5, 0.3], [0.9, 0.5, 0.3], [1.0, 0.6, 0.4], [0.9, 0.5, 0.3], [0.8, 0.5, 0.3], [0.9, 0.5, 0.3], [1.1, 0.6, 0.4], [1.0, 0.5, 0.3]], 'Сигма Плюс': [[0.3, 0.2, 0.2], [0.4, 0.3, 0.2], [0.4, 0.3, 0.2], [0.3, 0.2, 0.2], [0.3, 0.2, 0.1], [0.4, 0.3, 0.2], [0.5, 0.3, 0.2], [0.4, 0.3, 0.2]], 'Омега-Сервис': [[1.5, 0.8, 0.4], [1.7, 0.9, 0.4], [2.0, 1.0, 0.5], [1.8, 0.9, 0.4], [1.7, 0.8, 0.4], [1.9, 1.0, 0.5], [2.2, 1.1, 0.5], [2.1, 1.0, 0.5]] },
       proactive: { 'Альфа-Строй': 1.2, 'БетаГрупп': 2.1, 'Гамма-ТЭК': 0.8, 'Дельта Инж': 1.5, 'Сигма Плюс': 0.6, 'Омега-Сервис': 1.8 },
       viol: {
@@ -87,7 +87,7 @@ const ContractsIndicators = () => {
       [0.3, 0.5, 0.2, 0.7, 0.3], [0.5, 0.2, 0.4, 0.3, 0.6], [0.2, 0.4, 0.3, 0.2, 0.5],
     ];
     // flCounts[contractor] = [ВА[8], ВК[8], ПБ[8]] — число нарушений по месяцам
-    const FL: any = {
+    const FL_BASE: any = {
       flCounts: {
         'Альфа-Строй': [[6, 7, 8, 7, 8, 7, 9, 8], [4, 5, 5, 5, 5, 5, 6, 5], [3, 3, 4, 3, 4, 3, 4, 3]],
         'БетаГрупп': [[8, 9, 11, 10, 11, 10, 12, 11], [5, 6, 7, 6, 7, 6, 8, 7], [4, 4, 5, 4, 5, 4, 5, 4]],
@@ -98,7 +98,53 @@ const ContractsIndicators = () => {
       },
     };
 
-    let filterState: any = { monthFrom: 0, monthTo: 7, contractors: [...CONTRACTORS], categories: [...CATEGORIES] };
+    // === УСЛУГИ ПО ДОГОВОРУ ===
+    // label — то, что выбирается в фильтре; w — доля объёма (для масштабирования метрик)
+    const SERVICES_DEF: { code: string; label: string; w: number }[] = [
+      { code: '10203', label: '10203 — Зарезка боковых стволов и углублений под ключ', w: 0.16 },
+      { code: '10204', label: '10204 — Бурение эксплуатационных скважин (суточная/фикс. ставка)', w: 0.26 },
+      { code: '10205', label: '10205 — Зарезка боковых стволов и углубление (суточная/фикс. ставка)', w: 0.14 },
+      { code: '10206', label: '10206 — ПИР при бурении/реконструкции скважин, авторский надзор', w: 0.10 },
+      { code: '11014', label: '11014 — Строительный контроль за объектами строительства', w: 0.08 },
+      { code: '11018', label: '11018 — ПИР Комплексное обустройство месторождений нефти и газа', w: 0.10 },
+      { code: '11019', label: '11019 — ПИР Объекты добычи, подготовки и транспорта нефти', w: 0.09 },
+      { code: '11016', label: '11016 — ПИР Прочие объекты обустройства', w: 0.07 },
+    ];
+    const SERVICE_LABELS = SERVICES_DEF.map(s => s.label);
+    const SVC_COLORS = SERVICES_DEF.map(() => C.blue);
+    const svcFactor = () => {
+      const sel: string[] = filterState.services;
+      const tot = SERVICES_DEF.reduce((a, s) => a + s.w, 0);
+      const selW = SERVICES_DEF.filter(s => sel.includes(s.label)).reduce((a, s) => a + s.w, 0);
+      return tot ? selW / tot : 0;
+    };
+    // Глубокое масштабирование числовых листьев. round=true для счётных метрик, false для сумм (млн ₽)
+    const scaleDeep = (obj: any, f: number, round: boolean): any => {
+      if (typeof obj === 'number') return round ? Math.round(obj * f) : obj * f;
+      if (Array.isArray(obj)) return obj.map(v => scaleDeep(v, f, round));
+      const o: any = {}; for (const k in obj) o[k] = scaleDeep(obj[k], f, round); return o;
+    };
+    // Объёмные метрики масштабируются по доле услуг; ставки/доли/средние — нет
+    let MASTER: any = BASE;
+    let FL: any = FL_BASE;
+    const applyServiceScale = () => {
+      const f = svcFactor();
+      MASTER = {
+        fine: scaleDeep(BASE.fine, f, false),
+        proactive: scaleDeep(BASE.proactive, f, false),
+        viol: scaleDeep(BASE.viol, f, true),
+        npv: scaleDeep(BASE.npv, f, true),
+        dpr_status: scaleDeep(BASE.dpr_status, f, true),
+        delay: BASE.delay,                      // средние дни — без масштабирования
+        act: scaleDeep(BASE.act, f, true),
+        payment: scaleDeep(BASE.payment, f, false),
+        drillCrit: scaleDeep(BASE.drillCrit, f, true),
+        drillPaidWithCrit: BASE.drillPaidWithCrit, // доля — без масштабирования
+      };
+      FL = { flCounts: scaleDeep(FL_BASE.flCounts, f, true) };
+    };
+
+    let filterState: any = { monthFrom: 0, monthTo: 7, contractors: [...CONTRACTORS], categories: [...CATEGORIES], services: [...SERVICE_LABELS] };
 
     function buildMultiSelect(id: string, items: string[], colors: string[], stateKey: string) {
       const drop = $('drop' + id.charAt(0).toUpperCase() + id.slice(1));
@@ -132,7 +178,7 @@ const ContractsIndicators = () => {
       const open = drop.classList.toggle('open'); btn.classList.toggle('open', open);
     }
     const docClick = (e: any) => {
-      ['Contractor', 'Category'].forEach(id => {
+      ['Contractor', 'Category', 'Service'].forEach(id => {
         const wrap = root.querySelector('#wrap' + id);
         if (wrap && !wrap.contains(e.target)) { $('drop' + id).classList.remove('open'); $('btn' + id).classList.remove('open'); }
       });
@@ -358,7 +404,7 @@ const ContractsIndicators = () => {
       charts['c18'] = new Chart($('c18') as HTMLCanvasElement, { type: 'bar', data: { labels: accData.map(d => d.name), datasets: [{ label: '% принятых', data: accData.map(d => d.pct), backgroundColor: accData.map(d => d.pct >= 70 ? a(C.green, .8) : a(C.red, .8)), borderRadius: 3 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.parsed.x}%` } } }, scales: { x: { min: 0, max: 100, ticks: { callback: (v: any) => v + '%' }, grid: { color: GRID } }, y: { grid: { display: false } } } }, plugins: [thr70] } as any);
     }
 
-    function renderAll() { renderFinance(); renderViolations(); renderFlagman(); renderDPR(); renderActivities(); renderMotivation(); renderRating(); }
+    function renderAll() { applyServiceScale(); renderFinance(); renderViolations(); renderFlagman(); renderDPR(); renderActivities(); renderMotivation(); renderRating(); }
     function applyFilters() {
       filterState.monthFrom = +($('fMonthFrom') as HTMLSelectElement).value;
       filterState.monthTo = +($('fMonthTo') as HTMLSelectElement).value;
@@ -370,14 +416,15 @@ const ContractsIndicators = () => {
       if (fs.monthFrom !== 0 || fs.monthTo !== 7) chips.push(`${MONTHS[fs.monthFrom]} – ${MONTHS[fs.monthTo]}`);
       if (fs.contractors.length !== CONTRACTORS.length) chips.push(`Подрядчики: ${fs.contractors.length}`);
       if (fs.categories.length !== CATEGORIES.length) chips.push(`Категории: ${fs.categories.length}`);
+      if (fs.services.length !== SERVICE_LABELS.length) chips.push(`Услуги: ${fs.services.length}`);
       $('filterChips').innerHTML = chips.map(c => `<span class="chip">${c}</span>`).join('');
     }
     function resetFilters() {
       ($('fMonthFrom') as HTMLSelectElement).value = '0'; ($('fMonthTo') as HTMLSelectElement).value = '7';
-      filterState = { monthFrom: 0, monthTo: 7, contractors: [...CONTRACTORS], categories: [...CATEGORIES] };
-      root!.querySelectorAll<HTMLInputElement>('#dropContractor input,#dropCategory input').forEach(cb => (cb.checked = true));
-      $('lblContractor').textContent = 'Все'; $('lblCategory').textContent = 'Все';
-      $('badgeContractor').style.display = 'none'; $('badgeCategory').style.display = 'none';
+      filterState = { monthFrom: 0, monthTo: 7, contractors: [...CONTRACTORS], categories: [...CATEGORIES], services: [...SERVICE_LABELS] };
+      root!.querySelectorAll<HTMLInputElement>('#dropContractor input,#dropCategory input,#dropService input').forEach(cb => (cb.checked = true));
+      $('lblContractor').textContent = 'Все'; $('lblCategory').textContent = 'Все'; $('lblService').textContent = 'Все';
+      $('badgeContractor').style.display = 'none'; $('badgeCategory').style.display = 'none'; $('badgeService').style.display = 'none';
       renderChips(); renderAll();
     }
     function showTab(idx: number) { root!.querySelectorAll('.section').forEach((s, i) => s.classList.toggle('active', i === idx)); root!.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', i === idx)); }
@@ -387,11 +434,13 @@ const ContractsIndicators = () => {
     on($('fMonthTo'), 'change', applyFilters);
     on($('btnContractor'), 'click', (e: any) => { e.stopPropagation(); toggleDropdown('contractor'); });
     on($('btnCategory'), 'click', (e: any) => { e.stopPropagation(); toggleDropdown('category'); });
+    on($('btnService'), 'click', (e: any) => { e.stopPropagation(); toggleDropdown('service'); });
     on($('btnReset'), 'click', resetFilters);
     root.querySelectorAll<HTMLElement>('.nav-tab').forEach((t, i) => on(t, 'click', () => showTab(i)));
     $('hdate').textContent = new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' });
     buildMultiSelect('contractor', CONTRACTORS, CON_COLORS, 'contractors');
     buildMultiSelect('category', CATEGORIES, CAT_COLORS, 'categories');
+    buildMultiSelect('service', SERVICE_LABELS, SVC_COLORS, 'services');
     renderAll();
 
     return () => {
@@ -436,6 +485,17 @@ const ContractsIndicators = () => {
               <span style={{ color: 'var(--muted)', fontSize: 9 }}>▾</span>
             </div>
             <div className="multi-dropdown" id="dropCategory" />
+          </div>
+        </div>
+        <div className="filter-sep" />
+        <div className="filter-group">
+          <span className="filter-label">Услуга по договору</span>
+          <div className="multi-wrap" id="wrapService">
+            <div className="multi-btn" id="btnService">
+              <span id="lblService">Все</span><span className="multi-badge" id="badgeService" style={{ display: 'none' }} />
+              <span style={{ color: 'var(--muted)', fontSize: 9 }}>▾</span>
+            </div>
+            <div className="multi-dropdown multi-dropdown--wide" id="dropService" />
           </div>
         </div>
         <div className="filter-sep" />
