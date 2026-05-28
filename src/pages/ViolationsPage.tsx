@@ -115,6 +115,7 @@ const ViolationsPage = ({ onBackToHub, onBackToFlagman }: { onBackToHub: () => v
   const [cluster, setCluster] = useState<string[]>([...CLUSTERS]);
   const [brigade, setBrigade] = useState<string[]>([...BRIGADES]);
   const [sup, setSup] = useState<string[]>([...SUPS]);
+  const [selected, setSelected] = useState<Set<number>>(new Set());
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -137,6 +138,26 @@ const ViolationsPage = ({ onBackToHub, onBackToFlagman }: { onBackToHub: () => v
     setField([...FIELDS]); setWell([...WELLS]); setCluster([...CLUSTERS]);
     setBrigade([...BRIGADES]); setSup([...SUPS]);
   };
+
+  const toggleOne = (id: number) => {
+    setSelected(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+  const filteredIds = filtered.map(v => v.id);
+  const allFilteredSelected = filteredIds.length > 0 && filteredIds.every(id => selected.has(id));
+  const someFilteredSelected = filteredIds.some(id => selected.has(id));
+  const toggleAllFiltered = () => {
+    setSelected(prev => {
+      const next = new Set(prev);
+      if (allFilteredSelected) filteredIds.forEach(id => next.delete(id));
+      else filteredIds.forEach(id => next.add(id));
+      return next;
+    });
+  };
+  const clearSelection = () => setSelected(new Set());
 
   return (
     <>
@@ -172,39 +193,69 @@ const ViolationsPage = ({ onBackToHub, onBackToFlagman }: { onBackToHub: () => v
           </div>
         </div>
 
-        <div className="vio-count">Найдено: <b>{filtered.length}</b> из {VIOLATIONS.length}</div>
+        <div className="vio-count-row">
+          <label className="vio-select-all">
+            <input
+              type="checkbox"
+              checked={allFilteredSelected}
+              ref={el => { if (el) el.indeterminate = !allFilteredSelected && someFilteredSelected; }}
+              onChange={toggleAllFiltered}
+              disabled={filteredIds.length === 0}
+            />
+            Выбрать все
+          </label>
+          <div className="vio-count">Найдено: <b>{filtered.length}</b> из {VIOLATIONS.length}</div>
+        </div>
 
         <div className="vio-list">
           {filtered.length === 0 ? (
             <div className="vio-empty">По заданным фильтрам нарушений не найдено</div>
           ) : (
-            filtered.map(v => (
-              <div key={v.id} className={`vio-card vio-card--${v.crit === 'Критичное' ? 'crit' : 'minor'}`}>
-                <div className="vio-card__head">
-                  <div className="vio-card__scenario">
-                    <span className={`vio-source vio-source--${sourceCls(v.source)}`}>{v.source}</span>
-                    <span>{v.scenario}</span>
+            filtered.map(v => {
+              const isSel = selected.has(v.id);
+              return (
+                <div key={v.id} className={`vio-card vio-card--${v.crit === 'Критичное' ? 'crit' : 'minor'}${isSel ? ' vio-card--selected' : ''}`}>
+                  <label className="vio-card__check">
+                    <input type="checkbox" checked={isSel} onChange={() => toggleOne(v.id)} />
+                  </label>
+                  <div className="vio-card__main">
+                    <div className="vio-card__head">
+                      <div className="vio-card__scenario">
+                        <span className={`vio-source vio-source--${sourceCls(v.source)}`}>{v.source}</span>
+                        <span>{v.scenario}</span>
+                      </div>
+                      <span className={`vio-crit vio-crit--${v.crit === 'Критичное' ? 'crit' : 'minor'}`}>
+                        {v.crit.toUpperCase()}
+                      </span>
+                    </div>
+                    <div className="vio-card__body">
+                      <span className="vio-attr"><span className="vio-attr__label">Месторождение:</span><span className="vio-attr__value">{v.field}</span></span>
+                      <span className="vio-attr"><span className="vio-attr__label">Скважина:</span><span className="vio-attr__value">{v.well}</span></span>
+                      <span className="vio-attr"><span className="vio-attr__label">Куст:</span><span className="vio-attr__value">{v.cluster}</span></span>
+                      <span className="vio-attr"><span className="vio-attr__label">Бригада:</span><span className="vio-attr__value">{v.brigade}</span></span>
+                      <span className="vio-attr"><span className="vio-attr__label">Направление:</span><span className="vio-attr__value">{v.dir}</span></span>
+                    </div>
+                    <div className="vio-card__foot">
+                      <span className="vio-foot-item"><IconCalendar size="xs" />{v.date}</span>
+                      <span className="vio-foot-item"><IconUser size="xs" />Зафиксировал: <span className="vio-foot-name">{v.supervisor}</span></span>
+                    </div>
                   </div>
-                  <span className={`vio-crit vio-crit--${v.crit === 'Критичное' ? 'crit' : 'minor'}`}>
-                    {v.crit.toUpperCase()}
-                  </span>
                 </div>
-                <div className="vio-card__body">
-                  <span className="vio-attr"><span className="vio-attr__label">Месторождение:</span><span className="vio-attr__value">{v.field}</span></span>
-                  <span className="vio-attr"><span className="vio-attr__label">Скважина:</span><span className="vio-attr__value">{v.well}</span></span>
-                  <span className="vio-attr"><span className="vio-attr__label">Куст:</span><span className="vio-attr__value">{v.cluster}</span></span>
-                  <span className="vio-attr"><span className="vio-attr__label">Бригада:</span><span className="vio-attr__value">{v.brigade}</span></span>
-                  <span className="vio-attr"><span className="vio-attr__label">Направление:</span><span className="vio-attr__value">{v.dir}</span></span>
-                </div>
-                <div className="vio-card__foot">
-                  <span className="vio-foot-item"><IconCalendar size="xs" />{v.date}</span>
-                  <span className="vio-foot-item"><IconUser size="xs" />Зафиксировал: <span className="vio-foot-name">{v.supervisor}</span></span>
-                </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </section>
+
+      {selected.size > 0 && (
+        <div className="vio-actionbar" role="dialog" aria-label="Действия с выбранными нарушениями">
+          <button className="vio-actionbar__btn vio-actionbar__btn--primary">Создать ПКМ</button>
+          <span className="vio-actionbar__count">
+            Выбрано {selected.size}
+            <button className="vio-actionbar__close" onClick={clearSelection} aria-label="Сбросить выбор">×</button>
+          </span>
+        </div>
+      )}
     </>
   );
 };
