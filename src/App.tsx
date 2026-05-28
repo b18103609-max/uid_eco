@@ -4,8 +4,9 @@ import Layout from './Layout';
 import ContractMgmtHub from './pages/ContractMgmtHub';
 import ContractsPage from './pages/ContractsPage';
 import ContractCard from './pages/ContractCard';
+import FlagmanRating from './pages/FlagmanRating';
 
-type Page = 'hub' | 'registry' | 'contract';
+type Page = 'hub' | 'registry' | 'contract' | 'flagman';
 
 const App = () => {
   const [page, setPage] = useState<Page>('hub');
@@ -14,7 +15,10 @@ const App = () => {
     <Theme preset={presetGpnDefault}>
       <Layout>
         {page === 'hub' && (
-          <ContractMgmtHub onOpenContracts={() => setPage('registry')} />
+          <ContractMgmtHub
+            onOpenContracts={() => setPage('registry')}
+            onOpenFlagman={() => setPage('flagman')}
+          />
         )}
         {page === 'registry' && (
           <ContractsPage
@@ -27,6 +31,9 @@ const App = () => {
             onBackToHub={() => setPage('hub')}
             onBackToRegistry={() => setPage('registry')}
           />
+        )}
+        {page === 'flagman' && (
+          <FlagmanRating onBackToHub={() => setPage('hub')} />
         )}
       </Layout>
     </Theme>

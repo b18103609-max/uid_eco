@@ -20,7 +20,7 @@ import './hub.css';
 
 type Tile = { label: string; icon: IconComponent; onClick?: () => void };
 
-const ContractMgmtHub = ({ onOpenContracts }: { onOpenContracts: () => void }) => {
+const ContractMgmtHub = ({ onOpenContracts, onOpenFlagman }: { onOpenContracts: () => void; onOpenFlagman: () => void }) => {
   const c1Ref = useRef<HTMLCanvasElement>(null);
   const c2Ref = useRef<HTMLCanvasElement>(null);
 
@@ -66,7 +66,7 @@ const ContractMgmtHub = ({ onOpenContracts }: { onOpenContracts: () => void }) =
   const row2: Tile[] = [
     { label: 'ПКМ', icon: IconList },
     { label: 'Допретензионная работа', icon: IconQuestion },
-    { label: 'Рейтинг флагман', icon: IconFlagFilled },
+    { label: 'Рейтинг флагман', icon: IconFlagFilled, onClick: onOpenFlagman },
   ];
 
   const renderTile = (t: Tile) => (
