@@ -2,14 +2,14 @@ import { useState } from 'react';
 import ContractsRegistry from './ContractsRegistry';
 import ContractsIndicators from './ContractsIndicators';
 
-const ContractsPage = ({ onOpenContract }: { onOpenContract: () => void }) => {
+const ContractsPage = ({ onOpenContract, onBackToHub }: { onOpenContract: () => void; onBackToHub: () => void }) => {
   const [tab, setTab] = useState<'registry' | 'indicators'>('registry');
 
   return (
     <>
       <section className="card">
         <div className="breadcrumbs">
-          Главная / Управление исполнением договора / <span>Договоры</span>
+          Главная / <span className="link" onClick={onBackToHub}>Управление исполнением договора</span> / <span>Договоры</span>
         </div>
         <h1 className="page-title">Договоры</h1>
         <div className="tabs">

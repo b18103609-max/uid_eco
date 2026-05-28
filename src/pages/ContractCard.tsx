@@ -28,12 +28,12 @@ const generalData: { label: string; value: string; hint?: string }[] = [
   { label: 'Номер договора контрагента', value: 'КЛ-2024-0456' },
 ];
 
-const ContractCard = ({ onBack }: { onBack: () => void }) => (
+const ContractCard = ({ onBackToHub, onBackToRegistry }: { onBackToHub: () => void; onBackToRegistry: () => void }) => (
   <>
     <section className="card">
       <div className="breadcrumbs">
-        Главная / <span className="link" onClick={onBack}>Управление исполнением договора</span> /{' '}
-        <span className="link" onClick={onBack}>Реестр договоров</span> / Д-ННГ 784957646
+        Главная / <span className="link" onClick={onBackToHub}>Управление исполнением договора</span> /{' '}
+        <span className="link" onClick={onBackToRegistry}>Реестр договоров</span> / Д-ННГ 784957646
       </div>
       <div className="contract-meta">Договор № Д-ННГ 784957646 от 22.03.2023</div>
       <h1 className="contract-title">
