@@ -95,7 +95,7 @@ const flatten = (rows: Row[], depth: number, expanded: Set<string>, out: FlatRow
   }
 };
 
-const FlagmanRating = ({ onBackToHub }: { onBackToHub: () => void }) => {
+const FlagmanRating = ({ onBackToHub, onOpenViolations }: { onBackToHub: () => void; onOpenViolations: () => void }) => {
   const [tab, setTab] = useState<'drill' | 'sidetrack'>('drill');
   const [view, setView] = useState<'months' | 'cum' | 'dyn'>('months');
   const [level, setLevel] = useState<'org' | 'brigade' | 'well'>('org');
@@ -139,7 +139,10 @@ const FlagmanRating = ({ onBackToHub }: { onBackToHub: () => void }) => {
       </section>
 
       <section className="card">
-        <h2 className="fl-section-title">Эксплутационное бурение</h2>
+        <div className="fl-section-row">
+          <h2 className="fl-section-title">Эксплутационное бурение</h2>
+          <button className="fl-btn-primary" onClick={onOpenViolations}>Нарушения</button>
+        </div>
         <div className="fl-toolbar">
           <div className="fl-seg">
             <button className={`fl-seg__item${view === 'months' ? ' fl-seg__item--active' : ''}`} onClick={() => setView('months')}>По месяцам</button>

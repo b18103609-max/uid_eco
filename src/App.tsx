@@ -5,8 +5,9 @@ import ContractMgmtHub from './pages/ContractMgmtHub';
 import ContractsPage from './pages/ContractsPage';
 import ContractCard from './pages/ContractCard';
 import FlagmanRating from './pages/FlagmanRating';
+import ViolationsPage from './pages/ViolationsPage';
 
-type Page = 'hub' | 'registry' | 'contract' | 'flagman';
+type Page = 'hub' | 'registry' | 'contract' | 'flagman' | 'violations';
 
 const App = () => {
   const [page, setPage] = useState<Page>('hub');
@@ -18,6 +19,12 @@ const App = () => {
           <ContractMgmtHub
             onOpenContracts={() => setPage('registry')}
             onOpenFlagman={() => setPage('flagman')}
+          />
+        )}
+        {page === 'violations' && (
+          <ViolationsPage
+            onBackToHub={() => setPage('hub')}
+            onBackToFlagman={() => setPage('flagman')}
           />
         )}
         {page === 'registry' && (
@@ -33,7 +40,10 @@ const App = () => {
           />
         )}
         {page === 'flagman' && (
-          <FlagmanRating onBackToHub={() => setPage('hub')} />
+          <FlagmanRating
+            onBackToHub={() => setPage('hub')}
+            onOpenViolations={() => setPage('violations')}
+          />
         )}
       </Layout>
     </Theme>

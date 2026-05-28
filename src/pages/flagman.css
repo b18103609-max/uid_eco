@@ -13,7 +13,10 @@
 .fl-chip-date { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border: 1px solid #ebedf0; background: #fff; border-radius: 10px; font-size: 13px; color: #002033; cursor: pointer; }
 .fl-iconbtn { width: 36px; height: 36px; border-radius: 10px; border: 1px solid #ebedf0; background: #fff; display: inline-flex; align-items: center; justify-content: center; color: #5d6a73; cursor: pointer; }
 
-.fl-section-title { font-size: 20px; font-weight: 700; margin: 0 0 16px; color: #002033; }
+.fl-section-title { font-size: 20px; font-weight: 700; margin: 0; color: #002033; }
+.fl-section-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 12px; }
+.fl-btn-primary { background: #0078d2; color: #fff; border: none; border-radius: 10px; padding: 9px 22px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.fl-btn-primary:hover { background: #005fa6; }
 
 .fl-table-tools { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 12px; flex-wrap: wrap; }
 .fl-btn-outline { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid #ebedf0; border-radius: 10px; background: #fff; font-size: 13px; font-weight: 600; color: #0078d2; cursor: pointer; }
