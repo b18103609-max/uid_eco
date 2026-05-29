@@ -2,42 +2,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { IconSearchStroked } from '@consta/icons/IconSearchStroked';
 import { IconCalendar } from '@consta/icons/IconCalendar';
 import { IconUser } from '@consta/icons/IconUser';
+import { IconConnection } from '@consta/icons/IconConnection';
+import {
+  VIOLATIONS, type Source, type Crit, type Dir,
+} from '../data';
 import './violations.css';
-
-type Source = 'ВА' | 'ВК' | 'Прочие ПБ';
-type Crit = 'Критичное' | 'Незначительное';
-type Dir = 'Бурение' | 'ТКРС';
-
-type Violation = {
-  id: number;
-  scenario: string;
-  source: Source;
-  crit: Crit;
-  field: string;
-  well: string;
-  cluster: string;
-  brigade: string;
-  dir: Dir;
-  date: string;
-  supervisor: string;
-};
-
-const VIOLATIONS: Violation[] = [
-  { id: 1, scenario: 'Элеватор обращён вверх при проведении спуско-подъёмных операций', source: 'ВА', crit: 'Критичное', field: 'Новопортовское', well: '243K', cluster: '12', brigade: '52', dir: 'Бурение', date: '12.01.2026', supervisor: 'Иванов И. И.' },
-  { id: 2, scenario: 'Отсутствие СИЗ у работников бригады при работе в опасной зоне', source: 'ВК', crit: 'Критичное', field: 'Ярудейское', well: '178A', cluster: '4', brigade: '48', dir: 'Бурение', date: '14.01.2026', supervisor: 'Петров П. П.' },
-  { id: 3, scenario: 'Курение в неустановленном месте на территории буровой', source: 'ВА', crit: 'Незначительное', field: 'Мессояхское', well: '1024B', cluster: '7', brigade: '22', dir: 'ТКРС', date: '03.01.2026', supervisor: 'Сидоров А. А.' },
-  { id: 4, scenario: 'Нарушение порядка работы с противовыбросовым оборудованием', source: 'Прочие ПБ', crit: 'Критичное', field: 'Новопортовское', well: '9309D', cluster: '5', brigade: '25', dir: 'Бурение', date: '18.01.2026', supervisor: 'Кузнецов С. С.' },
-  { id: 5, scenario: 'Работы на высоте без страховочной привязи', source: 'ВК', crit: 'Критичное', field: 'Вынгапуровское', well: '877C', cluster: '3', brigade: '64', dir: 'ТКРС', date: '20.01.2026', supervisor: 'Морозов И. В.' },
-  { id: 6, scenario: 'Использование неисправного грузоподъёмного оборудования', source: 'ВА', crit: 'Критичное', field: 'Ярудейское', well: '2156G', cluster: '8', brigade: '48', dir: 'Бурение', date: '07.01.2026', supervisor: 'Иванов И. И.' },
-  { id: 7, scenario: 'Несоблюдение схемы обвязки устья скважины', source: 'Прочие ПБ', crit: 'Незначительное', field: 'Мессояхское', well: '415D', cluster: '6', brigade: '22', dir: 'ТКРС', date: '09.01.2026', supervisor: 'Петров П. П.' },
-  { id: 8, scenario: 'Превышение скорости подъёма бурового инструмента', source: 'ВА', crit: 'Незначительное', field: 'Новопортовское', well: '5009A', cluster: '5', brigade: '25', dir: 'Бурение', date: '11.01.2026', supervisor: 'Кузнецов С. С.' },
-  { id: 9, scenario: 'Отсутствие записи в журнале инструктажа по ТБ', source: 'Прочие ПБ', crit: 'Незначительное', field: 'Вынгапуровское', well: '123G', cluster: '2', brigade: '64', dir: 'Бурение', date: '15.01.2026', supervisor: 'Морозов И. В.' },
-  { id: 10, scenario: 'Открытое пламя в опасной зоне без разрешения на огневые работы', source: 'ВК', crit: 'Критичное', field: 'Ярудейское', well: '178A', cluster: '4', brigade: '48', dir: 'ТКРС', date: '22.01.2026', supervisor: 'Сидоров А. А.' },
-  { id: 11, scenario: 'Неправильное крепление груза на стропах', source: 'ВА', crit: 'Незначительное', field: 'Новопортовское', well: '9309D', cluster: '5', brigade: '25', dir: 'Бурение', date: '17.01.2026', supervisor: 'Иванов И. И.' },
-  { id: 12, scenario: 'Несвоевременная проверка превентора', source: 'Прочие ПБ', crit: 'Критичное', field: 'Мессояхское', well: '1024B', cluster: '7', brigade: '22', dir: 'Бурение', date: '24.01.2026', supervisor: 'Петров П. П.' },
-  { id: 13, scenario: 'Работы без оформленного наряда-допуска на огневые работы', source: 'ВК', crit: 'Критичное', field: 'Новопортовское', well: '243K', cluster: '12', brigade: '52', dir: 'ТКРС', date: '05.01.2026', supervisor: 'Кузнецов С. С.' },
-  { id: 14, scenario: 'Нарушение требований к ограждениям опасных зон', source: 'ВА', crit: 'Незначительное', field: 'Вынгапуровское', well: '877C', cluster: '3', brigade: '64', dir: 'ТКРС', date: '26.01.2026', supervisor: 'Морозов И. В.' },
-];
 
 const uniq = <T,>(arr: T[]) => Array.from(new Set(arr));
 const sortStr = (a: string, b: string) => a.localeCompare(b, 'ru');
@@ -105,7 +74,15 @@ const MultiSelect = ({ label, items, selected, onChange }: MSProps) => {
 
 const sourceCls = (s: Source) => (s === 'ВА' ? 'va' : s === 'ВК' ? 'vk' : 'pb');
 
-const ViolationsPage = ({ onBackToHub, onBackToFlagman }: { onBackToHub: () => void; onBackToFlagman: () => void }) => {
+type Props = {
+  onBackToHub: () => void;
+  onBackToFlagman: () => void;
+  violationPkm: Record<number, string>;
+  onCreatePkm: (ids: number[]) => void;
+  onOpenPkm: (pkmId: string) => void;
+};
+
+const ViolationsPage = ({ onBackToHub, onBackToFlagman, violationPkm, onCreatePkm, onOpenPkm }: Props) => {
   const [search, setSearch] = useState('');
   const [src, setSrc] = useState<string[]>([...SOURCES]);
   const [crit, setCrit] = useState<string[]>([...CRITS]);
@@ -213,6 +190,7 @@ const ViolationsPage = ({ onBackToHub, onBackToFlagman }: { onBackToHub: () => v
           ) : (
             filtered.map(v => {
               const isSel = selected.has(v.id);
+              const pkmId = violationPkm[v.id];
               return (
                 <div key={v.id} className={`vio-card vio-card--${v.crit === 'Критичное' ? 'crit' : 'minor'}${isSel ? ' vio-card--selected' : ''}`}>
                   <label className="vio-card__check">
@@ -224,9 +202,19 @@ const ViolationsPage = ({ onBackToHub, onBackToFlagman }: { onBackToHub: () => v
                         <span className={`vio-source vio-source--${sourceCls(v.source)}`}>{v.source}</span>
                         <span>{v.scenario}</span>
                       </div>
-                      <span className={`vio-crit vio-crit--${v.crit === 'Критичное' ? 'crit' : 'minor'}`}>
-                        {v.crit.toUpperCase()}
-                      </span>
+                      <div className="vio-card__badges">
+                        {pkmId && (
+                          <span className="vio-pkm-badge">
+                            <IconConnection size="xs" />Создан ПКМ
+                            <span className="vio-pkm-tip">
+                              <span className="vio-pkm-tip__link" onClick={() => onOpenPkm(pkmId)}>Перейти к карточке ПКМ →</span>
+                            </span>
+                          </span>
+                        )}
+                        <span className={`vio-crit vio-crit--${v.crit === 'Критичное' ? 'crit' : 'minor'}`}>
+                          {v.crit.toUpperCase()}
+                        </span>
+                      </div>
                     </div>
                     <div className="vio-card__body">
                       <span className="vio-attr"><span className="vio-attr__label">Месторождение:</span><span className="vio-attr__value">{v.field}</span></span>
@@ -249,7 +237,9 @@ const ViolationsPage = ({ onBackToHub, onBackToFlagman }: { onBackToHub: () => v
 
       {selected.size > 0 && (
         <div className="vio-actionbar" role="dialog" aria-label="Действия с выбранными нарушениями">
-          <button className="vio-actionbar__btn vio-actionbar__btn--primary">Создать ПКМ</button>
+          <button className="vio-actionbar__btn vio-actionbar__btn--primary" onClick={() => onCreatePkm([...selected])}>
+            Создать ПКМ
+          </button>
           <span className="vio-actionbar__count">
             Выбрано {selected.size}
             <button className="vio-actionbar__close" onClick={clearSelection} aria-label="Сбросить выбор">×</button>

@@ -38,6 +38,13 @@
 .vio-source--va { background: #eef5fb; color: #0078d2; }
 .vio-source--vk { background: #f0eaff; color: #6c5ce7; }
 .vio-source--pb { background: #e5f5f0; color: #0f9c7b; }
+.vio-card__badges { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.vio-pkm-badge { position: relative; display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; background: #e6f2ec; color: #0f9c7b; border: 1px solid #b3e3d2; white-space: nowrap; cursor: default; }
+.vio-pkm-tip { position: absolute; top: calc(100% + 6px); right: 0; background: #1f2733; color: #fff; padding: 8px 12px; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,32,51,0.22); opacity: 0; visibility: hidden; transition: opacity 0.12s; z-index: 30; }
+.vio-pkm-badge:hover .vio-pkm-tip { opacity: 1; visibility: visible; }
+.vio-pkm-tip__link { color: #6cb6ff; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.vio-pkm-tip__link:hover { text-decoration: underline; }
+
 .vio-crit { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
 .vio-crit--crit { background: #fde0e3; color: #c0392b; }
 .vio-crit--minor { background: #f0f1f3; color: #5d6a73; }

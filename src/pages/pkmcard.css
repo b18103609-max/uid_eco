@@ -1,0 +1,113 @@
+.pf-title { font-size: 30px; font-weight: 800; margin: 8px 0 4px; color: #002033; line-height: 1.15; }
+.pf-note { font-size: 13px; color: #0078d2; margin: 4px 0 0; }
+
+/* ---- form ---- */
+.pf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; }
+.pf-field { display: flex; flex-direction: column; gap: 6px; }
+.pf-field--full { grid-column: 1 / -1; }
+.pf-label { font-size: 13px; font-weight: 600; color: #5d6a73; }
+.pf-req { color: #f4364c; }
+.pf-readonly { font-size: 14px; color: #9aa6ae; padding: 9px 0; }
+.pf-input { border: 1px solid #ebedf0; border-radius: 10px; padding: 10px 12px; font-size: 14px; color: #002033; background: #fff; font-family: inherit; outline: none; }
+.pf-input:focus { border-color: #0078d2; }
+.pf-textarea { min-height: 72px; resize: vertical; }
+
+.pf-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; }
+.pf-chip { display: inline-flex; align-items: center; gap: 6px; background: #eef5fb; border: 1px solid #cfe4f6; color: #00466e; border-radius: 10px; padding: 6px 10px; font-size: 13px; }
+.pf-chip button { background: none; border: none; cursor: pointer; color: #5d6a73; display: inline-flex; padding: 0; }
+.pf-chip button:hover { color: #f4364c; }
+
+.pf-add-wrap { position: relative; }
+.pf-add { display: inline-flex; align-items: center; gap: 6px; border: 1px dashed #b9c2cb; background: #fff; border-radius: 10px; padding: 7px 12px; font-size: 13px; font-weight: 600; color: #0078d2; cursor: pointer; }
+.pf-add:hover:not(:disabled) { border-color: #0078d2; background: #f4f8fc; }
+.pf-add:disabled { color: #9aa6ae; cursor: default; }
+.pf-add-drop { position: absolute; top: calc(100% + 6px); left: 0; min-width: 360px; max-width: 520px; max-height: 280px; overflow-y: auto; background: #fff; border: 1px solid #ebedf0; border-radius: 10px; box-shadow: 0 12px 36px rgba(0,32,51,0.16); z-index: 40; padding: 6px; }
+.pf-add-opt { padding: 8px 10px; border-radius: 6px; font-size: 13px; color: #002033; cursor: pointer; }
+.pf-add-opt:hover { background: #f4f5f6; }
+
+.pf-file { display: flex; flex-direction: column; gap: 8px; }
+.pf-file__btn { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; border: 1px solid #ebedf0; background: #fff; border-radius: 10px; padding: 9px 14px; font-size: 13px; font-weight: 600; color: #0078d2; cursor: pointer; }
+.pf-file__btn:hover { border-color: #0078d2; background: #f4f8fc; }
+.pf-file__list { display: flex; flex-wrap: wrap; gap: 8px; }
+.pf-file__chip { display: inline-flex; align-items: center; gap: 6px; background: #f4f5f6; border: 1px solid #ebedf0; border-radius: 8px; padding: 5px 10px; font-size: 12px; color: #002033; }
+.pf-file__chip button { background: none; border: none; cursor: pointer; color: #5d6a73; display: inline-flex; padding: 0; }
+.pf-file__chip button:hover { color: #f4364c; }
+
+.pf-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; padding-top: 18px; border-top: 1px solid #f0f1f3; }
+.pf-btn { border: none; border-radius: 10px; padding: 11px 24px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.pf-btn--primary { background: #0078d2; color: #fff; }
+.pf-btn--primary:hover { background: #005fa6; }
+.pf-btn--primary:disabled { background: #b9d6ee; cursor: default; }
+.pf-btn--ghost { background: #fff; color: #5d6a73; border: 1px solid #ebedf0; }
+.pf-btn--ghost:hover { border-color: #0078d2; color: #0078d2; }
+
+/* ---- success ---- */
+.pf-success { text-align: center; padding: 48px 24px; }
+.pf-success__icon { width: 64px; height: 64px; border-radius: 50%; background: #e6f7f1; color: #15c39a; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.pf-success__title { font-size: 24px; font-weight: 700; color: #002033; margin: 0 0 8px; }
+.pf-success__sub { font-size: 14px; color: #5d6a73; margin: 0 0 24px; }
+.pf-success__actions { display: inline-flex; gap: 12px; }
+
+/* ---- card ---- */
+.pc-head { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.pc-layout { display: grid; grid-template-columns: 1.7fr 1fr; gap: 16px; align-items: start; }
+.pc-section-title { font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #5d6a73; margin: 0 0 14px; }
+.pc-attrs, .pc-side { align-self: start; }
+
+.pc-row { display: grid; grid-template-columns: 230px 1fr; gap: 16px; padding: 12px 0; border-top: 1px solid #f0f1f3; font-size: 14px; }
+.pc-row:first-of-type { border-top: none; }
+.pc-row__label { color: #5d6a73; }
+.pc-row__value { color: #002033; }
+.pc-row__value a { color: #0078d2; text-decoration: none; }
+.pc-links { display: flex; flex-direction: column; gap: 6px; }
+.pc-linkchip { background: #f4f5f6; border-radius: 8px; padding: 6px 10px; font-size: 13px; }
+.pc-file { display: inline-flex; align-items: center; gap: 6px; color: #0078d2; }
+
+/* status graph */
+.pc-graph { display: flex; flex-direction: column; }
+.pc-graph__item { display: flex; flex-direction: column; }
+.pc-node { display: inline-flex; align-items: center; gap: 10px; background: #f6f8fa; border: 1px solid #ebedf0; border-radius: 10px; padding: 11px 14px; font-size: 14px; font-weight: 600; color: #002033; cursor: pointer; text-align: left; width: 100%; transition: border-color 0.15s, background 0.15s; }
+.pc-node:hover:not(:disabled) { border-color: #0078d2; background: #f4f8fc; }
+.pc-node:disabled { cursor: default; }
+.pc-node__dot { width: 10px; height: 10px; border-radius: 50%; background: #c0c8d0; flex-shrink: 0; }
+.pc-node--new .pc-node__dot { background: #c87f0a; }
+.pc-node--wip .pc-node__dot { background: #0078d2; }
+.pc-node--done .pc-node__dot { background: #15c39a; }
+.pc-node--partial .pc-node__dot { background: #f5a623; }
+.pc-node--cancel .pc-node__dot { background: #9aa6ae; }
+.pc-node--current { border-color: #0078d2; background: #eef5fb; box-shadow: inset 0 0 0 1px #0078d2; }
+.pc-node__badge { margin-left: auto; font-size: 10px; font-weight: 700; text-transform: uppercase; color: #0078d2; background: #fff; border-radius: 10px; padding: 2px 8px; }
+.pc-graph__line { width: 2px; height: 14px; background: #e1e6ea; margin-left: 21px; }
+.pc-hint { font-size: 12px; color: #9aa6ae; margin: 12px 0 0; line-height: 1.4; }
+
+/* history */
+.pc-history { display: flex; flex-direction: column; gap: 14px; }
+.pc-hist { border-left: 2px solid #ebedf0; padding-left: 14px; position: relative; }
+.pc-hist__line { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pc-hist__dot { width: 10px; height: 10px; border-radius: 50%; position: absolute; left: -6px; top: 4px; background: #c0c8d0; }
+.pc-hist__dot--new { background: #c87f0a; }
+.pc-hist__dot--wip { background: #0078d2; }
+.pc-hist__dot--done { background: #15c39a; }
+.pc-hist__dot--partial { background: #f5a623; }
+.pc-hist__dot--cancel { background: #9aa6ae; }
+.pc-hist__status { font-size: 13px; color: #002033; }
+.pc-hist__date { font-size: 12px; color: #9aa6ae; margin-left: auto; }
+.pc-hist__meta { font-size: 12px; color: #5d6a73; margin-top: 3px; }
+.pc-hist__comment { font-size: 13px; color: #002033; margin-top: 4px; }
+.pc-hist__file { font-size: 12px; margin-top: 4px; }
+
+/* modal */
+.pc-modal-overlay { position: fixed; inset: 0; background: rgba(0,32,51,0.4); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
+.pc-modal { background: #fff; border-radius: 14px; width: 480px; max-width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 64px rgba(0,32,51,0.3); }
+.pc-modal__head { display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; border-bottom: 1px solid #f0f1f3; }
+.pc-modal__head h3 { margin: 0; font-size: 17px; color: #002033; }
+.pc-modal__close { background: none; border: none; cursor: pointer; color: #5d6a73; display: inline-flex; }
+.pc-modal__body { padding: 18px 22px; display: flex; flex-direction: column; gap: 8px; }
+.pc-modal__body .pf-label { margin-top: 8px; }
+.pc-modal__actions { display: flex; justify-content: flex-end; gap: 12px; padding: 16px 22px; border-top: 1px solid #f0f1f3; }
+
+@media (max-width: 1000px) {
+  .pf-grid { grid-template-columns: 1fr; }
+  .pc-layout { grid-template-columns: 1fr; }
+  .pc-row { grid-template-columns: 1fr; gap: 4px; }
+}
