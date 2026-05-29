@@ -5,6 +5,7 @@ import { IconDocFilled } from '@consta/icons/IconDocFilled';
 import { IconConnection } from '@consta/icons/IconConnection';
 import { IconAdd } from '@consta/icons/IconAdd';
 import { type Pkm, type PkmStatus, userInitials } from '../data';
+import ContractsIndicators from './ContractsIndicators';
 import './pkm.css';
 
 const statusCls = (s: PkmStatus): string => {
@@ -25,6 +26,7 @@ type Props = {
 };
 
 const PkmRegistry = ({ pkms, onBackToHub, onCreate, onOpenPkm }: Props) => {
+  const [tab, setTab] = useState<'registry' | 'indicators'>('registry');
   const [search, setSearch] = useState('');
 
   const filtered = useMemo(() => {
@@ -49,29 +51,40 @@ const PkmRegistry = ({ pkms, onBackToHub, onCreate, onOpenPkm }: Props) => {
           <h1 className="pkm-title">План корректирующих мероприятий</h1>
           <button className="pkm-create-btn" onClick={onCreate}><IconAdd size="s" />Создать ПКМ</button>
         </div>
-        <div className="pkm-search-row">
-          <div className="pkm-search">
-            <IconSearchStroked size="s" view="ghost" />
-            <input
-              placeholder="Найти по номеру, описанию или номеру договора"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-            />
-          </div>
-          <button className="pkm-filter-btn"><IconFilter size="s" /></button>
+        <div className="tabs">
+          <div className={`tab${tab === 'registry' ? ' tab--active' : ''}`} onClick={() => setTab('registry')}>Реестр</div>
+          <div className={`tab${tab === 'indicators' ? ' tab--active' : ''}`} onClick={() => setTab('indicators')}>Показатели</div>
         </div>
       </section>
 
-      <section className="card" style={{ padding: 0 }}>
-        <div className="pkm-tbl-head">
-          <div>Описание</div>
-          <div>Дата назначения</div>
-          <div className="pkm-tbl-head__num">Плановая дата окончания</div>
-        </div>
-      </section>
+      {tab === 'indicators' ? (
+        <ContractsIndicators only={[3]} />
+      ) : (
+        <>
+          <section className="card">
+            <div className="pkm-search-row">
+              <div className="pkm-search">
+                <IconSearchStroked size="s" view="ghost" />
+                <input
+                  placeholder="Найти по номеру, описанию или номеру договора"
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                />
+              </div>
+              <button className="pkm-filter-btn"><IconFilter size="s" /></button>
+            </div>
+          </section>
 
-      <div className="pkm-list">
-        {filtered.length === 0 ? (
+          <section className="card" style={{ padding: 0 }}>
+            <div className="pkm-tbl-head">
+              <div>Описание</div>
+              <div>Дата назначения</div>
+              <div className="pkm-tbl-head__num">Плановая дата окончания</div>
+            </div>
+          </section>
+
+          <div className="pkm-list">
+            {filtered.length === 0 ? (
           <div className="pkm-empty">По запросу ничего не найдено</div>
         ) : (
           filtered.map(p => (
@@ -118,7 +131,9 @@ const PkmRegistry = ({ pkms, onBackToHub, onCreate, onOpenPkm }: Props) => {
             </div>
           ))
         )}
-      </div>
+          </div>
+        </>
+      )}
     </>
   );
 };

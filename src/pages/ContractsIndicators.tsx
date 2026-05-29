@@ -2,8 +2,11 @@ import { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import './dashboard.css';
 
-const ContractsIndicators = () => {
+const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
   const rootRef = useRef<HTMLDivElement>(null);
+  // вкладки, которые надо показать; индекс 0..5 соответствует Финансы..Рейтинг
+  const allowed = only && only.length > 0 ? only : [0, 1, 2, 3, 4, 5];
+  const initialTab = allowed[0];
 
   useEffect(() => {
     const root = rootRef.current;
@@ -30,10 +33,12 @@ const ContractsIndicators = () => {
     };
 
     const CONTRACTORS = ['Альфа-Строй', 'БетаГрупп', 'Гамма-ТЭК', 'Дельта Инж', 'Сигма Плюс', 'Омега-Сервис'];
-    const CATEGORIES = ['ТОП-12', 'ЛЭП', 'АЛКО', 'ШС', 'Убытки', 'Прочие'];
+    const MASTER_CATS = ['ТОП-12', 'ЛЭП', 'АЛКО', 'ШС', 'Убытки', 'Прочие'];
+    const FL_TYPES = ['ВА', 'ВК', 'Прочие нарушения ПБ'];
+    const CATEGORIES = [...MASTER_CATS, ...FL_TYPES];
     const MONTHS = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг'];
     const QUARTERS = ['Q1 23', 'Q2 23', 'Q3 23', 'Q4 23', 'Q1 24', 'Q2 24', 'Q3 24', 'Q4 24'];
-    const CAT_COLORS = [C.red, C.orange, C.yellow, C.blue2, C.purple, C.cyan];
+    const CAT_COLORS = [C.red, C.orange, C.yellow, C.blue2, C.purple, C.cyan, '#3a7bd5', '#9b7ac4', '#5cb8a0'];
     const CON_COLORS = [C.green, C.yellow, C.blue2, C.red, C.purple, C.orange];
     const SERVICES = ['Эксплуатационное бурение', 'Разведочное бурение', 'ГРП', 'КРС/ТРС', 'Обустройство куста', 'Строительство трубопровода'];
     const SERVICE_COLORS = [C.orange, C.yellow, C.blue2, C.green, C.purple, C.cyan];
@@ -195,7 +200,9 @@ const ContractsIndicators = () => {
     const getMonths = () => MONTHS.slice(filterState.monthFrom, filterState.monthTo + 1);
     const monthIdxs = () => { const o = []; for (let i = filterState.monthFrom; i <= filterState.monthTo; i++) o.push(i); return o; };
     const filteredContractors = () => CONTRACTORS.filter(c => filterState.contractors.includes(c));
-    const filteredCategories = () => CATEGORIES.filter(c => filterState.categories.includes(c));
+    const filteredMasterCats = () => MASTER_CATS.filter(c => filterState.categories.includes(c));
+    // FL_TYPES при выборе → индексы в FL_SOURCES (по позиции)
+    const filteredFlIdxs = (): number[] => FL_TYPES.map((t, i) => filterState.categories.includes(t) ? i : -1).filter(i => i >= 0);
     const sumOverMonths = (arr: number[]) => arr.filter((_, i) => i >= filterState.monthFrom && i <= filterState.monthTo).reduce((s, v) => s + v, 0);
 
     function renderFinance() {
@@ -219,7 +226,7 @@ const ContractsIndicators = () => {
     }
 
     function renderViolations() {
-      const cons = filteredContractors(), cats = filteredCategories(), midxs = monthIdxs(), months = getMonths();
+      const cons = filteredContractors(), cats = filteredMasterCats(), midxs = monthIdxs(), months = getMonths();
       const catTotals = cats.map(cat => cons.reduce((s, c) => s + sumOverMonths(MASTER.viol[cat][c]), 0));
       const total = catTotals.reduce((s, v) => s + v, 0);
       const top12 = cats.includes('ТОП-12') ? cons.reduce((s, c) => s + sumOverMonths(MASTER.viol['ТОП-12'][c]), 0) : 0;
@@ -237,28 +244,36 @@ const ContractsIndicators = () => {
       const npvByCon = cons.map(c => sumOverMonths(MASTER.npv[c]));
       const sortedIdx = cons.map((_, i) => i).sort((x, y) => npvByCon[y] - npvByCon[x]);
       mkChart('c9', { type: 'bar', data: { labels: sortedIdx.map(i => cons[i]), datasets: [{ label: 'НПВ, ч', data: sortedIdx.map(i => npvByCon[i]), backgroundColor: (ctx: any) => ctx.raw > 500 ? a(C.red, .8) : ctx.raw > 300 ? a(C.orange, .8) : a(C.yellow, .8), borderRadius: 3 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.parsed.x} ч` } } }, scales: { x: { grid: { color: GRID } }, y: { grid: { display: false } } } } });
+
+      // #17 — Динамика нарушений по подрядчику (кварталы) — перенесено из вкладки «Рейтинг»
+      const seed17 = (c: string, q: number) => { const base = [40, 45, 55, 50, 60, 55, 65, 58]; const mult: any = { 'Альфа-Строй': 1.0, 'БетаГрупп': 1.3, 'Гамма-ТЭК': 0.8, 'Дельта Инж': 0.9, 'Сигма Плюс': 0.6, 'Омега-Сервис': 1.8 }; return Math.round(base[q] * (mult[c] || 1) + (c.charCodeAt(0) % 7 - 3)); };
+      mkChart('c17', { type: 'line', data: { labels: QUARTERS, datasets: cons.map(c => ({ label: c, data: QUARTERS.map((_, q) => seed17(c, q)), borderColor: CON_COLORS[CONTRACTORS.indexOf(c)], backgroundColor: a(CON_COLORS[CONTRACTORS.indexOf(c)], .07), borderWidth: 2, tension: .4, fill: false, pointRadius: 3, pointBackgroundColor: CON_COLORS[CONTRACTORS.indexOf(c)], pointBorderColor: PT, pointBorderWidth: 1.5 })) }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 10, boxWidth: 10, font: { size: 10 } } } }, scales: { x: { grid: { color: GRID } }, y: { grid: { color: GRID } } } } });
     }
 
     function renderFlagman() {
-      const cons = filteredContractors(), cats = filteredCategories(), midxs = monthIdxs(), months = getMonths();
+      const cons = filteredContractors(), cats = filteredMasterCats(), midxs = monthIdxs(), months = getMonths();
       const GRAY = '#aab4bd';
+      const flIdxs = filteredFlIdxs();
       const srcSum = (c: string, si: number) => sumOverMonths(FL.flCounts[c][si]);
-      const srcTotals = FL_SOURCES.map((_, si) => cons.reduce((s, c) => s + srcSum(c, si), 0));
+      const srcTotals = flIdxs.map(si => cons.reduce((s, c) => s + srcSum(c, si), 0));
       const flTotal = srcTotals.reduce((s, v) => s + v, 0);
       const sc = (w: number) => Math.round(flTotal * w);
 
       // П1 — структура по типу источника (donut)
-      mkChart('cFl1', { type: 'doughnut', data: { labels: FL_SOURCES.map((s) => ({ 'ВА': 'Видеоаналитика (ВА)', 'ВК': 'Видеоконтроль (ВК)', 'ПБ': 'Прочие ПБ' } as any)[s] || s), datasets: [{ data: srcTotals, backgroundColor: FL_SRC_COLORS.map(c => a(c, .85)), borderColor: PT, borderWidth: 3, hoverOffset: 8 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { position: 'right', labels: { padding: 12, boxWidth: 10, usePointStyle: true, pointStyle: 'rectRounded' } }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.label}: ${ctx.parsed} (${flTotal ? Math.round(ctx.parsed / flTotal * 100) : 0}%)` } } } } });
+      const flLabels = flIdxs.map(si => ({ 0: 'Видеоаналитика (ВА)', 1: 'Видеоконтроль (ВК)', 2: 'Прочие ПБ' } as any)[si]);
+      const flColors = flIdxs.map(si => FL_SRC_COLORS[si]);
+      const flShortLabels = flIdxs.map(si => FL_SOURCES[si]);
+      mkChart('cFl1', { type: 'doughnut', data: { labels: flLabels, datasets: [{ data: srcTotals, backgroundColor: flColors.map(c => a(c, .85)), borderColor: PT, borderWidth: 3, hoverOffset: 8 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { position: 'right', labels: { padding: 12, boxWidth: 10, usePointStyle: true, pointStyle: 'rectRounded' } }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.label}: ${ctx.parsed} (${flTotal ? Math.round(ctx.parsed / flTotal * 100) : 0}%)` } } } } });
 
       // П2 — по уровню критичности (grouped bar per source)
-      const critBySrc = srcTotals.map((t, i) => Math.round(t * FL_CRIT_RATIO[i]));
+      const critBySrc = srcTotals.map((t, i) => Math.round(t * FL_CRIT_RATIO[flIdxs[i]]));
       const minorBySrc = srcTotals.map((t, i) => t - critBySrc[i]);
-      mkChart('cFl2', { type: 'bar', data: { labels: FL_SOURCES, datasets: [{ label: 'Критичные', data: critBySrc, backgroundColor: a(C.red, .85), borderRadius: 3 }, { label: 'Незначительные', data: minorBySrc, backgroundColor: a(GRAY, .85), borderRadius: 3 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 12 } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: GRID } } } } });
+      mkChart('cFl2', { type: 'bar', data: { labels: flShortLabels, datasets: [{ label: 'Критичные', data: critBySrc, backgroundColor: a(C.red, .85), borderRadius: 3 }, { label: 'Незначительные', data: minorBySrc, backgroundColor: a(GRAY, .85), borderRadius: 3 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 12 } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: GRID } } } } });
 
       // П3 — по подрядчикам и типу источника (h-stacked, sorted desc)
-      const conTotal: any = {}; cons.forEach(c => { conTotal[c] = FL_SOURCES.reduce((s, _, si) => s + srcSum(c, si), 0); });
+      const conTotal: any = {}; cons.forEach(c => { conTotal[c] = flIdxs.reduce((s, si) => s + srcSum(c, si), 0); });
       const sortedCons = [...cons].sort((x, y) => conTotal[y] - conTotal[x]);
-      mkChart('cFl3', { type: 'bar', data: { labels: sortedCons, datasets: FL_SOURCES.map((src, si) => ({ label: src, data: sortedCons.map(c => srcSum(c, si)), backgroundColor: a(FL_SRC_COLORS[si], .85) })) }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 10, boxWidth: 10 } } }, scales: { x: { stacked: true, grid: { color: GRID } }, y: { stacked: true, grid: { display: false } } } } });
+      mkChart('cFl3', { type: 'bar', data: { labels: sortedCons, datasets: flIdxs.map(si => ({ label: FL_SOURCES[si], data: sortedCons.map(c => srcSum(c, si)), backgroundColor: a(FL_SRC_COLORS[si], .85) })) }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 10, boxWidth: 10 } } }, scales: { x: { stacked: true, grid: { color: GRID } }, y: { stacked: true, grid: { display: false } } } } });
 
       // П4 — по месторождениям (h-bar, цвет по доле критичных)
       const fieldData = FIELDS.map((f, i) => ({ f, total: sc(FIELD_W[i]), crit: FIELD_CRIT[i] })).sort((x, y) => y.total - x.total);
@@ -273,7 +288,7 @@ const ContractsIndicators = () => {
       mkChart('cFl6', { type: 'bar', data: { labels: wellData.map(d => d.w), datasets: [{ label: 'Нарушения', data: wellData.map(d => d.total), backgroundColor: wellData.map(d => d.crit > 0.4 ? a(C.red, .8) : d.crit > 0.25 ? a(C.orange, .8) : a(C.yellow, .85)), borderRadius: 3 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.parsed.x} нар. (крит. ${Math.round(wellData[ctx.dataIndex].crit * 100)}%)` } } }, scales: { x: { grid: { color: GRID } }, y: { grid: { display: false }, ticks: { font: { size: 10 } } } } } });
 
       // П7 — динамика по месяцам и типу источника (stacked bar)
-      mkChart('cFl7', { type: 'bar', data: { labels: months, datasets: FL_SOURCES.map((src, si) => ({ label: src, data: midxs.map(m => cons.reduce((s, c) => s + FL.flCounts[c][si][m], 0)), backgroundColor: a(FL_SRC_COLORS[si], .85), borderRadius: 2 })) }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 10, boxWidth: 10 } } }, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: GRID } } } } });
+      mkChart('cFl7', { type: 'bar', data: { labels: months, datasets: flIdxs.map(si => ({ label: FL_SOURCES[si], data: midxs.map(m => cons.reduce((s, c) => s + FL.flCounts[c][si][m], 0)), backgroundColor: a(FL_SRC_COLORS[si], .85), borderRadius: 2 })) }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 10, boxWidth: 10 } } }, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: GRID } } } } });
 
       // П8 — критичные нарушения по направлению работ (grouped bar)
       const dirCrit = FL_DIRECTIONS.map((_, i) => sc(DIR_W[i] * DIR_CRIT[i]));
@@ -281,7 +296,7 @@ const ContractsIndicators = () => {
       mkChart('cFl8', { type: 'bar', data: { labels: FL_DIRECTIONS, datasets: [{ label: 'Критичные', data: dirCrit, backgroundColor: a(C.red, .85), borderRadius: 3 }, { label: 'Незначительные', data: dirMinor, backgroundColor: a(GRAY, .85), borderRadius: 3 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 12 } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: GRID } } } } });
 
       // П9 — ВА/ВК/ПБ vs основной реестр (dual axis line)
-      const flByM = midxs.map(m => FL_SOURCES.reduce((s, _, si) => s + cons.reduce((ss, c) => ss + FL.flCounts[c][si][m], 0), 0));
+      const flByM = midxs.map(m => flIdxs.reduce((s, si) => s + cons.reduce((ss, c) => ss + FL.flCounts[c][si][m], 0), 0));
       const mainByM = midxs.map(m => cats.reduce((s, cat) => s + cons.reduce((ss, c) => ss + MASTER.viol[cat][c][m], 0), 0));
       mkChart('cFl9', { type: 'line', data: { labels: months, datasets: [{ label: 'Флагман (ВА/ВК/ПБ)', data: flByM, borderColor: C.blue2, backgroundColor: a(C.blue2, .12), borderWidth: 2.5, tension: .4, fill: true, pointRadius: 4, pointBackgroundColor: C.blue2, pointBorderColor: PT, pointBorderWidth: 2, yAxisID: 'y' }, { label: 'Основной реестр', data: mainByM, borderColor: C.red, backgroundColor: 'transparent', borderWidth: 2.5, tension: .4, fill: false, pointRadius: 4, pointBackgroundColor: C.red, pointBorderColor: PT, pointBorderWidth: 2, yAxisID: 'y2', borderDash: [5, 3] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 14 } } }, scales: { x: { grid: { color: GRID } }, y: { position: 'left', title: { display: true, text: 'Флагман', color: AXIS }, grid: { color: GRID } }, y2: { position: 'right', title: { display: true, text: 'Реестр', color: AXIS }, grid: { display: false } } } } });
 
@@ -365,7 +380,7 @@ const ContractsIndicators = () => {
     function renderRating() {
       const cons = filteredContractors(), midxs = monthIdxs();
       const data = cons.map(c => {
-        const totViol = CATEGORIES.reduce((s, cat) => s + sumOverMonths(MASTER.viol[cat][c]), 0);
+        const totViol = MASTER_CATS.reduce((s, cat) => s + sumOverMonths(MASTER.viol[cat][c]), 0);
         const violScore = Math.max(0, Math.round((1 - totViol / 375) * 100));
         const d = MASTER.dpr_status[c];
         const acc = midxs.reduce((s, m) => s + d.acc[m], 0);
@@ -395,9 +410,7 @@ const ContractsIndicators = () => {
           <span style="color:${scoreColor(d.score)};font-weight:700;min-width:30px">${d.score}</span>
         </div></td>
       </tr>`).join('')}</tbody>`;
-      const cons2 = filteredContractors();
-      const seed = (c: string, q: number) => { const base = [40, 45, 55, 50, 60, 55, 65, 58]; const mult: any = { 'Альфа-Строй': 1.0, 'БетаГрупп': 1.3, 'Гамма-ТЭК': 0.8, 'Дельта Инж': 0.9, 'Сигма Плюс': 0.6, 'Омега-Сервис': 1.8 }; return Math.round(base[q] * (mult[c] || 1) + (c.charCodeAt(0) % 7 - 3)); };
-      mkChart('c17', { type: 'line', data: { labels: QUARTERS, datasets: cons2.map(c => ({ label: c, data: QUARTERS.map((_, q) => seed(c, q)), borderColor: CON_COLORS[CONTRACTORS.indexOf(c)], backgroundColor: a(CON_COLORS[CONTRACTORS.indexOf(c)], .07), borderWidth: 2, tension: .4, fill: false, pointRadius: 3, pointBackgroundColor: CON_COLORS[CONTRACTORS.indexOf(c)], pointBorderColor: PT, pointBorderWidth: 1.5 })) }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 10, boxWidth: 10, font: { size: 10 } } } }, scales: { x: { grid: { color: GRID } }, y: { grid: { color: GRID } } } } });
+      // (диаграмма #17 «Динамика нарушений по подрядчику (кварталы)» перенесена во вкладку «Нарушения»)
       const accData = data.map(d => ({ name: d.name, pct: d.dpr })).sort((x, y) => y.pct - x.pct);
       const thr70: any = { id: 'thr', afterDraw(chart: any) { const { ctx, chartArea: { top, bottom }, scales: { x } } = chart; if (!x) return; const xp = x.getPixelForValue(70); ctx.save(); ctx.beginPath(); ctx.setLineDash([6, 4]); ctx.strokeStyle = C.red; ctx.lineWidth = 1.5; ctx.moveTo(xp, top); ctx.lineTo(xp, bottom); ctx.stroke(); ctx.restore(); } };
       if (charts['c18']) charts['c18'].destroy();
@@ -427,7 +440,11 @@ const ContractsIndicators = () => {
       $('badgeContractor').style.display = 'none'; $('badgeCategory').style.display = 'none'; $('badgeService').style.display = 'none';
       renderChips(); renderAll();
     }
-    function showTab(idx: number) { root!.querySelectorAll('.section').forEach((s, i) => s.classList.toggle('active', i === idx)); root!.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', i === idx)); }
+    function showTab(idx: number) {
+      if (!allowed.includes(idx)) return;
+      root!.querySelectorAll('.section').forEach((s, i) => s.classList.toggle('active', i === idx));
+      root!.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+    }
 
     // wiring
     on($('fMonthFrom'), 'change', applyFilters);
@@ -442,6 +459,7 @@ const ContractsIndicators = () => {
     buildMultiSelect('category', CATEGORIES, CAT_COLORS, 'categories');
     buildMultiSelect('service', SERVICE_LABELS, SVC_COLORS, 'services');
     renderAll();
+    showTab(initialTab);
 
     return () => {
       cleanups.forEach(fn => fn());
@@ -506,16 +524,16 @@ const ContractsIndicators = () => {
       </div>
 
       <nav className="dash-nav">
-        <div className="nav-tab active"><span className="tab-dot" style={{ background: 'var(--yellow)' }} />Финансы и штрафы</div>
-        <div className="nav-tab"><span className="tab-dot" style={{ background: 'var(--red)' }} />Нарушения</div>
-        <div className="nav-tab"><span className="tab-dot" style={{ background: 'var(--blue2)' }} />Претензии (ДПР)</div>
-        <div className="nav-tab"><span className="tab-dot" style={{ background: 'var(--green)' }} />Мероприятия</div>
-        <div className="nav-tab"><span className="tab-dot" style={{ background: 'var(--orange)' }} />Мотивация</div>
-        <div className="nav-tab"><span className="tab-dot" style={{ background: 'var(--purple)' }} />Рейтинг</div>
+        <div className="nav-tab" style={{ display: allowed.includes(0) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--yellow)' }} />Финансы и штрафы</div>
+        <div className="nav-tab" style={{ display: allowed.includes(1) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--red)' }} />Нарушения</div>
+        <div className="nav-tab" style={{ display: allowed.includes(2) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--blue2)' }} />Претензии (ДПР)</div>
+        <div className="nav-tab" style={{ display: allowed.includes(3) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--green)' }} />Мероприятия</div>
+        <div className="nav-tab" style={{ display: allowed.includes(4) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--orange)' }} />Мотивация</div>
+        <div className="nav-tab" style={{ display: allowed.includes(5) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--purple)' }} />Рейтинг</div>
       </nav>
 
       <div className="dash-main">
-        <section className="section active" id="tab-0">
+        <section className="section" id="tab-0">
           <div className="kpi-row" id="kpi-finance" />
           <p className="dash-section-title">Блок 1 — Финансы и штрафы</p>
           <div className="grid grid-2 mb">
@@ -539,7 +557,9 @@ const ContractsIndicators = () => {
             <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">Нарушения по подрядчикам</div><span className="card-num">#7 H-Stacked</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="c7" /></div></div>
             <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">Статус нарушений</div><span className="card-num">#8 Bar</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="c8" /></div></div>
           </div>
-          <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">НПВ по нарушениям</div><span className="card-num">#9 H-Bar</span></div><div style={{ position: 'relative', height: 200 }}><canvas id="c9" /></div></div>
+          <div className="dash-card mb" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">НПВ по нарушениям</div><span className="card-num">#9 H-Bar</span></div><div style={{ position: 'relative', height: 200 }}><canvas id="c9" /></div></div>
+
+          <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--red)' }}><div className="card-header"><div className="card-title">Динамика нарушений по подрядчику (кварталы)</div><span className="card-num">#17 Line</span></div><div style={{ position: 'relative', height: 250 }}><canvas id="c17" /></div></div>
 
           <p className="subsection-title">Нарушения Флагман<span className="subsection-badge">⚡ Источники фиксации: ВА / ВК / ПБ</span></p>
           <div className="subsection-note">
@@ -610,10 +630,7 @@ const ContractsIndicators = () => {
             <div className="card-header"><div className="card-title">Рейтинговая таблица подрядчиков</div><span className="card-num">#16 Table</span></div>
             <div style={{ overflowX: 'auto' }}><table className="rating-table" id="ratingTable" /></div>
           </div>
-          <div className="grid grid-2">
-            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--purple)' }}><div className="card-header"><div className="card-title">Динамика нарушений по подрядчику (кварталы)</div><span className="card-num">#17 Line</span></div><div style={{ position: 'relative', height: 250 }}><canvas id="c17" /></div></div>
-            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--purple)' }}><div className="card-header"><div className="card-title">Доля принятых претензий по подрядчику</div><span className="card-num">#18 H-Bar</span></div><div style={{ position: 'relative', height: 250 }}><canvas id="c18" /></div><div className="threshold-label">— красная линия: порог 70%</div></div>
-          </div>
+          <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--purple)' }}><div className="card-header"><div className="card-title">Доля принятых претензий по подрядчику</div><span className="card-num">#18 H-Bar</span></div><div style={{ position: 'relative', height: 250 }}><canvas id="c18" /></div><div className="threshold-label">— красная линия: порог 70%</div></div>
         </section>
       </div>
     </div>
