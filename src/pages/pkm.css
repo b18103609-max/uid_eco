@@ -1,0 +1,63 @@
+.pkm-title { font-size: 32px; font-weight: 800; margin: 8px 0 16px; color: #002033; line-height: 1.1; }
+
+.pkm-search-row { display: flex; gap: 10px; align-items: center; }
+.pkm-search { flex: 1; display: flex; align-items: center; gap: 10px; border: 1px solid #ebedf0; border-radius: 12px; padding: 12px 16px; background: #f4f6f8; color: #9aa6ae; }
+.pkm-search input { border: none; outline: none; flex: 1; font-size: 14px; color: #002033; background: transparent; }
+.pkm-filter-btn { width: 44px; height: 44px; border-radius: 12px; border: 1px solid #ebedf0; background: #fff; color: #5d6a73; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.pkm-filter-btn:hover { border-color: #0078d2; color: #0078d2; }
+
+.pkm-tbl-head { display: grid; grid-template-columns: 1fr 200px 220px; padding: 18px 24px 14px; font-size: 13px; color: #5d6a73; font-weight: 500; }
+.pkm-tbl-head__num { text-align: right; }
+
+.pkm-list { display: flex; flex-direction: column; gap: 12px; }
+
+.pkm-card { background: #fff; border: 1px solid #ebedf0; border-radius: 14px; padding: 16px 20px; transition: border-color 0.15s, box-shadow 0.15s; }
+.pkm-card:hover { border-color: #0078d2; box-shadow: 0 1px 6px rgba(0, 120, 210, 0.1); }
+
+.pkm-card__top { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: flex-start; }
+.pkm-card__title { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #5d6a73; flex-wrap: wrap; }
+.pkm-card__icon { color: #f5a623; display: inline-flex; }
+.pkm-card__num { font-weight: 700; color: #002033; }
+.pkm-card__code { color: #9aa6ae; }
+.pkm-card__sub { color: #5d6a73; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pkm-status { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 14px; font-size: 11px; font-weight: 700; border: 1px solid transparent; }
+.pkm-status--new { background: #fff5e6; color: #c87f0a; border-color: #f5d59c; }
+.pkm-status--wip { background: #eef5fb; color: #0078d2; border-color: #cfe4f6; }
+.pkm-status--done { background: #e6f7f1; color: #0f9c7b; border-color: #b3e3d2; }
+.pkm-status--late { background: #fde0e3; color: #c0392b; border-color: #f5c1c6; }
+
+.pkm-card__row {
+  display: grid;
+  grid-template-columns: 1fr 200px 220px;
+  align-items: center;
+  background: #f4f7fb;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 10px 0 8px;
+  font-size: 14px;
+  color: #002033;
+}
+.pkm-card__desc { font-weight: 500; }
+.pkm-card__cell { color: #002033; font-variant-numeric: tabular-nums; }
+.pkm-card__cell-sub { display: block; font-size: 11px; color: #9aa6ae; font-weight: 400; margin-top: 2px; }
+
+.pkm-card__parties { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: space-between; font-size: 13px; color: #5d6a73; padding: 4px 0; }
+.pkm-card__parties a { color: #0078d2; text-decoration: none; }
+.pkm-card__parties a:hover { text-decoration: underline; }
+
+.pkm-card__foot { display: flex; flex-wrap: wrap; gap: 18px; justify-content: space-between; padding-top: 12px; margin-top: 8px; border-top: 1px solid #f0f1f3; font-size: 13px; color: #5d6a73; align-items: center; }
+.pkm-foot-group { display: inline-flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.pkm-link { display: inline-flex; align-items: center; gap: 6px; color: #0078d2; cursor: pointer; }
+.pkm-link:hover { text-decoration: underline; }
+.pkm-proto { display: inline-flex; align-items: center; gap: 8px; }
+.pkm-proto__chip { background: #f4f5f6; border: 1px solid #ebedf0; border-radius: 8px; padding: 3px 10px; font-size: 12px; font-weight: 500; color: #002033; }
+.pkm-resp { display: inline-flex; align-items: center; gap: 8px; }
+.pkm-resp__avatar { width: 24px; height: 24px; border-radius: 50%; background: #6c5ce7; color: #fff; font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+.pkm-resp__name { color: #002033; font-weight: 500; }
+
+.pkm-empty { text-align: center; padding: 40px; color: #9aa6ae; font-size: 14px; }
+
+@media (max-width: 900px) {
+  .pkm-tbl-head, .pkm-card__row { grid-template-columns: 1fr; }
+  .pkm-tbl-head__num { text-align: left; }
+}
