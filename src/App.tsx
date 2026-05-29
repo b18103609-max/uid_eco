@@ -10,7 +10,13 @@ import PkmRegistry from './pages/PkmRegistry';
 import PkmCreate, { type PkmDraft } from './pages/PkmCreate';
 import PkmSuccess from './pages/PkmSuccess';
 import PkmCard from './pages/PkmCard';
-import { SEED_PKMS, type Pkm, type PkmStatus, type HistoryEntry } from './data';
+import ViolationsRegistry from './pages/ViolationsRegistry';
+import ViolationCard from './pages/ViolationCard';
+import {
+  SEED_PKMS, SEED_REGISTRY_VIOLATIONS,
+  type Pkm, type PkmStatus, type HistoryEntry,
+  type RegistryViolation, type RegistryViolationStatus, type RvHistoryEntry,
+} from './data';
 
 type Route =
   | { name: 'hub' }
@@ -21,7 +27,9 @@ type Route =
   | { name: 'pkm' }
   | { name: 'pkm-create'; violationIds: number[]; origin: 'violations' | 'pkm' }
   | { name: 'pkm-success'; pkmId: string; origin: 'violations' | 'pkm' }
-  | { name: 'pkm-card'; pkmId: string; back: Route };
+  | { name: 'pkm-card'; pkmId: string; back: Route }
+  | { name: 'violations-registry' }
+  | { name: 'violation-card'; rvId: string; back: Route };
 
 const todayStr = () => {
   const d = new Date();
@@ -31,9 +39,15 @@ const todayStr = () => {
 const App = () => {
   const [route, setRoute] = useState<Route>({ name: 'hub' });
   const [pkms, setPkms] = useState<Pkm[]>(SEED_PKMS);
+  const [rviolations, setRviolations] = useState<RegistryViolation[]>(SEED_REGISTRY_VIOLATIONS);
   const go = (r: Route) => setRoute(r);
 
   const findPkm = (id: string) => pkms.find(p => p.id === id);
+  const findRv = (id: string) => rviolations.find(v => v.id === id);
+
+  // pkm id -> num (для подписи бейджа в реестре нарушений)
+  const pkmNumById: Record<string, string> = {};
+  for (const p of pkms) pkmNumById[p.id] = p.num;
 
   const createPkm = (draft: PkmDraft): string => {
     const seq = pkms.length + 1;
@@ -41,8 +55,7 @@ const App = () => {
     const id = 'pkm-' + Date.now();
     const now = todayStr();
     const pkm: Pkm = {
-      id,
-      num,
+      id, num,
       description: draft.description,
       contractNo: draft.contractNo,
       code: 'WS-NEW',
@@ -70,22 +83,26 @@ const App = () => {
   };
 
   const changeStatus = (
-    pkmId: string,
-    to: PkmStatus,
-    responsible: string,
-    comment: string,
-    file?: string,
+    pkmId: string, to: PkmStatus, responsible: string, comment: string, file?: string,
   ) => {
-    setPkms(prev =>
-      prev.map(p => {
-        if (p.id !== pkmId) return p;
-        const entry: HistoryEntry = { date: todayStr(), from: p.status, to, responsible, comment, file };
-        return { ...p, status: to, responsible, history: [...p.history, entry] };
-      }),
-    );
+    setPkms(prev => prev.map(p => {
+      if (p.id !== pkmId) return p;
+      const entry: HistoryEntry = { date: todayStr(), from: p.status, to, responsible, comment, file };
+      return { ...p, status: to, responsible, history: [...p.history, entry] };
+    }));
   };
 
-  // violation -> pkm id map (derived from pkms)
+  const changeRvStatus = (
+    rvId: string, to: RegistryViolationStatus, responsible: string, comment: string, file?: string,
+  ) => {
+    setRviolations(prev => prev.map(v => {
+      if (v.id !== rvId) return v;
+      const entry: RvHistoryEntry = { date: todayStr(), from: v.status, to, responsible, comment, file };
+      return { ...v, status: to, responsible, history: [...v.history, entry] };
+    }));
+  };
+
+  // нарушение из старого «флагман» списка -> pkm.id
   const violationPkm: Record<number, string> = {};
   for (const p of pkms) for (const vid of p.linkedViolations) if (!violationPkm[vid]) violationPkm[vid] = p.id;
 
@@ -97,28 +114,20 @@ const App = () => {
             onOpenContracts={() => go({ name: 'registry' })}
             onOpenFlagman={() => go({ name: 'flagman' })}
             onOpenPkm={() => go({ name: 'pkm' })}
+            onOpenViolations={() => go({ name: 'violations-registry' })}
           />
         )}
 
         {route.name === 'registry' && (
-          <ContractsPage
-            onOpenContract={() => go({ name: 'contract' })}
-            onBackToHub={() => go({ name: 'hub' })}
-          />
+          <ContractsPage onOpenContract={() => go({ name: 'contract' })} onBackToHub={() => go({ name: 'hub' })} />
         )}
 
         {route.name === 'contract' && (
-          <ContractCard
-            onBackToHub={() => go({ name: 'hub' })}
-            onBackToRegistry={() => go({ name: 'registry' })}
-          />
+          <ContractCard onBackToHub={() => go({ name: 'hub' })} onBackToRegistry={() => go({ name: 'registry' })} />
         )}
 
         {route.name === 'flagman' && (
-          <FlagmanRating
-            onBackToHub={() => go({ name: 'hub' })}
-            onOpenViolations={() => go({ name: 'violations' })}
-          />
+          <FlagmanRating onBackToHub={() => go({ name: 'hub' })} onOpenViolations={() => go({ name: 'violations' })} />
         )}
 
         {route.name === 'violations' && (
@@ -166,6 +175,27 @@ const App = () => {
             onBack={() => go(route.back)}
             onBackToHub={() => go({ name: 'hub' })}
             onChangeStatus={(to, resp, comment, file) => changeStatus(route.pkmId, to, resp, comment, file)}
+          />
+        )}
+
+        {route.name === 'violations-registry' && (
+          <ViolationsRegistry
+            items={rviolations}
+            pkmNumByid={pkmNumById}
+            onBackToHub={() => go({ name: 'hub' })}
+            onOpenCard={id => go({ name: 'violation-card', rvId: id, back: { name: 'violations-registry' } })}
+            onOpenPkm={pkmId => go({ name: 'pkm-card', pkmId, back: { name: 'violations-registry' } })}
+          />
+        )}
+
+        {route.name === 'violation-card' && findRv(route.rvId) && (
+          <ViolationCard
+            v={findRv(route.rvId)!}
+            pkmNum={findRv(route.rvId)!.linkedPkmId ? pkmNumById[findRv(route.rvId)!.linkedPkmId!] : undefined}
+            onBack={() => go(route.back)}
+            onBackToHub={() => go({ name: 'hub' })}
+            onOpenPkm={pkmId => go({ name: 'pkm-card', pkmId, back: { name: 'violation-card', rvId: route.rvId, back: route.back } })}
+            onChangeStatus={(to, resp, comment, file) => changeRvStatus(route.rvId, to, resp, comment, file)}
           />
         )}
       </Layout>
