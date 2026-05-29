@@ -58,7 +58,7 @@ const PkmRegistry = ({ pkms, onBackToHub, onCreate, onOpenPkm }: Props) => {
       </section>
 
       {tab === 'indicators' ? (
-        <ContractsIndicators only={[3]} />
+        <ContractsIndicators only={[4]} />
       ) : (
         <>
           <section className="card">

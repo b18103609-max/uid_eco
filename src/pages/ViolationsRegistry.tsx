@@ -160,7 +160,7 @@ const ViolationsRegistry = ({ items, pkmNumByid, onBackToHub, onOpenCard, onOpen
       </section>
 
       {tab === 'indicators' ? (
-        <ContractsIndicators only={[1]} />
+        <ContractsIndicators only={[2]} />
       ) : (
         <>
       <section className="card">

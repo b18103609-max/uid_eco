@@ -5,7 +5,7 @@ import './dashboard.css';
 const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
   const rootRef = useRef<HTMLDivElement>(null);
   // вкладки, которые надо показать; индекс 0..5 соответствует Финансы..Рейтинг
-  const allowed = only && only.length > 0 ? only : [0, 1, 2, 3, 4, 5];
+  const allowed = only && only.length > 0 ? only : [0, 1, 2, 3, 4, 5, 6];
   const initialTab = allowed[0];
 
   useEffect(() => {
@@ -117,6 +117,34 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
     ];
     const SERVICE_LABELS = SERVICES_DEF.map(s => s.label);
     const SVC_COLORS = SERVICES_DEF.map(() => C.blue);
+
+    // ==== Договорные данные ====
+    // Матрица [contractor][svcIdx], svcIdx соответствует SERVICES_DEF
+    const CONTRACT_VALUE: Record<string, number[]> = {
+      'Альфа-Строй':   [25, 40, 18, 12,  8, 14, 10,  7],
+      'БетаГрупп':     [35, 55, 25, 15, 12, 18, 14,  9],
+      'Гамма-ТЭК':     [18, 30, 14, 10,  7, 12,  9,  6],
+      'Дельта Инж':    [22, 38, 17, 11,  9, 15, 11,  8],
+      'Сигма Плюс':    [12, 22,  9,  7,  5,  9,  7,  5],
+      'Омега-Сервис':  [45, 70, 32, 20, 15, 22, 17, 12],
+    };
+    const CONTRACT_COUNT: Record<string, number[]> = {
+      'Альфа-Строй':   [2, 3, 2, 1, 1, 1, 1, 1],
+      'БетаГрупп':     [3, 4, 3, 2, 1, 2, 1, 1],
+      'Гамма-ТЭК':     [2, 2, 2, 1, 1, 1, 1, 1],
+      'Дельта Инж':    [2, 3, 2, 1, 1, 1, 1, 1],
+      'Сигма Плюс':    [1, 2, 1, 1, 1, 1, 1, 1],
+      'Омега-Сервис':  [4, 5, 3, 2, 2, 2, 2, 2],
+    };
+    // Освоение, доля 0..1 (по комбинации contractor × service)
+    const OSVOENIE: Record<string, number[]> = {
+      'Альфа-Строй':   [0.62, 0.58, 0.70, 0.55, 0.80, 0.65, 0.50, 0.72],
+      'БетаГрупп':     [0.48, 0.50, 0.55, 0.42, 0.60, 0.45, 0.38, 0.55],
+      'Гамма-ТЭК':     [0.75, 0.70, 0.82, 0.68, 0.85, 0.72, 0.60, 0.80],
+      'Дельта Инж':    [0.65, 0.62, 0.72, 0.58, 0.78, 0.60, 0.52, 0.70],
+      'Сигма Плюс':    [0.85, 0.82, 0.88, 0.75, 0.92, 0.78, 0.70, 0.88],
+      'Омега-Сервис':  [0.35, 0.40, 0.45, 0.32, 0.50, 0.38, 0.30, 0.42],
+    };
     const svcFactor = () => {
       const sel: string[] = filterState.services;
       const tot = SERVICES_DEF.reduce((a, s) => a + s.w, 0);
@@ -204,6 +232,61 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
     // FL_TYPES при выборе → индексы в FL_SOURCES (по позиции)
     const filteredFlIdxs = (): number[] => FL_TYPES.map((t, i) => filterState.categories.includes(t) ? i : -1).filter(i => i >= 0);
     const sumOverMonths = (arr: number[]) => arr.filter((_, i) => i >= filterState.monthFrom && i <= filterState.monthTo).reduce((s, v) => s + v, 0);
+
+    function renderContractData() {
+      const cons = filteredContractors();
+      const midxs = monthIdxs();
+      const periodFactor = midxs.length / 8;
+      // индексы выбранных услуг в SERVICES_DEF (по label)
+      const svcIdxs: number[] = SERVICES_DEF.map((s, i) => filterState.services.includes(s.label) ? i : -1).filter(i => i >= 0);
+
+      // KPI
+      let totalCount = 0;
+      let totalValue = 0;
+      const valByCon: Record<string, number> = {};
+      const valBySvc: number[] = svcIdxs.map(() => 0);
+      const osvByCon: Record<string, number> = {};  // млн руб освоено
+      const osvBySvc: number[] = svcIdxs.map(() => 0);
+      cons.forEach(c => {
+        let conVal = 0, conOsv = 0;
+        svcIdxs.forEach((si, j) => {
+          const v = (CONTRACT_VALUE[c]?.[si] || 0) * periodFactor;
+          const cnt = (CONTRACT_COUNT[c]?.[si] || 0) * periodFactor;
+          const o = (OSVOENIE[c]?.[si] || 0);
+          totalValue += v;
+          totalCount += cnt;
+          conVal += v;
+          conOsv += v * o;
+          valBySvc[j] += v;
+          osvBySvc[j] += v * o;
+        });
+        valByCon[c] = +conVal.toFixed(1);
+        osvByCon[c] = conVal > 0 ? +((conOsv / conVal) * 100).toFixed(1) : 0;
+      });
+
+      $('kpi-cd').innerHTML = `
+        <div class="kpi" style="--kpi-accent:var(--blue2)"><div class="kpi-label">Кол-во договоров</div><div class="kpi-value">${Math.round(totalCount)}</div><div class="kpi-sub">в выборке</div></div>
+        <div class="kpi" style="--kpi-accent:var(--purple)"><div class="kpi-label">Контрагентов</div><div class="kpi-value">${cons.length}</div><div class="kpi-sub">в выборке</div></div>
+        <div class="kpi" style="--kpi-accent:var(--green)"><div class="kpi-label">Сумма договоров</div><div class="kpi-value">${totalValue.toFixed(1)}М</div><div class="kpi-sub">млн ₽</div></div>
+        <div class="kpi" style="--kpi-accent:var(--orange)"><div class="kpi-label">Услуг в выборке</div><div class="kpi-value">${svcIdxs.length}</div><div class="kpi-sub">из ${SERVICES_DEF.length}</div></div>`;
+
+      // CD1 — распределение договоров по видам услуг (млн ₽)
+      const svcLabels = svcIdxs.map(si => SERVICES_DEF[si].code);
+      const svcFullLabels = svcIdxs.map(si => SERVICES_DEF[si].label);
+      mkChart('cCd1', { type: 'bar', data: { labels: svcLabels, datasets: [{ label: 'Сумма договоров, млн ₽', data: valBySvc.map(v => +v.toFixed(1)), backgroundColor: a(C.blue2, .85), borderRadius: 3 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { title: (items: any) => svcFullLabels[items[0].dataIndex], label: (ctx: any) => ` ${ctx.parsed.y.toFixed(1)} млн ₽` } } }, scales: { x: { grid: { display: false } }, y: { ticks: { callback: (v: any) => v + 'М' }, grid: { color: GRID } } } } });
+
+      // CD2 — распределение договоров по контрагентам (млн ₽)
+      const sortedConsByVal = [...cons].sort((x, y) => (valByCon[y] || 0) - (valByCon[x] || 0));
+      mkChart('cCd2', { type: 'bar', data: { labels: sortedConsByVal, datasets: [{ label: 'Сумма договоров, млн ₽', data: sortedConsByVal.map(c => valByCon[c]), backgroundColor: sortedConsByVal.map(c => a(CON_COLORS[CONTRACTORS.indexOf(c)], .85)), borderRadius: 3 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.parsed.x.toFixed(1)} млн ₽` } } }, scales: { x: { ticks: { callback: (v: any) => v.toFixed(0) + 'М' }, grid: { color: GRID } }, y: { grid: { display: false } } } } });
+
+      // CD3 — Освоение по услугам (%)
+      const osvSvcPct = osvBySvc.map((o, i) => valBySvc[i] > 0 ? +((o / valBySvc[i]) * 100).toFixed(1) : 0);
+      mkChart('cCd3', { type: 'bar', data: { labels: svcLabels, datasets: [{ label: 'Освоение, %', data: osvSvcPct, backgroundColor: osvSvcPct.map(p => p >= 70 ? a(C.green, .85) : p >= 50 ? a(C.yellow, .85) : a(C.red, .85)), borderRadius: 3 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { title: (items: any) => svcFullLabels[items[0].dataIndex], label: (ctx: any) => ` Освоено ${ctx.parsed.y.toFixed(1)}%` } } }, scales: { x: { grid: { display: false } }, y: { min: 0, max: 100, ticks: { callback: (v: any) => v + '%' }, grid: { color: GRID } } } } });
+
+      // CD4 — Освоение по контрагентам (%)
+      const sortedConsByOsv = [...cons].sort((x, y) => (osvByCon[y] || 0) - (osvByCon[x] || 0));
+      mkChart('cCd4', { type: 'bar', data: { labels: sortedConsByOsv, datasets: [{ label: 'Освоение, %', data: sortedConsByOsv.map(c => osvByCon[c]), backgroundColor: sortedConsByOsv.map(c => { const p = osvByCon[c] || 0; return p >= 70 ? a(C.green, .85) : p >= 50 ? a(C.yellow, .85) : a(C.red, .85); }), borderRadius: 3 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => ` Освоено ${ctx.parsed.x.toFixed(1)}%` } } }, scales: { x: { min: 0, max: 100, ticks: { callback: (v: any) => v + '%' }, grid: { color: GRID } }, y: { grid: { display: false } } } } });
+    }
 
     function renderFinance() {
       const cons = filteredContractors(), midxs = monthIdxs();
@@ -417,7 +500,7 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
       charts['c18'] = new Chart($('c18') as HTMLCanvasElement, { type: 'bar', data: { labels: accData.map(d => d.name), datasets: [{ label: '% принятых', data: accData.map(d => d.pct), backgroundColor: accData.map(d => d.pct >= 70 ? a(C.green, .8) : a(C.red, .8)), borderRadius: 3 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.parsed.x}%` } } }, scales: { x: { min: 0, max: 100, ticks: { callback: (v: any) => v + '%' }, grid: { color: GRID } }, y: { grid: { display: false } } } }, plugins: [thr70] } as any);
     }
 
-    function renderAll() { applyServiceScale(); renderFinance(); renderViolations(); renderFlagman(); renderDPR(); renderActivities(); renderMotivation(); renderRating(); }
+    function renderAll() { applyServiceScale(); renderContractData(); renderFinance(); renderViolations(); renderFlagman(); renderDPR(); renderActivities(); renderMotivation(); renderRating(); }
     function applyFilters() {
       filterState.monthFrom = +($('fMonthFrom') as HTMLSelectElement).value;
       filterState.monthTo = +($('fMonthTo') as HTMLSelectElement).value;
@@ -524,15 +607,29 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
       </div>
 
       <nav className="dash-nav">
-        <div className="nav-tab" style={{ display: allowed.includes(0) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--yellow)' }} />Финансы и штрафы</div>
-        <div className="nav-tab" style={{ display: allowed.includes(1) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--red)' }} />Нарушения</div>
-        <div className="nav-tab" style={{ display: allowed.includes(2) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--blue2)' }} />Претензии (ДПР)</div>
-        <div className="nav-tab" style={{ display: allowed.includes(3) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--green)' }} />Мероприятия</div>
-        <div className="nav-tab" style={{ display: allowed.includes(4) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--orange)' }} />Мотивация</div>
-        <div className="nav-tab" style={{ display: allowed.includes(5) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--purple)' }} />Рейтинг</div>
+        <div className="nav-tab" style={{ display: allowed.includes(0) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--blue2)' }} />Договорные данные</div>
+        <div className="nav-tab" style={{ display: allowed.includes(1) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--yellow)' }} />Финансы и штрафы</div>
+        <div className="nav-tab" style={{ display: allowed.includes(2) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--red)' }} />Нарушения</div>
+        <div className="nav-tab" style={{ display: allowed.includes(3) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--blue2)' }} />Претензии (ДПР)</div>
+        <div className="nav-tab" style={{ display: allowed.includes(4) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--green)' }} />Мероприятия</div>
+        <div className="nav-tab" style={{ display: allowed.includes(5) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--orange)' }} />Мотивация</div>
+        <div className="nav-tab" style={{ display: allowed.includes(6) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--purple)' }} />Рейтинг</div>
       </nav>
 
       <div className="dash-main">
+        <section className="section" id="tab-cd">
+          <div className="kpi-row" id="kpi-cd" />
+          <p className="dash-section-title">Договорные данные</p>
+          <div className="grid grid-2 mb">
+            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--blue2)' }}><div className="card-header"><div className="card-title">Распределение договоров по видам услуг</div><span className="card-num">CD1 Bar</span></div><div style={{ position: 'relative', height: 240 }}><canvas id="cCd1" /></div></div>
+            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--blue2)' }}><div className="card-header"><div className="card-title">Распределение договоров по контрагентам</div><span className="card-num">CD2 H-Bar</span></div><div style={{ position: 'relative', height: 240 }}><canvas id="cCd2" /></div></div>
+          </div>
+          <div className="grid grid-2">
+            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--green)' }}><div className="card-header"><div className="card-title">Освоение по услугам</div><span className="card-num">CD3 Bar</span></div><div style={{ position: 'relative', height: 240 }}><canvas id="cCd3" /></div></div>
+            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--green)' }}><div className="card-header"><div className="card-title">Освоение по контрагентам</div><span className="card-num">CD4 H-Bar</span></div><div style={{ position: 'relative', height: 240 }}><canvas id="cCd4" /></div></div>
+          </div>
+        </section>
+
         <section className="section" id="tab-0">
           <div className="kpi-row" id="kpi-finance" />
           <p className="dash-section-title">Блок 1 — Финансы и штрафы</p>
