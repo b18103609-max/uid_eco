@@ -11,8 +11,12 @@
 
 .rv-list { display: flex; flex-direction: column; gap: 12px; }
 
-.rv-card { border: 1px solid #ebedf0; border-radius: 12px; padding: 16px 20px; background: #fff; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; }
+.rv-card { display: flex; align-items: stretch; gap: 14px; border: 1px solid #ebedf0; border-radius: 12px; padding: 16px 20px; background: #fff; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; }
 .rv-card:hover { border-color: #0078d2; box-shadow: 0 1px 6px rgba(0, 120, 210, 0.1); }
+.rv-card--selected { background: #f4f9fd; border-color: #0078d2; }
+.rv-card__check { display: flex; align-items: flex-start; padding-top: 2px; }
+.rv-card__check input { accent-color: #0078d2; width: 16px; height: 16px; cursor: pointer; }
+.rv-card__main { flex: 1; min-width: 0; }
 .rv-card__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
 .rv-card__title { display: flex; align-items: center; gap: 10px; font-size: 14px; flex-wrap: wrap; min-width: 0; flex: 1; }
 .rv-card__num { font-weight: 700; color: #002033; }

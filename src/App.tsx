@@ -25,8 +25,8 @@ type Route =
   | { name: 'flagman' }
   | { name: 'violations' }
   | { name: 'pkm' }
-  | { name: 'pkm-create'; violationIds: number[]; origin: 'violations' | 'pkm' }
-  | { name: 'pkm-success'; pkmId: string; origin: 'violations' | 'pkm' }
+  | { name: 'pkm-create'; violationIds: number[]; registryViolationIds: string[]; origin: 'violations' | 'pkm' | 'violations-registry' }
+  | { name: 'pkm-success'; pkmId: string; origin: 'violations' | 'pkm' | 'violations-registry' }
   | { name: 'pkm-card'; pkmId: string; back: Route }
   | { name: 'violations-registry' }
   | { name: 'violation-card'; rvId: string; back: Route };
@@ -63,6 +63,7 @@ const App = () => {
       formedAt: draft.formedAt || now,
       plannedEnd: draft.plannedEnd,
       linkedViolations: draft.linkedViolations,
+      linkedRegistryViolations: draft.linkedRegistryViolations,
       claimsCount: draft.claimsCount,
       pkmFile: draft.pkmFile,
       requestLetterFile: draft.requestLetterFile,
@@ -79,6 +80,11 @@ const App = () => {
       history: [{ date: now, from: null, to: 'Новый', responsible: draft.responsible, comment: 'Мероприятие создано' }],
     };
     setPkms(prev => [pkm, ...prev]);
+    if (draft.linkedRegistryViolations.length > 0) {
+      setRviolations(prev => prev.map(v =>
+        draft.linkedRegistryViolations.includes(v.id) ? { ...v, linkedPkmId: id } : v,
+      ));
+    }
     return id;
   };
 
@@ -135,7 +141,7 @@ const App = () => {
             onBackToHub={() => go({ name: 'hub' })}
             onBackToFlagman={() => go({ name: 'flagman' })}
             violationPkm={violationPkm}
-            onCreatePkm={ids => go({ name: 'pkm-create', violationIds: ids, origin: 'violations' })}
+            onCreatePkm={ids => go({ name: 'pkm-create', violationIds: ids, registryViolationIds: [], origin: 'violations' })}
             onOpenPkm={id => go({ name: 'pkm-card', pkmId: id, back: { name: 'violations' } })}
           />
         )}
@@ -144,7 +150,7 @@ const App = () => {
           <PkmRegistry
             pkms={pkms}
             onBackToHub={() => go({ name: 'hub' })}
-            onCreate={() => go({ name: 'pkm-create', violationIds: [], origin: 'pkm' })}
+            onCreate={() => go({ name: 'pkm-create', violationIds: [], registryViolationIds: [], origin: 'pkm' })}
             onOpenPkm={id => go({ name: 'pkm-card', pkmId: id, back: { name: 'pkm' } })}
           />
         )}
@@ -152,8 +158,14 @@ const App = () => {
         {route.name === 'pkm-create' && (
           <PkmCreate
             preselectedViolations={route.violationIds}
+            preselectedRegistryViolations={route.registryViolationIds}
+            allRegistryViolations={rviolations}
             onBackToHub={() => go({ name: 'hub' })}
-            onCancel={() => go(route.origin === 'violations' ? { name: 'violations' } : { name: 'pkm' })}
+            onCancel={() => go(
+              route.origin === 'violations' ? { name: 'violations' } :
+              route.origin === 'violations-registry' ? { name: 'violations-registry' } :
+              { name: 'pkm' }
+            )}
             onSubmit={draft => {
               const id = createPkm(draft);
               go({ name: 'pkm-success', pkmId: id, origin: route.origin });
@@ -165,7 +177,11 @@ const App = () => {
           <PkmSuccess
             pkm={findPkm(route.pkmId)!}
             onOpenCard={() => go({ name: 'pkm-card', pkmId: route.pkmId, back: { name: 'pkm' } })}
-            onBack={() => go(route.origin === 'violations' ? { name: 'violations' } : { name: 'pkm' })}
+            onBack={() => go(
+              route.origin === 'violations' ? { name: 'violations' } :
+              route.origin === 'violations-registry' ? { name: 'violations-registry' } :
+              { name: 'pkm' }
+            )}
           />
         )}
 
@@ -185,6 +201,7 @@ const App = () => {
             onBackToHub={() => go({ name: 'hub' })}
             onOpenCard={id => go({ name: 'violation-card', rvId: id, back: { name: 'violations-registry' } })}
             onOpenPkm={pkmId => go({ name: 'pkm-card', pkmId, back: { name: 'violations-registry' } })}
+            onCreatePkm={rvIds => go({ name: 'pkm-create', violationIds: [], registryViolationIds: rvIds, origin: 'violations-registry' })}
           />
         )}
 

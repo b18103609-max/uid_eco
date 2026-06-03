@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react';
 import { IconAttach } from '@consta/icons/IconAttach';
 import { IconClose } from '@consta/icons/IconClose';
 import { IconAdd } from '@consta/icons/IconAdd';
-import { VIOLATIONS, USERS } from '../data';
+import { VIOLATIONS, USERS, type RegistryViolation } from '../data';
 import './pkmcard.css';
 
 export type PkmDraft = {
@@ -12,6 +12,7 @@ export type PkmDraft = {
   formedAt: string;
   plannedEnd: string;
   linkedViolations: number[];
+  linkedRegistryViolations: string[];
   claimsCount: number;
   pkmFile?: string;
   requestLetterFile?: string;
@@ -35,6 +36,8 @@ const todayIso = () => new Date().toISOString().slice(0, 10);
 
 type Props = {
   preselectedViolations: number[];
+  preselectedRegistryViolations: string[];
+  allRegistryViolations: RegistryViolation[];
   onSubmit: (draft: PkmDraft) => void;
   onCancel: () => void;
   onBackToHub: () => void;
@@ -69,12 +72,14 @@ const FileField = ({ value, onChange, multiple }: { value: string[]; onChange: (
   );
 };
 
-const PkmCreate = ({ preselectedViolations, onSubmit, onCancel, onBackToHub }: Props) => {
+const PkmCreate = ({ preselectedViolations, preselectedRegistryViolations, allRegistryViolations, onSubmit, onCancel, onBackToHub }: Props) => {
   const [description, setDescription] = useState('');
   const [contractNo, setContractNo] = useState('');
   const [formedAt, setFormedAt] = useState(todayIso());
   const [plannedEnd, setPlannedEnd] = useState('');
   const [linkedViolations, setLinkedViolations] = useState<number[]>(preselectedViolations);
+  const [linkedRegistryViolations, setLinkedRegistryViolations] = useState<string[]>(preselectedRegistryViolations);
+  const [addRvOpen, setAddRvOpen] = useState(false);
   const [claims, setClaims] = useState<string[]>([]);
   const [pkmFile, setPkmFile] = useState<string[]>([]);
   const [letterFile, setLetterFile] = useState<string[]>([]);
@@ -93,6 +98,15 @@ const PkmCreate = ({ preselectedViolations, onSubmit, onCancel, onBackToHub }: P
     () => VIOLATIONS.filter(v => !linkedViolations.includes(v.id)),
     [linkedViolations],
   );
+  const availableRvs = useMemo(
+    () => allRegistryViolations.filter(v => !linkedRegistryViolations.includes(v.id)),
+    [linkedRegistryViolations, allRegistryViolations],
+  );
+  const rvById = useMemo(() => {
+    const m: Record<string, RegistryViolation> = {};
+    for (const v of allRegistryViolations) m[v.id] = v;
+    return m;
+  }, [allRegistryViolations]);
 
   const submit = () => {
     if (!valid) return;
@@ -102,6 +116,7 @@ const PkmCreate = ({ preselectedViolations, onSubmit, onCancel, onBackToHub }: P
       formedAt: iso2ru(formedAt),
       plannedEnd: iso2ru(plannedEnd),
       linkedViolations,
+      linkedRegistryViolations,
       claimsCount: claims.length,
       pkmFile: pkmFile[0],
       requestLetterFile: letterFile[0],
@@ -123,8 +138,10 @@ const PkmCreate = ({ preselectedViolations, onSubmit, onCancel, onBackToHub }: P
           <span className="link" onClick={onCancel}>План корректирующих мероприятий</span> / <span>Создание ПКМ</span>
         </div>
         <h1 className="pf-title">Создание корректирующего мероприятия</h1>
-        {preselectedViolations.length > 0 && (
-          <p className="pf-note">На основании выбранных нарушений: {preselectedViolations.length} шт.</p>
+        {(preselectedViolations.length > 0 || preselectedRegistryViolations.length > 0) && (
+          <p className="pf-note">
+            На основании выбранных нарушений: {preselectedViolations.length + preselectedRegistryViolations.length} шт.
+          </p>
         )}
       </section>
 
@@ -182,6 +199,35 @@ const PkmCreate = ({ preselectedViolations, onSubmit, onCancel, onBackToHub }: P
                     {availableVios.map(v => (
                       <div key={v.id} className="pf-add-opt" onClick={() => { setLinkedViolations([...linkedViolations, v.id]); setAddVioOpen(false); }}>
                         №{v.id} — {v.scenario}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="pf-field pf-field--full">
+            <label className="pf-label">Связанные нарушения из реестра</label>
+            <div className="pf-chips">
+              {linkedRegistryViolations.map(id => {
+                const rv = rvById[id];
+                return (
+                  <span key={id} className="pf-chip">
+                    {rv ? `№${rv.num} — ${rv.shortDesc.slice(0, 40)}${rv.shortDesc.length > 40 ? '…' : ''}` : id}
+                    <button type="button" onClick={() => setLinkedRegistryViolations(linkedRegistryViolations.filter(x => x !== id))}><IconClose size="xs" /></button>
+                  </span>
+                );
+              })}
+              <div className="pf-add-wrap">
+                <button type="button" className="pf-add" onClick={() => setAddRvOpen(o => !o)} disabled={availableRvs.length === 0}>
+                  <IconAdd size="xs" />Привязать из реестра
+                </button>
+                {addRvOpen && (
+                  <div className="pf-add-drop">
+                    {availableRvs.map(rv => (
+                      <div key={rv.id} className="pf-add-opt" onClick={() => { setLinkedRegistryViolations([...linkedRegistryViolations, rv.id]); setAddRvOpen(false); }}>
+                        №{rv.num} — {rv.shortDesc}
                       </div>
                     ))}
                   </div>

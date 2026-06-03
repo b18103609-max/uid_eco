@@ -89,11 +89,13 @@ type Props = {
   onBackToHub: () => void;
   onOpenCard: (id: string) => void;
   onOpenPkm: (pkmId: string) => void;
+  onCreatePkm: (rvIds: string[]) => void;
 };
 
-const ViolationsRegistry = ({ items, pkmNumByid, onBackToHub, onOpenCard, onOpenPkm }: Props) => {
+const ViolationsRegistry = ({ items, pkmNumByid, onBackToHub, onOpenCard, onOpenPkm, onCreatePkm }: Props) => {
   const [tab, setTab] = useState<'registry' | 'indicators'>('registry');
   const [search, setSearch] = useState('');
+  const [selected, setSelected] = useState<Set<string>>(new Set());
   const [type, setType] = useState<string[]>([...VIOLATION_TYPES]);
   const [status, setStatus] = useState<string[]>([...RV_STATUSES]);
 
@@ -144,6 +146,26 @@ const ViolationsRegistry = ({ items, pkmNumByid, onBackToHub, onOpenCard, onOpen
     setResp(RESPS); setPkmFilter(['С ПКМ', 'Без ПКМ']);
   };
 
+  const toggleOne = (id: string) => {
+    setSelected(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+  const filteredIds = filtered.map(v => v.id);
+  const allFilteredSelected = filteredIds.length > 0 && filteredIds.every(id => selected.has(id));
+  const someFilteredSelected = filteredIds.some(id => selected.has(id));
+  const toggleAllFiltered = () => {
+    setSelected(prev => {
+      const next = new Set(prev);
+      if (allFilteredSelected) filteredIds.forEach(id => next.delete(id));
+      else filteredIds.forEach(id => next.add(id));
+      return next;
+    });
+  };
+  const clearSelection = () => setSelected(new Set());
+
   return (
     <>
       <section className="card">
@@ -189,14 +211,35 @@ const ViolationsRegistry = ({ items, pkmNumByid, onBackToHub, onOpenCard, onOpen
           </div>
         </div>
 
-        <div className="rv-count">Найдено: <b>{filtered.length}</b> из {items.length}</div>
+        <div className="vio-count-row" style={{ marginBottom: 14 }}>
+          <label className="vio-select-all">
+            <input
+              type="checkbox"
+              checked={allFilteredSelected}
+              ref={el => { if (el) el.indeterminate = !allFilteredSelected && someFilteredSelected; }}
+              onChange={toggleAllFiltered}
+              disabled={filteredIds.length === 0}
+            />
+            Выбрать все
+          </label>
+          <div className="rv-count" style={{ marginBottom: 0 }}>Найдено: <b>{filtered.length}</b> из {items.length}</div>
+        </div>
 
         <div className="rv-list">
           {filtered.length === 0 ? (
             <div className="rv-empty">По заданным фильтрам нарушений не найдено</div>
           ) : (
-            filtered.map(v => (
-              <div key={v.id} className="rv-card" onClick={() => onOpenCard(v.id)}>
+            filtered.map(v => {
+              const isSel = selected.has(v.id);
+              return (
+              <div key={v.id} className={`rv-card${isSel ? ' rv-card--selected' : ''}`} onClick={() => onOpenCard(v.id)}>
+                <label
+                  className="rv-card__check"
+                  onClick={e => e.stopPropagation()}
+                >
+                  <input type="checkbox" checked={isSel} onChange={() => toggleOne(v.id)} />
+                </label>
+                <div className="rv-card__main">
                 <div className="rv-card__head">
                   <div className="rv-card__title">
                     <span className="rv-card__num">№{v.num}</span>
@@ -240,12 +283,26 @@ const ViolationsRegistry = ({ items, pkmNumByid, onBackToHub, onOpenCard, onOpen
                     <span className="rv-sum-chip">Сумма требования: {fmtRub(v.demandSum)}</span>
                   )}
                 </div>
+                </div>
               </div>
-            ))
+              );
+            })
           )}
         </div>
       </section>
         </>
+      )}
+
+      {tab === 'registry' && selected.size > 0 && (
+        <div className="vio-actionbar" role="dialog" aria-label="Действия с выбранными нарушениями">
+          <button className="vio-actionbar__btn vio-actionbar__btn--primary" onClick={() => onCreatePkm([...selected])}>
+            Создать ПКМ
+          </button>
+          <span className="vio-actionbar__count">
+            Выбрано {selected.size}
+            <button className="vio-actionbar__close" onClick={clearSelection} aria-label="Сбросить выбор">×</button>
+          </span>
+        </div>
       )}
     </>
   );

@@ -66,6 +66,7 @@ export type Pkm = {
   formedAt: string;
   plannedEnd: string;
   linkedViolations: number[];
+  linkedRegistryViolations: string[];
   claimsCount: number;
   pkmFile?: string;
   requestLetterFile?: string;
@@ -113,7 +114,7 @@ function mk(
     id: 'pkm-' + num.replace('/', '-'),
     num, code, contractSubject: subject, description,
     formedAt, plannedEnd, contractNo, customer, contractor,
-    linkedViolations, claimsCount,
+    linkedViolations, linkedRegistryViolations: [], claimsCount,
     protocolNo, protocolDate, responsible, status,
     attachments: [], comment: '',
     history: [{ date: formedAt, from: null, to: 'Новый', responsible, comment: 'Мероприятие создано' }],
