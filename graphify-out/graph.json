@@ -1,0 +1,3399 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L1",
+      "id": "package",
+      "community": 1,
+      "norm_label": "package.json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "id": "package_name",
+      "community": 1,
+      "norm_label": "name"
+    },
+    {
+      "label": "private",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "id": "package_private",
+      "community": 1,
+      "norm_label": "private"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "id": "package_version",
+      "community": 1,
+      "norm_label": "version"
+    },
+    {
+      "label": "type",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "id": "package_type",
+      "community": 1,
+      "norm_label": "type"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "id": "package_scripts",
+      "community": 1,
+      "norm_label": "scripts"
+    },
+    {
+      "label": "dev",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "id": "package_scripts_dev",
+      "community": 1,
+      "norm_label": "dev"
+    },
+    {
+      "label": "build",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "id": "package_scripts_build",
+      "community": 1,
+      "norm_label": "build"
+    },
+    {
+      "label": "preview",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "id": "package_scripts_preview",
+      "community": 1,
+      "norm_label": "preview"
+    },
+    {
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "id": "package_dependencies",
+      "community": 1,
+      "norm_label": "dependencies"
+    },
+    {
+      "label": "@babel/runtime",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "id": "package_dependencies_babel_runtime",
+      "community": 1,
+      "norm_label": "@babel/runtime"
+    },
+    {
+      "label": "@bem-react/classname",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "id": "package_dependencies_bem_react_classname",
+      "community": 1,
+      "norm_label": "@bem-react/classname"
+    },
+    {
+      "label": "@bem-react/classnames",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "id": "package_dependencies_bem_react_classnames",
+      "community": 1,
+      "norm_label": "@bem-react/classnames"
+    },
+    {
+      "label": "@consta/icons",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "id": "package_dependencies_consta_icons",
+      "community": 1,
+      "norm_label": "@consta/icons"
+    },
+    {
+      "label": "@consta/uikit",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "id": "package_dependencies_consta_uikit",
+      "community": 1,
+      "norm_label": "@consta/uikit"
+    },
+    {
+      "label": "chart.js",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "id": "package_dependencies_chart_js",
+      "community": 1,
+      "norm_label": "chart.js"
+    },
+    {
+      "label": "react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "id": "package_dependencies_react",
+      "community": 1,
+      "norm_label": "react"
+    },
+    {
+      "label": "react-dom",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "id": "package_dependencies_react_dom",
+      "community": 1,
+      "norm_label": "react-dom"
+    },
+    {
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "id": "package_devdependencies",
+      "community": 1,
+      "norm_label": "devdependencies"
+    },
+    {
+      "label": "@types/react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "id": "package_devdependencies_types_react",
+      "community": 1,
+      "norm_label": "@types/react"
+    },
+    {
+      "label": "@types/react-dom",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "id": "package_devdependencies_types_react_dom",
+      "community": 1,
+      "norm_label": "@types/react-dom"
+    },
+    {
+      "label": "@vitejs/plugin-react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "id": "package_devdependencies_vitejs_plugin_react",
+      "community": 1,
+      "norm_label": "@vitejs/plugin-react"
+    },
+    {
+      "label": "typescript",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "id": "package_devdependencies_typescript",
+      "community": 1,
+      "norm_label": "typescript"
+    },
+    {
+      "label": "vite",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "id": "package_devdependencies_vite",
+      "community": 1,
+      "norm_label": "vite"
+    },
+    {
+      "label": "App.tsx",
+      "file_type": "code",
+      "source_file": "src/App.tsx",
+      "source_location": "L1",
+      "id": "src_app",
+      "community": 0,
+      "norm_label": "app.tsx"
+    },
+    {
+      "label": "Route",
+      "file_type": "code",
+      "source_file": "src/App.tsx",
+      "source_location": "L21",
+      "id": "src_app_route",
+      "community": 0,
+      "norm_label": "route"
+    },
+    {
+      "label": "todayStr()",
+      "file_type": "code",
+      "source_file": "src/App.tsx",
+      "source_location": "L34",
+      "id": "src_app_todaystr",
+      "community": 0,
+      "norm_label": "todaystr()"
+    },
+    {
+      "label": "App()",
+      "file_type": "code",
+      "source_file": "src/App.tsx",
+      "source_location": "L39",
+      "id": "src_app_app",
+      "community": 0,
+      "norm_label": "app()"
+    },
+    {
+      "label": "Layout.tsx",
+      "file_type": "code",
+      "source_file": "src/Layout.tsx",
+      "source_location": "L1",
+      "id": "src_layout",
+      "community": 7,
+      "norm_label": "layout.tsx"
+    },
+    {
+      "label": "MenuItem",
+      "file_type": "code",
+      "source_file": "src/Layout.tsx",
+      "source_location": "L16",
+      "id": "src_layout_menuitem",
+      "community": 7,
+      "norm_label": "menuitem"
+    },
+    {
+      "label": "menu",
+      "file_type": "code",
+      "source_file": "src/Layout.tsx",
+      "source_location": "L20",
+      "id": "src_layout_menu",
+      "community": 7,
+      "norm_label": "menu"
+    },
+    {
+      "label": "Layout()",
+      "file_type": "code",
+      "source_file": "src/Layout.tsx",
+      "source_location": "L37",
+      "id": "src_layout_layout",
+      "community": 7,
+      "norm_label": "layout()"
+    },
+    {
+      "label": "data.ts",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L1",
+      "id": "src_data",
+      "community": 0,
+      "norm_label": "data.ts"
+    },
+    {
+      "label": "Source",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L3",
+      "id": "src_data_source",
+      "community": 0,
+      "norm_label": "source"
+    },
+    {
+      "label": "Crit",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L4",
+      "id": "src_data_crit",
+      "community": 0,
+      "norm_label": "crit"
+    },
+    {
+      "label": "Dir",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L5",
+      "id": "src_data_dir",
+      "community": 0,
+      "norm_label": "dir"
+    },
+    {
+      "label": "Violation",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L7",
+      "id": "src_data_violation",
+      "community": 0,
+      "norm_label": "violation"
+    },
+    {
+      "label": "VIOLATIONS",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L21",
+      "id": "src_data_violations",
+      "community": 6,
+      "norm_label": "violations"
+    },
+    {
+      "label": "USERS",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L38",
+      "id": "src_data_users",
+      "community": 6,
+      "norm_label": "users"
+    },
+    {
+      "label": "PkmStatus",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L47",
+      "id": "src_data_pkmstatus",
+      "community": 0,
+      "norm_label": "pkmstatus"
+    },
+    {
+      "label": "PKM_STATUSES",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L48",
+      "id": "src_data_pkm_statuses",
+      "community": 4,
+      "norm_label": "pkm_statuses"
+    },
+    {
+      "label": "HistoryEntry",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L50",
+      "id": "src_data_historyentry",
+      "community": 0,
+      "norm_label": "historyentry"
+    },
+    {
+      "label": "Pkm",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L59",
+      "id": "src_data_pkm",
+      "community": 0,
+      "norm_label": "pkm"
+    },
+    {
+      "label": "initials()",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L86",
+      "id": "src_data_initials",
+      "community": 0,
+      "norm_label": "initials()"
+    },
+    {
+      "label": "SEED_PKMS",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L92",
+      "id": "src_data_seed_pkms",
+      "community": 0,
+      "norm_label": "seed_pkms"
+    },
+    {
+      "label": "mk()",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L107",
+      "id": "src_data_mk",
+      "community": 0,
+      "norm_label": "mk()"
+    },
+    {
+      "label": "ViolationType",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L128",
+      "id": "src_data_violationtype",
+      "community": 5,
+      "norm_label": "violationtype"
+    },
+    {
+      "label": "VIOLATION_TYPES",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L131",
+      "id": "src_data_violation_types",
+      "community": 5,
+      "norm_label": "violation_types"
+    },
+    {
+      "label": "RegistryViolationStatus",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L136",
+      "id": "src_data_registryviolationstatus",
+      "community": 4,
+      "norm_label": "registryviolationstatus"
+    },
+    {
+      "label": "RV_STATUSES",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L139",
+      "id": "src_data_rv_statuses",
+      "community": 4,
+      "norm_label": "rv_statuses"
+    },
+    {
+      "label": "RvHistoryEntry",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L144",
+      "id": "src_data_rvhistoryentry",
+      "community": 0,
+      "norm_label": "rvhistoryentry"
+    },
+    {
+      "label": "RegistryViolation",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L153",
+      "id": "src_data_registryviolation",
+      "community": 6,
+      "norm_label": "registryviolation"
+    },
+    {
+      "label": "rv()",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L177",
+      "id": "src_data_rv",
+      "community": 0,
+      "norm_label": "rv()"
+    },
+    {
+      "label": "SEED_REGISTRY_VIOLATIONS",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L191",
+      "id": "src_data_seed_registry_violations",
+      "community": 0,
+      "norm_label": "seed_registry_violations"
+    },
+    {
+      "label": "main.tsx",
+      "file_type": "code",
+      "source_file": "src/main.tsx",
+      "source_location": "L1",
+      "id": "src_main",
+      "community": 0,
+      "norm_label": "main.tsx"
+    },
+    {
+      "label": "ContractCard.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/ContractCard.tsx",
+      "source_location": "L1",
+      "id": "pages_contractcard",
+      "community": 7,
+      "norm_label": "contractcard.tsx"
+    },
+    {
+      "label": "tabs",
+      "file_type": "code",
+      "source_file": "src/pages/ContractCard.tsx",
+      "source_location": "L5",
+      "id": "pages_contractcard_tabs",
+      "community": 7,
+      "norm_label": "tabs"
+    },
+    {
+      "label": "generalData",
+      "file_type": "code",
+      "source_file": "src/pages/ContractCard.tsx",
+      "source_location": "L16",
+      "id": "pages_contractcard_generaldata",
+      "community": 7,
+      "norm_label": "generaldata"
+    },
+    {
+      "label": "ContractCard()",
+      "file_type": "code",
+      "source_file": "src/pages/ContractCard.tsx",
+      "source_location": "L31",
+      "id": "pages_contractcard_contractcard",
+      "community": 7,
+      "norm_label": "contractcard()"
+    },
+    {
+      "label": "ContractMgmtHub.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/ContractMgmtHub.tsx",
+      "source_location": "L1",
+      "id": "pages_contractmgmthub",
+      "community": 10,
+      "norm_label": "contractmgmthub.tsx"
+    },
+    {
+      "label": "Tile",
+      "file_type": "code",
+      "source_file": "src/pages/ContractMgmtHub.tsx",
+      "source_location": "L21",
+      "id": "pages_contractmgmthub_tile",
+      "community": 10,
+      "norm_label": "tile"
+    },
+    {
+      "label": "ContractMgmtHub()",
+      "file_type": "code",
+      "source_file": "src/pages/ContractMgmtHub.tsx",
+      "source_location": "L23",
+      "id": "pages_contractmgmthub_contractmgmthub",
+      "community": 10,
+      "norm_label": "contractmgmthub()"
+    },
+    {
+      "label": "ContractsIndicators.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/ContractsIndicators.tsx",
+      "source_location": "L1",
+      "id": "pages_contractsindicators",
+      "community": 8,
+      "norm_label": "contractsindicators.tsx"
+    },
+    {
+      "label": "ContractsIndicators()",
+      "file_type": "code",
+      "source_file": "src/pages/ContractsIndicators.tsx",
+      "source_location": "L5",
+      "id": "pages_contractsindicators_contractsindicators",
+      "community": 8,
+      "norm_label": "contractsindicators()"
+    },
+    {
+      "label": "ContractsPage.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/ContractsPage.tsx",
+      "source_location": "L1",
+      "id": "pages_contractspage",
+      "community": 8,
+      "norm_label": "contractspage.tsx"
+    },
+    {
+      "label": "ContractsPage()",
+      "file_type": "code",
+      "source_file": "src/pages/ContractsPage.tsx",
+      "source_location": "L5",
+      "id": "pages_contractspage_contractspage",
+      "community": 8,
+      "norm_label": "contractspage()"
+    },
+    {
+      "label": "ContractsRegistry.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/ContractsRegistry.tsx",
+      "source_location": "L1",
+      "id": "pages_contractsregistry",
+      "community": 8,
+      "norm_label": "contractsregistry.tsx"
+    },
+    {
+      "label": "Contract",
+      "file_type": "code",
+      "source_file": "src/pages/ContractsRegistry.tsx",
+      "source_location": "L7",
+      "id": "pages_contractsregistry_contract",
+      "community": 8,
+      "norm_label": "contract"
+    },
+    {
+      "label": "contracts",
+      "file_type": "code",
+      "source_file": "src/pages/ContractsRegistry.tsx",
+      "source_location": "L27",
+      "id": "pages_contractsregistry_contracts",
+      "community": 8,
+      "norm_label": "contracts"
+    },
+    {
+      "label": "ContractsRegistry()",
+      "file_type": "code",
+      "source_file": "src/pages/ContractsRegistry.tsx",
+      "source_location": "L68",
+      "id": "pages_contractsregistry_contractsregistry",
+      "community": 8,
+      "norm_label": "contractsregistry()"
+    },
+    {
+      "label": "FlagmanRating.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L1",
+      "id": "pages_flagmanrating",
+      "community": 9,
+      "norm_label": "flagmanrating.tsx"
+    },
+    {
+      "label": "Row",
+      "file_type": "code",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L7",
+      "id": "pages_flagmanrating_row",
+      "community": 9,
+      "norm_label": "row"
+    },
+    {
+      "label": "data",
+      "file_type": "code",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L21",
+      "id": "pages_flagmanrating_data",
+      "community": 9,
+      "norm_label": "data"
+    },
+    {
+      "label": "collectAllIds()",
+      "file_type": "code",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L72",
+      "id": "pages_flagmanrating_collectallids",
+      "community": 9,
+      "norm_label": "collectallids()"
+    },
+    {
+      "label": "totalClass()",
+      "file_type": "code",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L86",
+      "id": "pages_flagmanrating_totalclass",
+      "community": 9,
+      "norm_label": "totalclass()"
+    },
+    {
+      "label": "FlatRow",
+      "file_type": "code",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L88",
+      "id": "pages_flagmanrating_flatrow",
+      "community": 9,
+      "norm_label": "flatrow"
+    },
+    {
+      "label": "flatten()",
+      "file_type": "code",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L89",
+      "id": "pages_flagmanrating_flatten",
+      "community": 9,
+      "norm_label": "flatten()"
+    },
+    {
+      "label": "FlagmanRating()",
+      "file_type": "code",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L98",
+      "id": "pages_flagmanrating_flagmanrating",
+      "community": 9,
+      "norm_label": "flagmanrating()"
+    },
+    {
+      "label": "PkmCard.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L1",
+      "id": "pages_pkmcard",
+      "community": 4,
+      "norm_label": "pkmcard.tsx"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L11",
+      "id": "pages_pkmcard_props",
+      "community": 4,
+      "norm_label": "props"
+    },
+    {
+      "label": "statusCls()",
+      "file_type": "code",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L18",
+      "id": "pages_pkmcard_statuscls",
+      "community": 4,
+      "norm_label": "statuscls()"
+    },
+    {
+      "label": "Row()",
+      "file_type": "code",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L28",
+      "id": "pages_pkmcard_row",
+      "community": 4,
+      "norm_label": "row()"
+    },
+    {
+      "label": "PkmCard()",
+      "file_type": "code",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L35",
+      "id": "pages_pkmcard_pkmcard",
+      "community": 4,
+      "norm_label": "pkmcard()"
+    },
+    {
+      "label": "PkmCreate.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L1",
+      "id": "pages_pkmcreate",
+      "community": 6,
+      "norm_label": "pkmcreate.tsx"
+    },
+    {
+      "label": "PkmDraft",
+      "file_type": "code",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L8",
+      "id": "pages_pkmcreate_pkmdraft",
+      "community": 6,
+      "norm_label": "pkmdraft"
+    },
+    {
+      "label": "iso2ru()",
+      "file_type": "code",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L30",
+      "id": "pages_pkmcreate_iso2ru",
+      "community": 6,
+      "norm_label": "iso2ru()"
+    },
+    {
+      "label": "todayIso()",
+      "file_type": "code",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L35",
+      "id": "pages_pkmcreate_todayiso",
+      "community": 6,
+      "norm_label": "todayiso()"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L37",
+      "id": "pages_pkmcreate_props",
+      "community": 6,
+      "norm_label": "props"
+    },
+    {
+      "label": "FileField()",
+      "file_type": "code",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L46",
+      "id": "pages_pkmcreate_filefield",
+      "community": 6,
+      "norm_label": "filefield()"
+    },
+    {
+      "label": "PkmCreate()",
+      "file_type": "code",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L75",
+      "id": "pages_pkmcreate_pkmcreate",
+      "community": 6,
+      "norm_label": "pkmcreate()"
+    },
+    {
+      "label": "PkmRegistry.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/PkmRegistry.tsx",
+      "source_location": "L1",
+      "id": "pages_pkmregistry",
+      "community": 0,
+      "norm_label": "pkmregistry.tsx"
+    },
+    {
+      "label": "statusCls()",
+      "file_type": "code",
+      "source_file": "src/pages/PkmRegistry.tsx",
+      "source_location": "L11",
+      "id": "pages_pkmregistry_statuscls",
+      "community": 0,
+      "norm_label": "statuscls()"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "src/pages/PkmRegistry.tsx",
+      "source_location": "L21",
+      "id": "pages_pkmregistry_props",
+      "community": 0,
+      "norm_label": "props"
+    },
+    {
+      "label": "PkmRegistry()",
+      "file_type": "code",
+      "source_file": "src/pages/PkmRegistry.tsx",
+      "source_location": "L28",
+      "id": "pages_pkmregistry_pkmregistry",
+      "community": 0,
+      "norm_label": "pkmregistry()"
+    },
+    {
+      "label": "PkmSuccess.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/PkmSuccess.tsx",
+      "source_location": "L1",
+      "id": "pages_pkmsuccess",
+      "community": 0,
+      "norm_label": "pkmsuccess.tsx"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "src/pages/PkmSuccess.tsx",
+      "source_location": "L5",
+      "id": "pages_pkmsuccess_props",
+      "community": 0,
+      "norm_label": "props"
+    },
+    {
+      "label": "PkmSuccess()",
+      "file_type": "code",
+      "source_file": "src/pages/PkmSuccess.tsx",
+      "source_location": "L11",
+      "id": "pages_pkmsuccess_pkmsuccess",
+      "community": 0,
+      "norm_label": "pkmsuccess()"
+    },
+    {
+      "label": "ViolationCard.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L1",
+      "id": "pages_violationcard",
+      "community": 4,
+      "norm_label": "violationcard.tsx"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L12",
+      "id": "pages_violationcard_props",
+      "community": 4,
+      "norm_label": "props"
+    },
+    {
+      "label": "statusCls()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L21",
+      "id": "pages_violationcard_statuscls",
+      "community": 4,
+      "norm_label": "statuscls()"
+    },
+    {
+      "label": "Row()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L34",
+      "id": "pages_violationcard_row",
+      "community": 4,
+      "norm_label": "row()"
+    },
+    {
+      "label": "fmtRub()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L41",
+      "id": "pages_violationcard_fmtrub",
+      "community": 4,
+      "norm_label": "fmtrub()"
+    },
+    {
+      "label": "ViolationCard()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L43",
+      "id": "pages_violationcard_violationcard",
+      "community": 4,
+      "norm_label": "violationcard()"
+    },
+    {
+      "label": "ViolationsPage.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L1",
+      "id": "pages_violationspage",
+      "community": 3,
+      "norm_label": "violationspage.tsx"
+    },
+    {
+      "label": "uniq()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L11",
+      "id": "pages_violationspage_uniq",
+      "community": 3,
+      "norm_label": "uniq()"
+    },
+    {
+      "label": "sortStr()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L12",
+      "id": "pages_violationspage_sortstr",
+      "community": 3,
+      "norm_label": "sortstr()"
+    },
+    {
+      "label": "sortNum()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L13",
+      "id": "pages_violationspage_sortnum",
+      "community": 3,
+      "norm_label": "sortnum()"
+    },
+    {
+      "label": "SOURCES",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L15",
+      "id": "pages_violationspage_sources",
+      "community": 3,
+      "norm_label": "sources"
+    },
+    {
+      "label": "CRITS",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L16",
+      "id": "pages_violationspage_crits",
+      "community": 3,
+      "norm_label": "crits"
+    },
+    {
+      "label": "DIRS",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L17",
+      "id": "pages_violationspage_dirs",
+      "community": 3,
+      "norm_label": "dirs"
+    },
+    {
+      "label": "FIELDS",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L18",
+      "id": "pages_violationspage_fields",
+      "community": 3,
+      "norm_label": "fields"
+    },
+    {
+      "label": "WELLS",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L19",
+      "id": "pages_violationspage_wells",
+      "community": 3,
+      "norm_label": "wells"
+    },
+    {
+      "label": "CLUSTERS",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L20",
+      "id": "pages_violationspage_clusters",
+      "community": 3,
+      "norm_label": "clusters"
+    },
+    {
+      "label": "BRIGADES",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L21",
+      "id": "pages_violationspage_brigades",
+      "community": 3,
+      "norm_label": "brigades"
+    },
+    {
+      "label": "SUPS",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L22",
+      "id": "pages_violationspage_sups",
+      "community": 3,
+      "norm_label": "sups"
+    },
+    {
+      "label": "MSProps",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L24",
+      "id": "pages_violationspage_msprops",
+      "community": 3,
+      "norm_label": "msprops"
+    },
+    {
+      "label": "MultiSelect()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L25",
+      "id": "pages_violationspage_multiselect",
+      "community": 3,
+      "norm_label": "multiselect()"
+    },
+    {
+      "label": "sourceCls()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L75",
+      "id": "pages_violationspage_sourcecls",
+      "community": 3,
+      "norm_label": "sourcecls()"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L77",
+      "id": "pages_violationspage_props",
+      "community": 3,
+      "norm_label": "props"
+    },
+    {
+      "label": "ViolationsPage()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L85",
+      "id": "pages_violationspage_violationspage",
+      "community": 3,
+      "norm_label": "violationspage()"
+    },
+    {
+      "label": "ViolationsRegistry.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L1",
+      "id": "pages_violationsregistry",
+      "community": 5,
+      "norm_label": "violationsregistry.tsx"
+    },
+    {
+      "label": "uniq()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L14",
+      "id": "pages_violationsregistry_uniq",
+      "community": 5,
+      "norm_label": "uniq()"
+    },
+    {
+      "label": "sortStr()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L15",
+      "id": "pages_violationsregistry_sortstr",
+      "community": 5,
+      "norm_label": "sortstr()"
+    },
+    {
+      "label": "typeCls()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L17",
+      "id": "pages_violationsregistry_typecls",
+      "community": 5,
+      "norm_label": "typecls()"
+    },
+    {
+      "label": "statusCls()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L30",
+      "id": "pages_violationsregistry_statuscls",
+      "community": 5,
+      "norm_label": "statuscls()"
+    },
+    {
+      "label": "MSProps",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L43",
+      "id": "pages_violationsregistry_msprops",
+      "community": 5,
+      "norm_label": "msprops"
+    },
+    {
+      "label": "MS()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L44",
+      "id": "pages_violationsregistry_ms",
+      "community": 5,
+      "norm_label": "ms()"
+    },
+    {
+      "label": "fmtRub()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L84",
+      "id": "pages_violationsregistry_fmtrub",
+      "community": 5,
+      "norm_label": "fmtrub()"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L86",
+      "id": "pages_violationsregistry_props",
+      "community": 5,
+      "norm_label": "props"
+    },
+    {
+      "label": "ViolationsRegistry()",
+      "file_type": "code",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L95",
+      "id": "pages_violationsregistry_violationsregistry",
+      "community": 5,
+      "norm_label": "violationsregistry()"
+    },
+    {
+      "label": "tsconfig.json",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L1",
+      "id": "tsconfig",
+      "community": 2,
+      "norm_label": "tsconfig.json"
+    },
+    {
+      "label": "compilerOptions",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L2",
+      "id": "tsconfig_compileroptions",
+      "community": 2,
+      "norm_label": "compileroptions"
+    },
+    {
+      "label": "target",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "id": "tsconfig_compileroptions_target",
+      "community": 2,
+      "norm_label": "target"
+    },
+    {
+      "label": "useDefineForClassFields",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L4",
+      "id": "tsconfig_compileroptions_usedefineforclassfields",
+      "community": 2,
+      "norm_label": "usedefineforclassfields"
+    },
+    {
+      "label": "lib",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L5",
+      "id": "tsconfig_compileroptions_lib",
+      "community": 2,
+      "norm_label": "lib"
+    },
+    {
+      "label": "module",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L6",
+      "id": "tsconfig_compileroptions_module",
+      "community": 2,
+      "norm_label": "module"
+    },
+    {
+      "label": "skipLibCheck",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L7",
+      "id": "tsconfig_compileroptions_skiplibcheck",
+      "community": 2,
+      "norm_label": "skiplibcheck"
+    },
+    {
+      "label": "moduleResolution",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L8",
+      "id": "tsconfig_compileroptions_moduleresolution",
+      "community": 2,
+      "norm_label": "moduleresolution"
+    },
+    {
+      "label": "allowImportingTsExtensions",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L9",
+      "id": "tsconfig_compileroptions_allowimportingtsextensions",
+      "community": 2,
+      "norm_label": "allowimportingtsextensions"
+    },
+    {
+      "label": "resolveJsonModule",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L10",
+      "id": "tsconfig_compileroptions_resolvejsonmodule",
+      "community": 2,
+      "norm_label": "resolvejsonmodule"
+    },
+    {
+      "label": "isolatedModules",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L11",
+      "id": "tsconfig_compileroptions_isolatedmodules",
+      "community": 2,
+      "norm_label": "isolatedmodules"
+    },
+    {
+      "label": "noEmit",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L12",
+      "id": "tsconfig_compileroptions_noemit",
+      "community": 2,
+      "norm_label": "noemit"
+    },
+    {
+      "label": "jsx",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L13",
+      "id": "tsconfig_compileroptions_jsx",
+      "community": 2,
+      "norm_label": "jsx"
+    },
+    {
+      "label": "strict",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L14",
+      "id": "tsconfig_compileroptions_strict",
+      "community": 2,
+      "norm_label": "strict"
+    },
+    {
+      "label": "noUnusedLocals",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L15",
+      "id": "tsconfig_compileroptions_nounusedlocals",
+      "community": 2,
+      "norm_label": "nounusedlocals"
+    },
+    {
+      "label": "noUnusedParameters",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L16",
+      "id": "tsconfig_compileroptions_nounusedparameters",
+      "community": 2,
+      "norm_label": "nounusedparameters"
+    },
+    {
+      "label": "noFallthroughCasesInSwitch",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L17",
+      "id": "tsconfig_compileroptions_nofallthroughcasesinswitch",
+      "community": 2,
+      "norm_label": "nofallthroughcasesinswitch"
+    },
+    {
+      "label": "include",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L19",
+      "id": "tsconfig_include",
+      "community": 2,
+      "norm_label": "include"
+    },
+    {
+      "label": "vite.config.ts",
+      "file_type": "code",
+      "source_file": "vite.config.ts",
+      "source_location": "L1",
+      "id": "vite_config",
+      "community": 11,
+      "norm_label": "vite.config.ts"
+    },
+    {
+      "label": "userInitials",
+      "file_type": "code",
+      "source_file": "src/data.ts",
+      "source_location": "L90",
+      "id": "src_data_userinitials",
+      "community": 4,
+      "norm_label": "userinitials"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_dependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_devdependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_name",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_private",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_scripts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_type",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_build",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_dev",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_preview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_babel_runtime",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_bem_react_classname",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_bem_react_classnames",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_chart_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_consta_icons",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_consta_uikit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_react",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_react_dom",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_react",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_react_dom",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_typescript",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_vite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_vitejs_plugin_react",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "pages_contractcard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "pages_contractmgmthub",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "pages_contractspage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "pages_flagmanrating",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "pages_pkmcard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "pages_pkmcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "pages_pkmcreate_pkmdraft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "pages_pkmregistry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "pages_pkmsuccess",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "pages_violationcard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "pages_violationspage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "pages_violationsregistry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_app_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_app_route",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_app_todaystr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_data",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_data_historyentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_data_pkm",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_data_pkmstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_data_registryviolation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_data_registryviolationstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_data_rvhistoryentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_data_seed_pkms",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_data_seed_registry_violations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_layout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "src_main",
+      "target": "src_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/Layout.tsx",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "src_layout",
+      "target": "src_layout_layout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/Layout.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "src_layout",
+      "target": "src_layout_menu",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/Layout.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "src_layout",
+      "target": "src_layout_menuitem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_pkmcard",
+      "target": "src_data",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_pkmcreate",
+      "target": "src_data",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmRegistry.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "pages_pkmregistry",
+      "target": "src_data",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmSuccess.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "pages_pkmsuccess",
+      "target": "src_data",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_violationcard",
+      "target": "src_data",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "src_data",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "src_data",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_crit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_dir",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_historyentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L86",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_initials",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L107",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_mk",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_pkm",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L48",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_pkm_statuses",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L47",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_pkmstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L153",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_registryviolation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L136",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_registryviolationstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L177",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_rv",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L139",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_rv_statuses",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L144",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_rvhistoryentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L92",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_seed_pkms",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L191",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_seed_registry_violations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_source",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_users",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_violation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L131",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_violation_types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_violations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data.ts",
+      "source_location": "L128",
+      "weight": 1.0,
+      "source": "src_data",
+      "target": "src_data_violationtype",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "src_data_source",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "src_data_crit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "src_data_dir",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_pkmcard",
+      "target": "src_data_violations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_pkmcreate",
+      "target": "src_data_violations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "src_data_violations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_pkmcard",
+      "target": "src_data_users",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_pkmcreate",
+      "target": "src_data_users",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_violationcard",
+      "target": "src_data_users",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_pkmcard",
+      "target": "src_data_pkmstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmRegistry.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "pages_pkmregistry",
+      "target": "src_data_pkmstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_pkmcard",
+      "target": "src_data_pkm_statuses",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_pkmcard",
+      "target": "src_data_pkm",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmRegistry.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "pages_pkmregistry",
+      "target": "src_data_pkm",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmSuccess.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "pages_pkmsuccess",
+      "target": "src_data_pkm",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "src_data_violationtype",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "src_data_violation_types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_violationcard",
+      "target": "src_data_registryviolationstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "src_data_registryviolationstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_violationcard",
+      "target": "src_data_rv_statuses",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "src_data_rv_statuses",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_pkmcreate",
+      "target": "src_data_registryviolation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_violationcard",
+      "target": "src_data_registryviolation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "src_data_registryviolation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ContractCard.tsx",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "pages_contractcard",
+      "target": "pages_contractcard_contractcard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ContractCard.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "pages_contractcard",
+      "target": "pages_contractcard_generaldata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ContractCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_contractcard",
+      "target": "pages_contractcard_tabs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ContractMgmtHub.tsx",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "pages_contractmgmthub",
+      "target": "pages_contractmgmthub_contractmgmthub",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ContractMgmtHub.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "pages_contractmgmthub",
+      "target": "pages_contractmgmthub_tile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ContractsIndicators.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_contractsindicators",
+      "target": "pages_contractsindicators_contractsindicators",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ContractsPage.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "pages_contractspage",
+      "target": "pages_contractsindicators",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmRegistry.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "pages_pkmregistry",
+      "target": "pages_contractsindicators",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "pages_contractsindicators",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ContractsPage.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_contractspage",
+      "target": "pages_contractspage_contractspage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ContractsPage.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "pages_contractspage",
+      "target": "pages_contractsregistry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ContractsRegistry.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "pages_contractsregistry",
+      "target": "pages_contractsregistry_contract",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ContractsRegistry.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "pages_contractsregistry",
+      "target": "pages_contractsregistry_contracts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ContractsRegistry.tsx",
+      "source_location": "L68",
+      "weight": 1.0,
+      "source": "pages_contractsregistry",
+      "target": "pages_contractsregistry_contractsregistry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L72",
+      "weight": 1.0,
+      "source": "pages_flagmanrating",
+      "target": "pages_flagmanrating_collectallids",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "pages_flagmanrating",
+      "target": "pages_flagmanrating_data",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L98",
+      "weight": 1.0,
+      "source": "pages_flagmanrating",
+      "target": "pages_flagmanrating_flagmanrating",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L88",
+      "weight": 1.0,
+      "source": "pages_flagmanrating",
+      "target": "pages_flagmanrating_flatrow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L89",
+      "weight": 1.0,
+      "source": "pages_flagmanrating",
+      "target": "pages_flagmanrating_flatten",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "pages_flagmanrating",
+      "target": "pages_flagmanrating_row",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L86",
+      "weight": 1.0,
+      "source": "pages_flagmanrating",
+      "target": "pages_flagmanrating_totalclass",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/FlagmanRating.tsx",
+      "source_location": "L116",
+      "weight": 1.0,
+      "source": "pages_flagmanrating_flagmanrating",
+      "target": "pages_flagmanrating_flatten",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "pages_pkmcard",
+      "target": "pages_pkmcard_pkmcard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "pages_pkmcard",
+      "target": "pages_pkmcard_props",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "pages_pkmcard",
+      "target": "pages_pkmcard_row",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "pages_pkmcard",
+      "target": "pages_pkmcard_statuscls",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_pkmcard",
+      "target": "src_data_userinitials",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "pages_pkmcard_pkmcard",
+      "target": "pages_pkmcard_statuscls",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/PkmCard.tsx",
+      "source_location": "L99",
+      "weight": 1.0,
+      "source": "pages_pkmcard_pkmcard",
+      "target": "src_data_userinitials"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "pages_pkmcreate",
+      "target": "pages_pkmcreate_filefield",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "pages_pkmcreate",
+      "target": "pages_pkmcreate_iso2ru",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L75",
+      "weight": 1.0,
+      "source": "pages_pkmcreate",
+      "target": "pages_pkmcreate_pkmcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "pages_pkmcreate",
+      "target": "pages_pkmcreate_pkmdraft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "pages_pkmcreate",
+      "target": "pages_pkmcreate_props",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "pages_pkmcreate",
+      "target": "pages_pkmcreate_todayiso",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmCreate.tsx",
+      "source_location": "L78",
+      "weight": 1.0,
+      "source": "pages_pkmcreate_pkmcreate",
+      "target": "pages_pkmcreate_todayiso",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmRegistry.tsx",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "pages_pkmregistry",
+      "target": "pages_pkmregistry_pkmregistry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmRegistry.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "pages_pkmregistry",
+      "target": "pages_pkmregistry_props",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmRegistry.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "pages_pkmregistry",
+      "target": "pages_pkmregistry_statuscls",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmRegistry.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "pages_pkmregistry",
+      "target": "src_data_userinitials",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmSuccess.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "pages_pkmsuccess",
+      "target": "pages_pkmsuccess_pkmsuccess",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/PkmSuccess.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_pkmsuccess",
+      "target": "pages_pkmsuccess_props",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "pages_violationcard",
+      "target": "pages_violationcard_fmtrub",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "pages_violationcard",
+      "target": "pages_violationcard_props",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "pages_violationcard",
+      "target": "pages_violationcard_row",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "pages_violationcard",
+      "target": "pages_violationcard_statuscls",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "pages_violationcard",
+      "target": "pages_violationcard_violationcard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "pages_violationcard",
+      "target": "src_data_userinitials",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L69",
+      "weight": 1.0,
+      "source": "pages_violationcard_violationcard",
+      "target": "pages_violationcard_statuscls",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L102",
+      "weight": 1.0,
+      "source": "pages_violationcard_violationcard",
+      "target": "pages_violationcard_fmtrub",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/ViolationCard.tsx",
+      "source_location": "L89",
+      "weight": 1.0,
+      "source": "pages_violationcard_violationcard",
+      "target": "src_data_userinitials"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_brigades",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_clusters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_crits",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_dirs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_fields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_msprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_multiselect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L77",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_props",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_sortnum",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_sortstr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L75",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_sourcecls",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_sources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_sups",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_uniq",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L85",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_violationspage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsPage.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "pages_violationspage",
+      "target": "pages_violationspage_wells",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L84",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "pages_violationsregistry_fmtrub",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "pages_violationsregistry_ms",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "pages_violationsregistry_msprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L86",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "pages_violationsregistry_props",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "pages_violationsregistry_sortstr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "pages_violationsregistry_statuscls",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "pages_violationsregistry_typecls",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "pages_violationsregistry_uniq",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ViolationsRegistry.tsx",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "pages_violationsregistry",
+      "target": "pages_violationsregistry_violationsregistry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "tsconfig",
+      "target": "tsconfig_compileroptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "tsconfig",
+      "target": "tsconfig_include",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "tsconfig_compileroptions",
+      "target": "tsconfig_compileroptions_allowimportingtsextensions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "tsconfig_compileroptions",
+      "target": "tsconfig_compileroptions_isolatedmodules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "tsconfig_compileroptions",
+      "target": "tsconfig_compileroptions_jsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "tsconfig_compileroptions",
+      "target": "tsconfig_compileroptions_lib",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "tsconfig_compileroptions",
+      "target": "tsconfig_compileroptions_module",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "tsconfig_compileroptions",
+      "target": "tsconfig_compileroptions_moduleresolution",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "tsconfig_compileroptions",
+      "target": "tsconfig_compileroptions_noemit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "tsconfig_compileroptions",
+      "target": "tsconfig_compileroptions_nofallthroughcasesinswitch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "tsconfig_compileroptions",
+      "target": "tsconfig_compileroptions_nounusedlocals",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "tsconfig_compileroptions",
+      "target": "tsconfig_compileroptions_nounusedparameters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "tsconfig_compileroptions",
+      "target": "tsconfig_compileroptions_resolvejsonmodule",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "tsconfig_compileroptions",
+      "target": "tsconfig_compileroptions_skiplibcheck",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "tsconfig_compileroptions",
+      "target": "tsconfig_compileroptions_strict",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tsconfig_compileroptions",
+      "target": "tsconfig_compileroptions_target",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "tsconfig_compileroptions",
+      "target": "tsconfig_compileroptions_usedefineforclassfields",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "9c3eb0daa8d858cb1becf12c0ef1311be58c8ca0"
+}
