@@ -15,6 +15,7 @@ type Props = {
   onBack: () => void;
   onBackToHub: () => void;
   onOpenPkm: (pkmId: string) => void;
+  onCreatePkm: () => void;
   onChangeStatus: (to: RegistryViolationStatus, responsible: string, comment: string, file?: string) => void;
 };
 
@@ -40,7 +41,7 @@ const Row = ({ label, children }: { label: string; children: React.ReactNode }) 
 
 const fmtRub = (n?: number) => n == null ? '—' : `${n.toLocaleString('ru-RU')} ₽`;
 
-const ViolationCard = ({ v, pkmNum, onBack, onBackToHub, onOpenPkm, onChangeStatus }: Props) => {
+const ViolationCard = ({ v, pkmNum, onBack, onBackToHub, onOpenPkm, onCreatePkm, onChangeStatus }: Props) => {
   const [target, setTarget] = useState<RegistryViolationStatus | null>(null);
   const [mResp, setMResp] = useState(v.responsible);
   const [mComment, setMComment] = useState('');
@@ -67,6 +68,9 @@ const ViolationCard = ({ v, pkmNum, onBack, onBackToHub, onOpenPkm, onChangeStat
         <div className="pc-head">
           <h1 className="pf-title">Нарушение №{v.num}</h1>
           <span className={`rv-card__status rv-status--${statusCls(v.status)}`}>{v.status.toUpperCase()}</span>
+          <button className="pf-btn pf-btn--primary" style={{ marginLeft: 'auto' }} onClick={onCreatePkm}>
+            + Создать ПКМ
+          </button>
         </div>
       </section>
 

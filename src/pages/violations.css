@@ -63,6 +63,13 @@
 
 .vio-empty { text-align: center; padding: 40px; color: #9aa6ae; font-size: 14px; }
 
+.vio-card__pkm-btn {
+  margin-left: auto;
+  background: #fff; color: #0078d2; border: 1px solid #cfe4f6; border-radius: 8px;
+  padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.15s, border-color 0.15s;
+}
+.vio-card__pkm-btn:hover { background: #f4f8fc; border-color: #0078d2; }
+
 /* selection */
 .vio-count-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
 .vio-select-all { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: #5d6a73; cursor: pointer; user-select: none; }

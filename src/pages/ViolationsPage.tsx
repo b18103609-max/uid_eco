@@ -226,6 +226,10 @@ const ViolationsPage = ({ onBackToHub, onBackToFlagman, violationPkm, onCreatePk
                     <div className="vio-card__foot">
                       <span className="vio-foot-item"><IconCalendar size="xs" />{v.date}</span>
                       <span className="vio-foot-item"><IconUser size="xs" />Зафиксировал: <span className="vio-foot-name">{v.supervisor}</span></span>
+                      <button
+                        className="vio-card__pkm-btn"
+                        onClick={(e) => { e.stopPropagation(); onCreatePkm([v.id]); }}
+                      >+ Создать ПКМ</button>
                     </div>
                   </div>
                 </div>
