@@ -13,6 +13,7 @@ type Row = {
   tech: number;
   pb: number;
   total: number;
+  finalColour: 'green' | 'amber' | 'red';
   bonus: number;
   dimmed?: boolean;
   children?: Row[];
@@ -27,6 +28,7 @@ const data: Row[] = [
     tech: 48.5,
     pb: 47.3,
     total: 92.0,
+    finalColour: 'green',
     bonus: 1.5,
     children: [
       {
@@ -36,11 +38,12 @@ const data: Row[] = [
         tech: 48.5,
         pb: 47.3,
         total: 93.0,
+        finalColour: 'green',
         bonus: 1.5,
         children: [
-          { id: 'w-9309D', name: '9309D', sub: 'Новопортовское · 243', place: 1, tech: 48.5, pb: 47.3, total: 98.0, bonus: 1.5 },
-          { id: 'w-5009A-1', name: '5009A', sub: 'Новопортовское · 178', place: 8, tech: 48.5, pb: 47.3, total: 76.1, bonus: 1.5 },
-          { id: 'w-5009A-2', name: '5009A', sub: 'Новопортовское · 178', place: 9, tech: 48.5, pb: 47.3, total: 74.2, bonus: 1.5 },
+          { id: 'w-9309D', name: '9309D', sub: 'Новопортовское · 243', place: 1, tech: 48.5, pb: 47.3, total: 98.0, finalColour: 'green', bonus: 1.5 },
+          { id: 'w-5009A-1', name: '5009A', sub: 'Новопортовское · 178', place: 8, tech: 48.5, pb: 47.3, total: 76.1, finalColour: 'amber', bonus: 1.5 },
+          { id: 'w-5009A-2', name: '5009A', sub: 'Новопортовское · 178', place: 9, tech: 48.5, pb: 47.3, total: 74.2, finalColour: 'red', bonus: 1.5 },
         ],
       },
       {
@@ -50,6 +53,7 @@ const data: Row[] = [
         tech: 48.5,
         pb: 47.3,
         total: 92.0,
+        finalColour: 'green',
         bonus: 1.5,
         children: [],
       },
@@ -60,13 +64,14 @@ const data: Row[] = [
         tech: 48.5,
         pb: 47.3,
         total: 90.0,
+        finalColour: 'green',
         bonus: 1.5,
         children: [],
       },
     ],
   },
-  { id: 'x2', name: 'XXXXXXXX', place: 2, tech: 48.5, pb: 47.3, total: 79.1, bonus: 1.5, dimmed: true, children: [] },
-  { id: 'x3', name: 'XXXXXXXX', place: 3, tech: 48.5, pb: 47.3, total: 74.2, bonus: 1.5, dimmed: true, children: [] },
+  { id: 'x2', name: 'XXXXXXXX', place: 2, tech: 48.5, pb: 47.3, total: 79.1, finalColour: 'amber', bonus: 1.5, dimmed: true, children: [] },
+  { id: 'x3', name: 'XXXXXXXX', place: 3, tech: 48.5, pb: 47.3, total: 74.2, finalColour: 'red', bonus: 1.5, dimmed: true, children: [] },
 ];
 
 const collectAllIds = (rows: Row[]): string[] => {
@@ -82,8 +87,6 @@ const collectAllIds = (rows: Row[]): string[] => {
   walk(rows);
   return out;
 };
-
-const totalClass = (v: number) => (v >= 85 ? 'green' : v >= 75 ? 'amber' : 'red');
 
 type FlatRow = { row: Row; depth: number };
 const flatten = (rows: Row[], depth: number, expanded: Set<string>, out: FlatRow[]) => {
@@ -192,7 +195,7 @@ const FlagmanRating = ({ onBackToHub, onOpenViolations }: { onBackToHub: () => v
                 const isFirst = idx === 0;
                 const hasChildren = !!row.children && row.children.length > 0;
                 const open = expanded.has(row.id);
-                const cls = totalClass(row.total);
+                const cls = row.finalColour;
                 return (
                   <tr
                     key={row.id + '-' + idx}

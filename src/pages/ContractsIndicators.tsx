@@ -4,8 +4,9 @@ import './dashboard.css';
 
 const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
   const rootRef = useRef<HTMLDivElement>(null);
-  // вкладки, которые надо показать; индекс 0..5 соответствует Финансы..Рейтинг
-  const allowed = only && only.length > 0 ? only : [0, 1, 2, 3, 4, 5, 6];
+  // Договоры, финансы, нарушения, ДПР, мероприятия и мотивация.
+  // Самодельный сводный рейтинг подрядчиков исключен из базового прототипа.
+  const allowed = only && only.length > 0 ? only : [0, 1, 2, 3, 4, 5];
   const initialTab = allowed[0];
 
   useEffect(() => {
@@ -57,7 +58,14 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
       npv: { 'Альфа-Строй': [68, 74, 82, 76, 80, 75, 88, 71], 'БетаГрупп': [78, 85, 95, 88, 92, 88, 99, 82], 'Гамма-ТЭК': [40, 44, 50, 46, 48, 45, 53, 44], 'Дельта Инж': [56, 62, 69, 64, 67, 63, 73, 60], 'Сигма Плюс': [28, 30, 34, 31, 33, 31, 36, 29], 'Омега-Сервис': [102, 114, 128, 118, 124, 117, 135, 110] },
       dpr_status: { 'Альфа-Строй': { acc: [5, 6, 7, 6, 7, 6, 7, 6], rej: [2, 2, 3, 2, 3, 2, 3, 2], court: [1, 1, 2, 1, 2, 1, 2, 1] }, 'БетаГрупп': { acc: [5, 6, 7, 6, 7, 6, 7, 6], rej: [3, 3, 4, 3, 4, 3, 4, 3], court: [2, 2, 2, 2, 2, 2, 3, 2] }, 'Гамма-ТЭК': { acc: [6, 7, 7, 7, 7, 7, 8, 7], rej: [1, 2, 2, 2, 2, 2, 2, 2], court: [1, 1, 1, 1, 1, 1, 1, 1] }, 'Дельта Инж': { acc: [5, 6, 6, 6, 6, 6, 7, 6], rej: [2, 2, 3, 2, 3, 2, 3, 2], court: [1, 1, 2, 1, 2, 1, 2, 1] }, 'Сигма Плюс': { acc: [7, 7, 8, 7, 8, 7, 8, 7], rej: [1, 1, 1, 1, 1, 1, 2, 1], court: [0, 1, 1, 1, 1, 1, 1, 1] }, 'Омега-Сервис': { acc: [4, 4, 5, 4, 5, 4, 5, 4], rej: [3, 4, 4, 4, 4, 4, 5, 4], court: [2, 2, 3, 3, 3, 3, 3, 3] } },
       delay: { 'Альфа-Строй': [14, 16, 20, 18, 17, 19, 22, 15], 'БетаГрупп': [18, 21, 27, 24, 22, 25, 28, 20], 'Гамма-ТЭК': [6, 8, 10, 9, 8, 9, 11, 8], 'Дельта Инж': [10, 12, 15, 13, 12, 14, 16, 12], 'Сигма Плюс': [3, 4, 5, 4, 4, 4, 5, 4], 'Омега-Сервис': [24, 27, 34, 30, 28, 31, 36, 26] },
-      act: { 'Альфа-Строй': { done: [10, 12, 13, 12, 13, 12, 14, 12], wip: [3, 3, 3, 3, 3, 3, 3, 3], late: [2, 2, 2, 2, 2, 2, 2, 2] }, 'БетаГрупп': { done: [9, 10, 11, 10, 11, 10, 11, 10], wip: [4, 4, 5, 4, 5, 4, 5, 4], late: [3, 3, 4, 3, 4, 3, 4, 3] }, 'Гамма-ТЭК': { done: [12, 13, 14, 13, 14, 13, 15, 13], wip: [2, 2, 2, 2, 2, 2, 2, 2], late: [1, 1, 1, 1, 1, 1, 1, 1] }, 'Дельта Инж': { done: [10, 11, 12, 11, 12, 11, 12, 11], wip: [3, 3, 3, 3, 3, 3, 3, 3], late: [2, 2, 2, 2, 2, 2, 2, 2] }, 'Сигма Плюс': { done: [13, 14, 15, 14, 15, 14, 15, 14], wip: [1, 1, 2, 1, 2, 1, 2, 1], late: [1, 1, 1, 1, 1, 1, 1, 1] }, 'Омега-Сервис': { done: [7, 8, 8, 8, 8, 8, 9, 8], wip: [5, 5, 5, 5, 5, 5, 6, 5], late: [4, 4, 5, 4, 5, 4, 5, 4] } },
+      act: {
+        'Альфа-Строй': { done: [10, 12, 13, 12, 13, 12, 14, 12], wip: [3, 3, 3, 3, 3, 3, 3, 3], newCount: [2, 2, 2, 2, 2, 2, 2, 2], withoutResponsible: [1, 1, 2, 1, 1, 1, 2, 1], linkedToBreach: [10, 12, 13, 12, 13, 12, 14, 12] },
+        'БетаГрупп': { done: [9, 10, 11, 10, 11, 10, 11, 10], wip: [4, 4, 5, 4, 5, 4, 5, 4], newCount: [3, 3, 4, 3, 4, 3, 4, 3], withoutResponsible: [2, 2, 2, 2, 2, 2, 3, 2], linkedToBreach: [11, 12, 14, 12, 14, 12, 14, 12] },
+        'Гамма-ТЭК': { done: [12, 13, 14, 13, 14, 13, 15, 13], wip: [2, 2, 2, 2, 2, 2, 2, 2], newCount: [1, 1, 1, 1, 1, 1, 1, 1], withoutResponsible: [1, 1, 1, 1, 1, 1, 1, 1], linkedToBreach: [11, 12, 13, 12, 13, 12, 14, 12] },
+        'Дельта Инж': { done: [10, 11, 12, 11, 12, 11, 12, 11], wip: [3, 3, 3, 3, 3, 3, 3, 3], newCount: [2, 2, 2, 2, 2, 2, 2, 2], withoutResponsible: [1, 1, 1, 1, 1, 1, 2, 1], linkedToBreach: [10, 11, 12, 11, 12, 11, 12, 11] },
+        'Сигма Плюс': { done: [13, 14, 15, 14, 15, 14, 15, 14], wip: [1, 1, 2, 1, 2, 1, 2, 1], newCount: [1, 1, 1, 1, 1, 1, 1, 1], withoutResponsible: [0, 1, 1, 1, 1, 1, 1, 1], linkedToBreach: [11, 12, 13, 12, 13, 12, 13, 12] },
+        'Омега-Сервис': { done: [7, 8, 8, 8, 8, 8, 9, 8], wip: [5, 5, 5, 5, 5, 5, 6, 5], newCount: [4, 4, 5, 4, 5, 4, 5, 4], withoutResponsible: [2, 2, 3, 2, 3, 2, 3, 2], linkedToBreach: [12, 13, 14, 13, 14, 13, 15, 13] },
+      },
       payment: {
         'Альфа-Строй': [[1.2, 1.3, 1.4, 1.3, 1.4, 1.3, 1.5, 1.4], [0.4, 0.5, 0.5, 0.5, 0.5, 0.5, 0.6, 0.5], [0.6, 0.7, 0.7, 0.7, 0.7, 0.7, 0.8, 0.7], [0.3, 0.3, 0.4, 0.3, 0.4, 0.3, 0.4, 0.4], [0.5, 0.5, 0.6, 0.5, 0.6, 0.5, 0.6, 0.6], [0.2, 0.2, 0.3, 0.2, 0.3, 0.2, 0.3, 0.3]],
         'БетаГрупп': [[1.8, 1.9, 2.0, 1.9, 2.0, 1.9, 2.1, 2.0], [0.5, 0.6, 0.6, 0.6, 0.6, 0.6, 0.7, 0.6], [0.8, 0.8, 0.9, 0.8, 0.9, 0.8, 1.0, 0.9], [0.4, 0.4, 0.5, 0.4, 0.5, 0.4, 0.5, 0.5], [0.6, 0.7, 0.7, 0.7, 0.7, 0.7, 0.8, 0.7], [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.4, 0.3]],
@@ -66,8 +74,6 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
         'Сигма Плюс': [[0.5, 0.6, 0.6, 0.6, 0.6, 0.6, 0.7, 0.6], [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.4, 0.3], [0.3, 0.3, 0.4, 0.3, 0.4, 0.3, 0.4, 0.4], [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.3, 0.2], [0.2, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3], [0.1, 0.1, 0.2, 0.1, 0.2, 0.1, 0.2, 0.2]],
         'Омега-Сервис': [[2.4, 2.5, 2.6, 2.5, 2.6, 2.5, 2.7, 2.6], [0.6, 0.7, 0.7, 0.7, 0.7, 0.7, 0.8, 0.7], [1.0, 1.1, 1.1, 1.1, 1.1, 1.1, 1.2, 1.1], [0.5, 0.5, 0.6, 0.5, 0.6, 0.5, 0.6, 0.6], [0.7, 0.7, 0.8, 0.7, 0.8, 0.7, 0.9, 0.8], [0.3, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4]],
       },
-      drillCrit: { 'Альфа-Строй': [3, 4, 5, 4, 5, 4, 6, 4], 'БетаГрупп': [5, 6, 7, 6, 7, 6, 8, 7], 'Гамма-ТЭК': [2, 3, 4, 3, 4, 3, 5, 4], 'Дельта Инж': [3, 4, 4, 4, 4, 4, 5, 4], 'Сигма Плюс': [1, 2, 2, 2, 2, 2, 3, 2], 'Омега-Сервис': [7, 8, 10, 9, 10, 9, 11, 10] },
-      drillPaidWithCrit: { 'Альфа-Строй': 0.62, 'БетаГрупп': 0.78, 'Гамма-ТЭК': 0.41, 'Дельта Инж': 0.56, 'Сигма Плюс': 0.18, 'Омега-Сервис': 0.88 },
     };
 
     // === НАРУШЕНИЯ ФЛАГМАН (источники фиксации: ВА / ВК / ПБ) ===
@@ -171,8 +177,6 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
         delay: BASE.delay,                      // средние дни — без масштабирования
         act: scaleDeep(BASE.act, f, true),
         payment: scaleDeep(BASE.payment, f, false),
-        drillCrit: scaleDeep(BASE.drillCrit, f, true),
-        drillPaidWithCrit: BASE.drillPaidWithCrit, // доля — без масштабирования
       };
       FL = { flCounts: scaleDeep(FL_BASE.flCounts, f, true) };
     };
@@ -410,21 +414,33 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
 
     function renderActivities() {
       const cons = filteredContractors(), midxs = monthIdxs();
-      let totDone = 0, totWip = 0, totLate = 0;
-      cons.forEach(c => { const d = MASTER.act[c]; totDone += midxs.reduce((s, m) => s + d.done[m], 0); totWip += midxs.reduce((s, m) => s + d.wip[m], 0); totLate += midxs.reduce((s, m) => s + d.late[m], 0); });
-      const totAct = totDone + totWip + totLate;
+      let totDone = 0, totWip = 0, totNew = 0, totWithoutResponsible = 0, linkedToBreach = 0;
+      const withoutResponsibleByContractor: Record<string, number> = {};
+      cons.forEach(c => {
+        const d = MASTER.act[c];
+        const done = midxs.reduce((s, m) => s + d.done[m], 0);
+        const wip = midxs.reduce((s, m) => s + d.wip[m], 0);
+        const fresh = midxs.reduce((s, m) => s + d.newCount[m], 0);
+        const withoutResponsible = midxs.reduce((s, m) => s + d.withoutResponsible[m], 0);
+        const linked = midxs.reduce((s, m) => s + d.linkedToBreach[m], 0);
+        totDone += done;
+        totWip += wip;
+        totNew += fresh;
+        totWithoutResponsible += withoutResponsible;
+        linkedToBreach += linked;
+        withoutResponsibleByContractor[c] = withoutResponsible;
+      });
+      const totAct = totDone + totWip + totNew;
+      const withoutBreach = Math.max(0, totAct - linkedToBreach);
       $('kpi-act').innerHTML = `
         <div class="kpi" style="--kpi-accent:var(--blue2)"><div class="kpi-label">Всего мероприятий</div><div class="kpi-value">${totAct}</div><div class="kpi-sub">за период</div></div>
-        <div class="kpi" style="--kpi-accent:var(--green)"><div class="kpi-label">Реализовано</div><div class="kpi-value">${totAct ? Math.round(totDone / totAct * 100) : 0}%</div><div class="kpi-sub">${totDone} шт.</div><span class="kpi-badge badge-green">↑</span></div>
-        <div class="kpi" style="--kpi-accent:var(--red)"><div class="kpi-label">Просрочено</div><div class="kpi-value">${totLate}</div><div class="kpi-sub">не реализовано в срок</div><span class="kpi-badge badge-red">⚠</span></div>
-        <div class="kpi" style="--kpi-accent:var(--yellow)"><div class="kpi-label">В работе</div><div class="kpi-value">${totWip}</div><div class="kpi-sub">активных</div></div>`;
-      mkChart('c13', { type: 'bar', data: { labels: cons, datasets: [{ label: 'Реализовано', data: cons.map(c => midxs.reduce((s, m) => s + MASTER.act[c].done[m], 0)), backgroundColor: a(C.green, .85), borderRadius: 3 }, { label: 'В работе', data: cons.map(c => midxs.reduce((s, m) => s + MASTER.act[c].wip[m], 0)), backgroundColor: a(C.yellow, .85) }, { label: 'Просрочено', data: cons.map(c => midxs.reduce((s, m) => s + MASTER.act[c].late[m], 0)), backgroundColor: a(C.red, .85) }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 12 } } }, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: GRID } } } } });
-      const lateByCon = cons.map(c => midxs.reduce((s, m) => s + MASTER.act[c].late[m], 0));
-      const sortIdx = cons.map((_, i) => i).sort((x, y) => lateByCon[y] - lateByCon[x]);
-      mkChart('c14', { type: 'bar', data: { labels: sortIdx.map(i => cons[i]), datasets: [{ label: 'Просрочено', data: sortIdx.map(i => lateByCon[i]), backgroundColor: (ctx: any) => ctx.raw > 15 ? a(C.red, .8) : ctx.raw > 8 ? a(C.orange, .8) : a(C.yellow, .8), borderRadius: 3 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: GRID } }, y: { grid: { display: false } } } } });
-      const top12 = filterState.categories.includes('ТОП-12');
-      const base = top12 ? cons.reduce((s, c) => s + sumOverMonths(MASTER.viol['ТОП-12'][c]), 0) : 0;
-      mkChart('c15', { type: 'bar', data: { labels: ['Запланировано', 'В работе', 'На согласовании', 'Реализовано', 'Просрочено', 'Закрыто'], datasets: [{ data: [Math.round(base * .18), Math.round(base * .12), Math.round(base * .08), Math.round(base * .37), Math.round(base * .16), Math.round(base * .09)], backgroundColor: [a(C.blue2, .85), a(C.yellow, .85), a(C.purple, .85), a(C.green, .85), a(C.red, .85), a(C.cyan, .85)], borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => `${ctx.label}: ${ctx.parsed.y}` } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: GRID } } } } });
+        <div class="kpi" style="--kpi-accent:var(--yellow)"><div class="kpi-label">В работе</div><div class="kpi-value">${totWip}</div><div class="kpi-sub">по status_code</div></div>
+        <div class="kpi" style="--kpi-accent:var(--red)"><div class="kpi-label">Без ответственного</div><div class="kpi-value">${totWithoutResponsible}</div><div class="kpi-sub">пустой responsible_person</div><span class="kpi-badge badge-red">⚠</span></div>
+        <div class="kpi" style="--kpi-accent:var(--green)"><div class="kpi-label">Связано с нарушениями</div><div class="kpi-value">${linkedToBreach}</div><div class="kpi-sub">${totAct ? Math.round(linkedToBreach / totAct * 100) : 0}% мероприятий</div></div>`;
+      mkChart('c13', { type: 'bar', data: { labels: cons, datasets: [{ label: 'Реализовано', data: cons.map(c => midxs.reduce((s, m) => s + MASTER.act[c].done[m], 0)), backgroundColor: a(C.green, .85), borderRadius: 3 }, { label: 'В работе', data: cons.map(c => midxs.reduce((s, m) => s + MASTER.act[c].wip[m], 0)), backgroundColor: a(C.yellow, .85) }, { label: 'Новый', data: cons.map(c => midxs.reduce((s, m) => s + MASTER.act[c].newCount[m], 0)), backgroundColor: a(C.blue2, .85) }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 12 } } }, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: GRID } } } } });
+      const sortedByMissingOwner = [...cons].sort((x, y) => withoutResponsibleByContractor[y] - withoutResponsibleByContractor[x]);
+      mkChart('c14', { type: 'bar', data: { labels: sortedByMissingOwner, datasets: [{ label: 'Без ответственного', data: sortedByMissingOwner.map(c => withoutResponsibleByContractor[c]), backgroundColor: a(C.orange, .8), borderRadius: 3 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: GRID }, ticks: { precision: 0 } }, y: { grid: { display: false } } } } });
+      mkChart('c15', { type: 'bar', data: { labels: ['Связаны с нарушениями', 'Без связи с нарушением'], datasets: [{ data: [linkedToBreach, withoutBreach], backgroundColor: [a(C.green, .85), a(C.orange, .85)], borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => `${ctx.label}: ${ctx.parsed.y}` } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: GRID }, ticks: { precision: 0 } } } } });
     }
 
     function renderMotivation() {
@@ -434,73 +450,18 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
       const paymentByContractor: any = {};
       cons.forEach(c => { paymentByContractor[c] = +SERVICES.reduce((s, _, si) => s + sumOverMonths(MASTER.payment[c][si]), 0).toFixed(2); });
       const drillingTotal = cons.reduce((s, c) => s + sumOverMonths(MASTER.payment[c][0]), 0);
-      const drillPayByCon: any = {}, drillCritByCon: any = {}, drillPaidWithCritByCon: any = {};
-      cons.forEach(c => {
-        drillPayByCon[c] = +sumOverMonths(MASTER.payment[c][0]).toFixed(2);
-        drillCritByCon[c] = sumOverMonths(MASTER.drillCrit[c]);
-        drillPaidWithCritByCon[c] = +(drillPayByCon[c] * MASTER.drillPaidWithCrit[c]).toFixed(2);
-      });
-      const totalCritDrill = cons.reduce((s, c) => s + drillCritByCon[c], 0);
-      const totalPaidWithCrit = cons.reduce((s, c) => s + drillPaidWithCritByCon[c], 0);
-      const pctPaidWithCrit = drillingTotal > 0 ? Math.round(totalPaidWithCrit / drillingTotal * 100) : 0;
       $('kpi-motiv').innerHTML = `
         <div class="kpi" style="--kpi-accent:var(--orange)"><div class="kpi-label">Выплачено мотивации</div><div class="kpi-value">${totalPayment.toFixed(1)}М</div><div class="kpi-sub">из актов выполненных работ</div></div>
         <div class="kpi" style="--kpi-accent:var(--blue2)"><div class="kpi-label">Эксплуатационное бурение</div><div class="kpi-value">${drillingTotal.toFixed(1)}М</div><div class="kpi-sub">${totalPayment > 0 ? Math.round(drillingTotal / totalPayment * 100) : 0}% от всех выплат</div></div>
-        <div class="kpi" style="--kpi-accent:var(--red)"><div class="kpi-label">Критичных нарушений (бурение)</div><div class="kpi-value">${totalCritDrill}</div><div class="kpi-sub">ТОП-12 + ЛЭП</div><span class="kpi-badge badge-red">⚠</span></div>
-        <div class="kpi" style="--kpi-accent:var(--orange)"><div class="kpi-label">Выплачено при нарушениях</div><div class="kpi-value">${totalPaidWithCrit.toFixed(1)}М</div><div class="kpi-sub">${pctPaidWithCrit}% от бурения</div><span class="kpi-badge badge-orange">!</span></div>`;
+        <div class="kpi" style="--kpi-accent:var(--purple)"><div class="kpi-label">Подрядчиков</div><div class="kpi-value">${cons.length}</div><div class="kpi-sub">в текущей выборке</div></div>
+        <div class="kpi" style="--kpi-accent:var(--green)"><div class="kpi-label">Видов услуг</div><div class="kpi-value">${paymentByService.filter(value => value > 0).length}</div><div class="kpi-sub">с начисленной мотивацией</div></div>`;
       mkChart('c19', { type: 'doughnut', data: { labels: SERVICES, datasets: [{ data: paymentByService.map(v => +v.toFixed(2)), backgroundColor: SERVICES.map((_, i) => a(SERVICE_COLORS[i], .85)), borderColor: PT, borderWidth: 3, hoverOffset: 8 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { position: 'right', labels: { padding: 12, boxWidth: 10, boxHeight: 10, usePointStyle: true, pointStyle: 'rectRounded', font: { size: 10 } } }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.label}: ${ctx.parsed.toFixed(2)} М ₽ (${totalPayment ? Math.round(ctx.parsed / totalPayment * 100) : 0}%)` } } } } });
       const sortedPay = [...cons].sort((x, y) => paymentByContractor[y] - paymentByContractor[x]);
       mkChart('c20', { type: 'bar', data: { labels: sortedPay, datasets: [{ label: 'Выплачено, млн ₽', data: sortedPay.map(c => paymentByContractor[c]), backgroundColor: a(C.orange, .8), borderRadius: 3 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.parsed.x.toFixed(2)} М ₽` } } }, scales: { x: { ticks: { callback: (v: any) => v.toFixed(1) + 'М' }, grid: { color: GRID } }, y: { grid: { display: false } } } } });
       mkChart('c21', { type: 'line', data: { labels: months, datasets: SERVICES.map((srv, si) => ({ label: srv, data: midxs.map(m => +cons.reduce((s, c) => s + MASTER.payment[c][si][m], 0).toFixed(2)), borderColor: SERVICE_COLORS[si], backgroundColor: a(SERVICE_COLORS[si], .55), borderWidth: 1.5, tension: .4, fill: true, pointRadius: 0 })) }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 10, boxWidth: 10, font: { size: 10 } } } }, scales: { x: { grid: { color: GRID } }, y: { stacked: true, ticks: { callback: (v: any) => v + 'М' }, grid: { color: GRID } } } } });
-      mkChart('c22', { type: 'bar', data: { labels: cons, datasets: [{ type: 'bar', label: 'Мотивация (бурение), млн ₽', data: cons.map(c => drillPayByCon[c]), backgroundColor: a(C.orange, .8), borderRadius: 3, yAxisID: 'y', order: 2 }, { type: 'line', label: 'Критичные нарушения, шт.', data: cons.map(c => drillCritByCon[c]), borderColor: C.red, backgroundColor: a(C.red, .1), borderWidth: 2.5, tension: .3, pointRadius: 5, pointBackgroundColor: C.red, pointBorderColor: PT, pointBorderWidth: 2, yAxisID: 'y2', order: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 12 } }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.dataset.label}: ${ctx.dataset.yAxisID === 'y' ? ctx.parsed.y.toFixed(2) + ' М ₽' : ctx.parsed.y + ' шт.'}` } } }, scales: { x: { grid: { display: false } }, y: { position: 'left', title: { display: true, text: 'Млн ₽', color: AXIS }, ticks: { callback: (v: any) => v + 'М' }, grid: { color: GRID } }, y2: { position: 'right', title: { display: true, text: 'Нарушения', color: AXIS }, grid: { display: false } } } } });
-      const sortedDrill = [...cons].sort((x, y) => drillPaidWithCritByCon[y] - drillPaidWithCritByCon[x]);
-      mkChart('c23', { type: 'bar', data: { labels: sortedDrill, datasets: [{ label: 'При наличии критичных нарушений', data: sortedDrill.map(c => drillPaidWithCritByCon[c]), backgroundColor: a(C.red, .8), borderRadius: 3, stack: 's' }, { label: 'Без критичных нарушений', data: sortedDrill.map(c => +(drillPayByCon[c] - drillPaidWithCritByCon[c]).toFixed(2)), backgroundColor: a(C.green, .8), borderRadius: 3, stack: 's' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 10, boxWidth: 10 } }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.dataset.label}: ${ctx.parsed.x.toFixed(2)} М ₽` } } }, scales: { x: { stacked: true, ticks: { callback: (v: any) => v.toFixed(1) + 'М' }, grid: { color: GRID } }, y: { stacked: true, grid: { display: false } } } } });
-      const drillPayByM = midxs.map(m => +cons.reduce((s, c) => s + MASTER.payment[c][0][m], 0).toFixed(2));
-      const drillCritByM = midxs.map(m => cons.reduce((s, c) => s + MASTER.drillCrit[c][m], 0));
-      mkChart('c24', { type: 'line', data: { labels: months, datasets: [{ label: 'Мотивация (бурение), млн ₽', data: drillPayByM, borderColor: C.orange, backgroundColor: a(C.orange, .12), borderWidth: 2.5, tension: .4, fill: true, pointRadius: 4, pointBackgroundColor: C.orange, pointBorderColor: PT, pointBorderWidth: 2, yAxisID: 'y' }, { label: 'Критичные нарушения, шт.', data: drillCritByM, borderColor: C.red, backgroundColor: 'transparent', borderWidth: 2.5, tension: .4, fill: false, pointRadius: 4, pointBackgroundColor: C.red, pointBorderColor: PT, pointBorderWidth: 2, yAxisID: 'y2', borderDash: [5, 3] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 14 } } }, scales: { x: { grid: { color: GRID } }, y: { position: 'left', title: { display: true, text: 'Млн ₽', color: AXIS }, ticks: { callback: (v: any) => v + 'М' }, grid: { color: GRID } }, y2: { position: 'right', title: { display: true, text: 'Нарушения', color: AXIS }, grid: { display: false } } } } });
     }
 
-    function renderRating() {
-      const cons = filteredContractors(), midxs = monthIdxs();
-      const data = cons.map(c => {
-        const totViol = MASTER_CATS.reduce((s, cat) => s + sumOverMonths(MASTER.viol[cat][c]), 0);
-        const violScore = Math.max(0, Math.round((1 - totViol / 375) * 100));
-        const d = MASTER.dpr_status[c];
-        const acc = midxs.reduce((s, m) => s + d.acc[m], 0);
-        const all = midxs.reduce((s, m) => s + d.acc[m] + d.rej[m] + d.court[m], 0);
-        const dprPct = all ? Math.round(acc / all * 100) : 0;
-        const da = MASTER.act[c].done, dw = MASTER.act[c].wip, dl = MASTER.act[c].late;
-        const done = midxs.reduce((s, m) => s + da[m], 0);
-        const actAll = midxs.reduce((s, m) => s + da[m] + dw[m] + dl[m], 0);
-        const actPct = actAll ? Math.round(done / actAll * 100) : 0;
-        let fine = 0; midxs.forEach(m => { fine += MASTER.fine[c][m][0] - MASTER.fine[c][m][1] - MASTER.fine[c][m][2]; });
-        const drillCleanPct = Math.round((1 - MASTER.drillPaidWithCrit[c]) * 100);
-        const score = Math.round((violScore + dprPct + actPct + drillCleanPct) / 4);
-        return { name: c, viol: violScore, dpr: dprPct, act: actPct, clean: drillCleanPct, fine: +fine.toFixed(1), score };
-      }).sort((x, y) => y.score - x.score);
-      const scoreColor = (s: number) => s >= 75 ? C.green : s >= 55 ? C.yellow : C.red;
-      const cell = (v: number, lo: number, hi: number, suffix = '%', invert = false) => { const cls = invert ? (v < lo ? 'cell-green' : v < hi ? 'cell-amber' : 'cell-red') : (v >= hi ? 'cell-green' : v >= lo ? 'cell-amber' : 'cell-red'); return `<td class="${cls}" style="text-align:center">${v}${suffix}</td>`; };
-      $('ratingTable').innerHTML = `<thead><tr>
-        <th>#</th><th>Подрядчик</th><th>% без нарушений</th><th>% принятых ДПР</th>
-        <th>% реализ. меропр.</th><th>% мотивации без крит. нарушений</th><th>Долг, млн ₽</th><th>Итоговый скор</th>
-      </tr></thead><tbody>${data.map((d, i) => `<tr>
-        <td style="color:var(--muted)">${i + 1}</td>
-        <td style="font-family:var(--font-head);font-weight:600;color:var(--text)">${d.name}</td>
-        ${cell(d.viol, 50, 70)} ${cell(d.dpr, 60, 75)} ${cell(d.act, 65, 80)} ${cell(d.clean, 50, 75)}
-        ${cell(d.fine, 3, 6, 'М', true)}
-        <td><div class="score-bar">
-          <div class="score-bar-track"><div class="score-bar-fill" style="width:${d.score}%;background:${scoreColor(d.score)}"></div></div>
-          <span style="color:${scoreColor(d.score)};font-weight:700;min-width:30px">${d.score}</span>
-        </div></td>
-      </tr>`).join('')}</tbody>`;
-      // (диаграмма #17 «Динамика нарушений по подрядчику (кварталы)» перенесена во вкладку «Нарушения»)
-      const accData = data.map(d => ({ name: d.name, pct: d.dpr })).sort((x, y) => y.pct - x.pct);
-      const thr70: any = { id: 'thr', afterDraw(chart: any) { const { ctx, chartArea: { top, bottom }, scales: { x } } = chart; if (!x) return; const xp = x.getPixelForValue(70); ctx.save(); ctx.beginPath(); ctx.setLineDash([6, 4]); ctx.strokeStyle = C.red; ctx.lineWidth = 1.5; ctx.moveTo(xp, top); ctx.lineTo(xp, bottom); ctx.stroke(); ctx.restore(); } };
-      if (charts['c18']) charts['c18'].destroy();
-      charts['c18'] = new Chart($('c18') as HTMLCanvasElement, { type: 'bar', data: { labels: accData.map(d => d.name), datasets: [{ label: '% принятых', data: accData.map(d => d.pct), backgroundColor: accData.map(d => d.pct >= 70 ? a(C.green, .8) : a(C.red, .8)), borderRadius: 3 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => ` ${ctx.parsed.x}%` } } }, scales: { x: { min: 0, max: 100, ticks: { callback: (v: any) => v + '%' }, grid: { color: GRID } }, y: { grid: { display: false } } } }, plugins: [thr70] } as any);
-    }
-
-    function renderAll() { applyServiceScale(); renderContractData(); renderFinance(); renderViolations(); renderFlagman(); renderDPR(); renderActivities(); renderMotivation(); renderRating(); }
+    function renderAll() { applyServiceScale(); renderContractData(); renderFinance(); renderViolations(); renderFlagman(); renderDPR(); renderActivities(); renderMotivation(); }
     function applyFilters() {
       filterState.monthFrom = +($('fMonthFrom') as HTMLSelectElement).value;
       filterState.monthTo = +($('fMonthTo') as HTMLSelectElement).value;
@@ -613,7 +574,6 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
         <div className="nav-tab" style={{ display: allowed.includes(3) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--blue2)' }} />Претензии (ДПР)</div>
         <div className="nav-tab" style={{ display: allowed.includes(4) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--green)' }} />Мероприятия</div>
         <div className="nav-tab" style={{ display: allowed.includes(5) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--orange)' }} />Мотивация</div>
-        <div className="nav-tab" style={{ display: allowed.includes(6) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--purple)' }} />Рейтинг</div>
       </nav>
 
       <div className="dash-main">
@@ -696,38 +656,23 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
           <div className="kpi-row" id="kpi-act" />
           <p className="dash-section-title">Блок 4 — Мероприятия</p>
           <div className="grid grid-2 mb">
-            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--green)' }}><div className="card-header"><div className="card-title">Исполнение: план vs. факт</div><span className="card-num">#13 Stacked Bar</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="c13" /></div></div>
-            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--green)' }}><div className="card-header"><div className="card-title">Просроченные мероприятия</div><span className="card-num">#14 H-Bar</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="c14" /></div></div>
+            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--green)' }}><div className="card-header"><div className="card-title">В каких статусах находятся мероприятия?</div><span className="card-num">#13 Stacked Bar</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="c13" /></div></div>
+            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--green)' }}><div className="card-header"><div className="card-title">У каких подрядчиков есть мероприятия без ответственного?</div><span className="card-num">#14 H-Bar</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="c14" /></div></div>
           </div>
-          <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--green)' }}><div className="card-header"><div className="card-title">Мероприятия по нарушениям ТОП-12</div><span className="card-num">#15 Bar</span></div><div style={{ position: 'relative', height: 200 }}><canvas id="c15" /></div></div>
+          <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--green)' }}><div className="card-header"><div className="card-title">Сколько мероприятий связано с нарушениями?</div><span className="card-num">#15 Bar</span></div><div style={{ position: 'relative', height: 200 }}><canvas id="c15" /></div></div>
         </section>
 
         <section className="section" id="tab-4">
           <div className="kpi-row" id="kpi-motiv" />
           <p className="dash-section-title">Блок 5 — Мотивация по актам выполненных работ</p>
           <div className="subsection-note">
-            <strong>Источник данных:</strong> акты выполненных работ. Известны вид услуги, сумма мотивации, подрядчик. <strong>Связки с нарушениями нет</strong> — кроме услуги «эксплуатационное бурение».
+            <strong>Источник данных:</strong> FORM-IDP. Используются только прямые колонки мотивации, вид услуги и подрядчик. <strong>Атрибуция выплат к критичным нарушениям не используется.</strong>
           </div>
           <div className="grid grid-2 mb">
             <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--orange)' }}><div className="card-header"><div className="card-title">Структура мотивации по видам услуг</div><span className="card-num">#19 Donut</span></div><div style={{ position: 'relative', height: 240 }}><canvas id="c19" /></div></div>
             <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--orange)' }}><div className="card-header"><div className="card-title">Сумма выплаченной мотивации по подрядчикам</div><span className="card-num">#20 H-Bar</span></div><div style={{ position: 'relative', height: 240 }}><canvas id="c20" /></div></div>
           </div>
           <div className="dash-card mb" style={{ ['--card-accent' as any]: 'var(--orange)' }}><div className="card-header"><div className="card-title">Динамика выплат мотивации по месяцам</div><span className="card-num">#21 Stacked Line</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="c21" /></div></div>
-          <p className="subsection-title">Эксплуатационное бурение<span className="subsection-badge">⚡ Связка с критичными нарушениями</span></p>
-          <div className="grid grid-2 mb">
-            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--orange)' }}><div className="card-header"><div className="card-title">Мотивация vs. критичные нарушения (по подрядчикам)</div><span className="card-num">#22 Dual Axis</span></div><div style={{ position: 'relative', height: 240 }}><canvas id="c22" /></div></div>
-            <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--orange)' }}><div className="card-header"><div className="card-title">Мотивация при наличии критичных нарушений</div><span className="card-num">#23 Stacked H-Bar</span></div><div style={{ position: 'relative', height: 240 }}><canvas id="c23" /></div></div>
-          </div>
-          <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--orange)' }}><div className="card-header"><div className="card-title">Динамика: мотивация и критичные нарушения по месяцам</div><span className="card-num">#24 Dual Axis Line</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="c24" /></div></div>
-        </section>
-
-        <section className="section" id="tab-5">
-          <p className="dash-section-title">Блок 6 — Рейтинг подрядчиков</p>
-          <div className="dash-card mb" style={{ ['--card-accent' as any]: 'var(--purple)' }}>
-            <div className="card-header"><div className="card-title">Рейтинговая таблица подрядчиков</div><span className="card-num">#16 Table</span></div>
-            <div style={{ overflowX: 'auto' }}><table className="rating-table" id="ratingTable" /></div>
-          </div>
-          <div className="dash-card" style={{ ['--card-accent' as any]: 'var(--purple)' }}><div className="card-header"><div className="card-title">Доля принятых претензий по подрядчику</div><span className="card-num">#18 H-Bar</span></div><div style={{ position: 'relative', height: 250 }}><canvas id="c18" /></div><div className="threshold-label">— красная линия: порог 70%</div></div>
         </section>
       </div>
     </div>
