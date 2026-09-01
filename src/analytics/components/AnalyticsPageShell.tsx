@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 import { ANALYTICS_PAGES, getAnalyticsPage, type AnalyticsPageId } from '../routing.ts';
 import './analyticsShell.css';
+import { DataFreshnessBadge } from './DataFreshnessBadge.tsx';
+import { combineDataFreshness, DATA_FRESHNESS } from '../data/dataFreshness.ts';
 
 export const AnalyticsPageShell = ({
   page,
@@ -14,6 +16,7 @@ export const AnalyticsPageShell = ({
   children: ReactNode;
 }) => {
   const current = getAnalyticsPage(page);
+  const freshness = combineDataFreshness(Object.values(DATA_FRESHNESS));
 
   return (
     <div className="analytics-shell">
@@ -33,6 +36,10 @@ export const AnalyticsPageShell = ({
         <div>
           <h1>{current.title}</h1>
           <p>{current.description}</p>
+        </div>
+        <div className="analytics-shell__meta">
+          <DataFreshnessBadge freshness={freshness} state={freshness.state} />
+          <button title="Определения и источники показателей">О показателях</button>
         </div>
       </header>
 

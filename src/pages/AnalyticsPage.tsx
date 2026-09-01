@@ -1,31 +1,30 @@
 import { AnalyticsPageShell } from '../analytics/components/AnalyticsPageShell.tsx';
-import { ANALYTICS_PAGES, getAnalyticsPage, type AnalyticsPageId } from '../analytics/routing.ts';
+import { getAnalyticsPage, type AnalyticsPageId } from '../analytics/routing.ts';
 import ContractsIndicators from './ContractsIndicators.tsx';
+import { GlobalFilterBar } from '../analytics/components/GlobalFilterBar.tsx';
+import { OverviewDashboard } from '../analytics/components/OverviewDashboard.tsx';
+import type { AnalyticsFilters } from '../analytics/filters.ts';
 
 const AnalyticsPage = ({
   page,
   onNavigate,
   onBackToHub,
+  filters,
+  onFiltersChange,
 }: {
   page: AnalyticsPageId;
   onNavigate: (page: AnalyticsPageId) => void;
   onBackToHub: () => void;
+  filters: AnalyticsFilters;
+  onFiltersChange: (filters: AnalyticsFilters) => void;
 }) => {
   const current = getAnalyticsPage(page);
 
   return (
     <AnalyticsPageShell page={page} onNavigate={onNavigate} onBackToHub={onBackToHub}>
-      {page === 'overview' && (
-        <section className="analytics-overview">
-          {ANALYTICS_PAGES.filter(item => item.id !== 'overview').map(item => (
-            <button key={item.id} className="analytics-overview__card" onClick={() => onNavigate(item.id)}>
-              <strong>{item.title}</strong>
-              <span>{item.description}</span>
-              <em>Открыть раздел →</em>
-            </button>
-          ))}
-        </section>
-      )}
+      <GlobalFilterBar filters={filters} onChange={onFiltersChange} />
+
+      {page === 'overview' && <OverviewDashboard filters={filters} onNavigate={onNavigate} />}
 
       {page === 'indicators' && <ContractsIndicators />}
 
