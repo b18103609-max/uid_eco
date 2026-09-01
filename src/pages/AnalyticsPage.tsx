@@ -6,6 +6,7 @@ import { IndicatorsDashboard } from '../analytics/components/IndicatorsDashboard
 import { RatingDashboard } from '../analytics/components/RatingDashboard.tsx';
 import { SafetyDashboard } from '../analytics/components/SafetyDashboard.tsx';
 import { PcmDashboard } from '../analytics/components/PcmDashboard.tsx';
+import { PreclaimDashboard } from '../analytics/components/PreclaimDashboard.tsx';
 import type { AnalyticsFilters } from '../analytics/filters.ts';
 
 const AnalyticsPage = ({
@@ -35,8 +36,9 @@ const AnalyticsPage = ({
       {page === 'rating' && <RatingDashboard filters={filters} />}
       {page === 'safety' && <SafetyDashboard filters={filters} />}
       {page === 'pcm' && <PcmDashboard filters={filters} />}
+      {page === 'preclaim' && <PreclaimDashboard filters={filters} />}
 
-      {page !== 'overview' && page !== 'indicators' && page !== 'rating' && page !== 'safety' && page !== 'pcm' && (
+      {page !== 'overview' && page !== 'indicators' && page !== 'rating' && page !== 'safety' && page !== 'pcm' && page !== 'preclaim' && (
         <section className="analytics-placeholder">
           <h2>{current.title}</h2>
           <p>
