@@ -6,6 +6,13 @@ export type MetricSource =
   | 'FORM-DPR'
   | 'FORM-DS';
 
+export type MetricFormulaId =
+  | 'countUniqueMeasures'
+  | 'countMeasuresByStatus'
+  | 'countMeasuresWithoutResponsible'
+  | 'countMeasuresLinkedToBreach'
+  | 'sumMotivation';
+
 export type MetricDefinition = {
   label: string;
   status: MetricStatus;
@@ -13,6 +20,7 @@ export type MetricDefinition = {
   grain?: string;
   unit?: string;
   sourceFields: readonly string[];
+  formulaId?: MetricFormulaId;
   formula?: string;
   deferredReason?: string;
 };
@@ -48,6 +56,7 @@ export const METRIC_CATALOG = {
     grain: 'мероприятие',
     unit: 'шт.',
     sourceFields: ['contract_measure.id'],
+    formulaId: 'countUniqueMeasures',
     formula: 'Количество уникальных contract_measure.id в выборке.',
   },
   'pcm.byStatus': {
@@ -57,6 +66,7 @@ export const METRIC_CATALOG = {
     grain: 'мероприятие',
     unit: 'шт.',
     sourceFields: ['contract_measure.id', 'contract_measure.status_code'],
+    formulaId: 'countMeasuresByStatus',
     formula: 'Количество мероприятий в группах status_code.',
   },
   'pcm.withoutResponsible': {
@@ -66,6 +76,7 @@ export const METRIC_CATALOG = {
     grain: 'мероприятие',
     unit: 'шт.',
     sourceFields: ['contract_measure.id', 'contract_measure.responsible_person'],
+    formulaId: 'countMeasuresWithoutResponsible',
     formula: 'Количество записей с пустым responsible_person.',
   },
   'pcm.linkedToBreach': {
@@ -75,6 +86,7 @@ export const METRIC_CATALOG = {
     grain: 'мероприятие',
     unit: 'шт.',
     sourceFields: ['contract_measure.id', 'lnk_contract_measure_breach'],
+    formulaId: 'countMeasuresLinkedToBreach',
     formula: 'Количество мероприятий с хотя бы одной физической связью.',
   },
   'pcm.overdue': {
@@ -100,6 +112,7 @@ export const METRIC_CATALOG = {
       'Мотивация за технологические требования',
       'Мотивация ДО',
     ],
+    formulaId: 'sumMotivation',
     formula: 'Сумма трех колонок мотивации в выборке.',
   },
   'motivation.withCriticalBreach': {

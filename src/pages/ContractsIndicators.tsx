@@ -1,5 +1,17 @@
 import { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
+import {
+  countMeasuresByStatus,
+  countMeasuresLinkedToBreach,
+  countMeasuresWithoutResponsible,
+  countUniqueMeasures,
+  filterMeasures,
+} from '../analytics/calculations/metrics.ts';
+import {
+  ANALYTICS_SERVICES,
+  DEMO_MEASURE_BREACH_LINKS,
+  DEMO_MEASURES,
+} from '../analytics/data/demoMeasures.ts';
 import './dashboard.css';
 
 const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
@@ -58,14 +70,6 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
       npv: { 'Альфа-Строй': [68, 74, 82, 76, 80, 75, 88, 71], 'БетаГрупп': [78, 85, 95, 88, 92, 88, 99, 82], 'Гамма-ТЭК': [40, 44, 50, 46, 48, 45, 53, 44], 'Дельта Инж': [56, 62, 69, 64, 67, 63, 73, 60], 'Сигма Плюс': [28, 30, 34, 31, 33, 31, 36, 29], 'Омега-Сервис': [102, 114, 128, 118, 124, 117, 135, 110] },
       dpr_status: { 'Альфа-Строй': { acc: [5, 6, 7, 6, 7, 6, 7, 6], rej: [2, 2, 3, 2, 3, 2, 3, 2], court: [1, 1, 2, 1, 2, 1, 2, 1] }, 'БетаГрупп': { acc: [5, 6, 7, 6, 7, 6, 7, 6], rej: [3, 3, 4, 3, 4, 3, 4, 3], court: [2, 2, 2, 2, 2, 2, 3, 2] }, 'Гамма-ТЭК': { acc: [6, 7, 7, 7, 7, 7, 8, 7], rej: [1, 2, 2, 2, 2, 2, 2, 2], court: [1, 1, 1, 1, 1, 1, 1, 1] }, 'Дельта Инж': { acc: [5, 6, 6, 6, 6, 6, 7, 6], rej: [2, 2, 3, 2, 3, 2, 3, 2], court: [1, 1, 2, 1, 2, 1, 2, 1] }, 'Сигма Плюс': { acc: [7, 7, 8, 7, 8, 7, 8, 7], rej: [1, 1, 1, 1, 1, 1, 2, 1], court: [0, 1, 1, 1, 1, 1, 1, 1] }, 'Омега-Сервис': { acc: [4, 4, 5, 4, 5, 4, 5, 4], rej: [3, 4, 4, 4, 4, 4, 5, 4], court: [2, 2, 3, 3, 3, 3, 3, 3] } },
       delay: { 'Альфа-Строй': [14, 16, 20, 18, 17, 19, 22, 15], 'БетаГрупп': [18, 21, 27, 24, 22, 25, 28, 20], 'Гамма-ТЭК': [6, 8, 10, 9, 8, 9, 11, 8], 'Дельта Инж': [10, 12, 15, 13, 12, 14, 16, 12], 'Сигма Плюс': [3, 4, 5, 4, 4, 4, 5, 4], 'Омега-Сервис': [24, 27, 34, 30, 28, 31, 36, 26] },
-      act: {
-        'Альфа-Строй': { done: [10, 12, 13, 12, 13, 12, 14, 12], wip: [3, 3, 3, 3, 3, 3, 3, 3], newCount: [2, 2, 2, 2, 2, 2, 2, 2], withoutResponsible: [1, 1, 2, 1, 1, 1, 2, 1], linkedToBreach: [10, 12, 13, 12, 13, 12, 14, 12] },
-        'БетаГрупп': { done: [9, 10, 11, 10, 11, 10, 11, 10], wip: [4, 4, 5, 4, 5, 4, 5, 4], newCount: [3, 3, 4, 3, 4, 3, 4, 3], withoutResponsible: [2, 2, 2, 2, 2, 2, 3, 2], linkedToBreach: [11, 12, 14, 12, 14, 12, 14, 12] },
-        'Гамма-ТЭК': { done: [12, 13, 14, 13, 14, 13, 15, 13], wip: [2, 2, 2, 2, 2, 2, 2, 2], newCount: [1, 1, 1, 1, 1, 1, 1, 1], withoutResponsible: [1, 1, 1, 1, 1, 1, 1, 1], linkedToBreach: [11, 12, 13, 12, 13, 12, 14, 12] },
-        'Дельта Инж': { done: [10, 11, 12, 11, 12, 11, 12, 11], wip: [3, 3, 3, 3, 3, 3, 3, 3], newCount: [2, 2, 2, 2, 2, 2, 2, 2], withoutResponsible: [1, 1, 1, 1, 1, 1, 2, 1], linkedToBreach: [10, 11, 12, 11, 12, 11, 12, 11] },
-        'Сигма Плюс': { done: [13, 14, 15, 14, 15, 14, 15, 14], wip: [1, 1, 2, 1, 2, 1, 2, 1], newCount: [1, 1, 1, 1, 1, 1, 1, 1], withoutResponsible: [0, 1, 1, 1, 1, 1, 1, 1], linkedToBreach: [11, 12, 13, 12, 13, 12, 13, 12] },
-        'Омега-Сервис': { done: [7, 8, 8, 8, 8, 8, 9, 8], wip: [5, 5, 5, 5, 5, 5, 6, 5], newCount: [4, 4, 5, 4, 5, 4, 5, 4], withoutResponsible: [2, 2, 3, 2, 3, 2, 3, 2], linkedToBreach: [12, 13, 14, 13, 14, 13, 15, 13] },
-      },
       payment: {
         'Альфа-Строй': [[1.2, 1.3, 1.4, 1.3, 1.4, 1.3, 1.5, 1.4], [0.4, 0.5, 0.5, 0.5, 0.5, 0.5, 0.6, 0.5], [0.6, 0.7, 0.7, 0.7, 0.7, 0.7, 0.8, 0.7], [0.3, 0.3, 0.4, 0.3, 0.4, 0.3, 0.4, 0.4], [0.5, 0.5, 0.6, 0.5, 0.6, 0.5, 0.6, 0.6], [0.2, 0.2, 0.3, 0.2, 0.3, 0.2, 0.3, 0.3]],
         'БетаГрупп': [[1.8, 1.9, 2.0, 1.9, 2.0, 1.9, 2.1, 2.0], [0.5, 0.6, 0.6, 0.6, 0.6, 0.6, 0.7, 0.6], [0.8, 0.8, 0.9, 0.8, 0.9, 0.8, 1.0, 0.9], [0.4, 0.4, 0.5, 0.4, 0.5, 0.4, 0.5, 0.5], [0.6, 0.7, 0.7, 0.7, 0.7, 0.7, 0.8, 0.7], [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.4, 0.3]],
@@ -111,16 +115,12 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
 
     // === УСЛУГИ ПО ДОГОВОРУ ===
     // label — то, что выбирается в фильтре; w — доля объёма (для масштабирования метрик)
-    const SERVICES_DEF: { code: string; label: string; w: number }[] = [
-      { code: '10203', label: '10203 — Зарезка боковых стволов и углублений под ключ', w: 0.16 },
-      { code: '10204', label: '10204 — Бурение эксплуатационных скважин (суточная/фикс. ставка)', w: 0.26 },
-      { code: '10205', label: '10205 — Зарезка боковых стволов и углубление (суточная/фикс. ставка)', w: 0.14 },
-      { code: '10206', label: '10206 — ПИР при бурении/реконструкции скважин, авторский надзор', w: 0.10 },
-      { code: '11014', label: '11014 — Строительный контроль за объектами строительства', w: 0.08 },
-      { code: '11018', label: '11018 — ПИР Комплексное обустройство месторождений нефти и газа', w: 0.10 },
-      { code: '11019', label: '11019 — ПИР Объекты добычи, подготовки и транспорта нефти', w: 0.09 },
-      { code: '11016', label: '11016 — ПИР Прочие объекты обустройства', w: 0.07 },
-    ];
+    const SERVICE_WEIGHTS = [0.16, 0.26, 0.14, 0.10, 0.08, 0.10, 0.09, 0.07];
+    const SERVICES_DEF: { code: string; label: string; w: number }[] = ANALYTICS_SERVICES.map((label, index) => ({
+      code: label.slice(0, 5),
+      label,
+      w: SERVICE_WEIGHTS[index],
+    }));
     const SERVICE_LABELS = SERVICES_DEF.map(s => s.label);
     const SVC_COLORS = SERVICES_DEF.map(() => C.blue);
 
@@ -175,7 +175,6 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
         npv: scaleDeep(BASE.npv, f, true),
         dpr_status: scaleDeep(BASE.dpr_status, f, true),
         delay: BASE.delay,                      // средние дни — без масштабирования
-        act: scaleDeep(BASE.act, f, true),
         payment: scaleDeep(BASE.payment, f, false),
       };
       FL = { flCounts: scaleDeep(FL_BASE.flCounts, f, true) };
@@ -413,31 +412,33 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
     }
 
     function renderActivities() {
-      const cons = filteredContractors(), midxs = monthIdxs();
-      let totDone = 0, totWip = 0, totNew = 0, totWithoutResponsible = 0, linkedToBreach = 0;
-      const withoutResponsibleByContractor: Record<string, number> = {};
-      cons.forEach(c => {
-        const d = MASTER.act[c];
-        const done = midxs.reduce((s, m) => s + d.done[m], 0);
-        const wip = midxs.reduce((s, m) => s + d.wip[m], 0);
-        const fresh = midxs.reduce((s, m) => s + d.newCount[m], 0);
-        const withoutResponsible = midxs.reduce((s, m) => s + d.withoutResponsible[m], 0);
-        const linked = midxs.reduce((s, m) => s + d.linkedToBreach[m], 0);
-        totDone += done;
-        totWip += wip;
-        totNew += fresh;
-        totWithoutResponsible += withoutResponsible;
-        linkedToBreach += linked;
-        withoutResponsibleByContractor[c] = withoutResponsible;
+      const cons = filteredContractors();
+      const selectedMeasures = filterMeasures(DEMO_MEASURES, {
+        contractors: cons,
+        services: filterState.services,
+        monthFrom: filterState.monthFrom,
+        monthTo: filterState.monthTo,
       });
-      const totAct = totDone + totWip + totNew;
+      const statusTotals = countMeasuresByStatus(selectedMeasures);
+      const totAct = countUniqueMeasures(selectedMeasures);
+      const totWip = statusTotals['В работе'];
+      const totWithoutResponsible = countMeasuresWithoutResponsible(selectedMeasures);
+      const linkedToBreach = countMeasuresLinkedToBreach(selectedMeasures, DEMO_MEASURE_BREACH_LINKS);
       const withoutBreach = Math.max(0, totAct - linkedToBreach);
+      const measuresByContractor = Object.fromEntries(cons.map(contractor => [
+        contractor,
+        selectedMeasures.filter(measure => measure.contractor === contractor),
+      ]));
+      const withoutResponsibleByContractor = Object.fromEntries(cons.map(contractor => [
+        contractor,
+        countMeasuresWithoutResponsible(measuresByContractor[contractor]),
+      ]));
       $('kpi-act').innerHTML = `
         <div class="kpi" style="--kpi-accent:var(--blue2)"><div class="kpi-label">Всего мероприятий</div><div class="kpi-value">${totAct}</div><div class="kpi-sub">за период</div></div>
         <div class="kpi" style="--kpi-accent:var(--yellow)"><div class="kpi-label">В работе</div><div class="kpi-value">${totWip}</div><div class="kpi-sub">по status_code</div></div>
         <div class="kpi" style="--kpi-accent:var(--red)"><div class="kpi-label">Без ответственного</div><div class="kpi-value">${totWithoutResponsible}</div><div class="kpi-sub">пустой responsible_person</div><span class="kpi-badge badge-red">⚠</span></div>
         <div class="kpi" style="--kpi-accent:var(--green)"><div class="kpi-label">Связано с нарушениями</div><div class="kpi-value">${linkedToBreach}</div><div class="kpi-sub">${totAct ? Math.round(linkedToBreach / totAct * 100) : 0}% мероприятий</div></div>`;
-      mkChart('c13', { type: 'bar', data: { labels: cons, datasets: [{ label: 'Реализовано', data: cons.map(c => midxs.reduce((s, m) => s + MASTER.act[c].done[m], 0)), backgroundColor: a(C.green, .85), borderRadius: 3 }, { label: 'В работе', data: cons.map(c => midxs.reduce((s, m) => s + MASTER.act[c].wip[m], 0)), backgroundColor: a(C.yellow, .85) }, { label: 'Новый', data: cons.map(c => midxs.reduce((s, m) => s + MASTER.act[c].newCount[m], 0)), backgroundColor: a(C.blue2, .85) }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 12 } } }, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: GRID } } } } });
+      mkChart('c13', { type: 'bar', data: { labels: cons, datasets: [{ label: 'Реализовано', data: cons.map(c => countMeasuresByStatus(measuresByContractor[c])['Реализовано']), backgroundColor: a(C.green, .85), borderRadius: 3 }, { label: 'В работе', data: cons.map(c => countMeasuresByStatus(measuresByContractor[c])['В работе']), backgroundColor: a(C.yellow, .85) }, { label: 'Новый', data: cons.map(c => countMeasuresByStatus(measuresByContractor[c])['Новый']), backgroundColor: a(C.blue2, .85) }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 12 } } }, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: GRID } } } } });
       const sortedByMissingOwner = [...cons].sort((x, y) => withoutResponsibleByContractor[y] - withoutResponsibleByContractor[x]);
       mkChart('c14', { type: 'bar', data: { labels: sortedByMissingOwner, datasets: [{ label: 'Без ответственного', data: sortedByMissingOwner.map(c => withoutResponsibleByContractor[c]), backgroundColor: a(C.orange, .8), borderRadius: 3 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: GRID }, ticks: { precision: 0 } }, y: { grid: { display: false } } } } });
       mkChart('c15', { type: 'bar', data: { labels: ['Связаны с нарушениями', 'Без связи с нарушением'], datasets: [{ data: [linkedToBreach, withoutBreach], backgroundColor: [a(C.green, .85), a(C.orange, .85)], borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => `${ctx.label}: ${ctx.parsed.y}` } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: GRID }, ticks: { precision: 0 } } } } });
