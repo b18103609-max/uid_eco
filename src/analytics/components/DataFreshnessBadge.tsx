@@ -25,9 +25,6 @@ export const DataFreshnessBadge = ({
   <div className={`data-freshness data-freshness--${state}`} title={freshness.warning}>
     <span className="data-freshness__dot" />
     <span className="data-freshness__label">{LABELS[state]}</span>
-    {(state === 'partial' || state === 'preliminary') && (
-      <span className="data-freshness__completeness">{freshness.completeness}%</span>
-    )}
     <span className="data-freshness__date">на {formatFreshnessDate(freshness.lastSuccessfulLoad)}</span>
   </div>
 );

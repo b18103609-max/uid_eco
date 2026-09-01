@@ -23,3 +23,13 @@ test('страница показателей использует общие ф
   });
   assert.deepEqual(result.map(item => item.number), ['ХНТ/25-089']);
 });
+
+test('фильтры КТ-777, перечня и доступных договоров применяются совместно', () => {
+  const selected = filterIndicatorContracts(INDICATOR_CONTRACTS, {
+    ...DEFAULT_ANALYTICS_FILTERS,
+    kt777Services: ['10204 — Бурение эксплуатационных скважин'],
+    contractIds: ['contract-1'],
+    portfolios: ['П-1'],
+  });
+  assert.deepEqual(selected.map(item => item.id), ['contract-1']);
+});

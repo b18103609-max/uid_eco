@@ -1,15 +1,19 @@
 export type AnalyticsFilters = {
-  period: string;
-  compare: string;
+  date: string;
   subsidiary: string;
   service: string;
+  kt777Services: string[];
   contractor: string;
+  contractIds: string[];
+  portfolios: string[];
 };
 
 export const DEFAULT_ANALYTICS_FILTERS: AnalyticsFilters = {
-  period: '2026-Q3',
-  compare: 'previous',
+  date: '2026-09-01',
   subsidiary: 'all',
   service: 'all',
+  kt777Services: [],
   contractor: 'all',
+  contractIds: [],
+  portfolios: [],
 };

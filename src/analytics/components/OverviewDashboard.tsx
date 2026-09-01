@@ -1,44 +1,33 @@
-import { filterOverviewRecords, summarizeOverview } from '../calculations/overview.ts';
-import { OVERVIEW_RECORDS } from '../data/overviewData.ts';
+import { useState } from 'react';
+import { filterIndicatorContracts } from '../calculations/indicators.ts';
+import { INDICATOR_CONTRACTS } from '../data/indicatorsData.ts';
+import { CONTRACT_BREACHES } from '../data/contractBreachesData.ts';
+import { RATING_RECORDS } from '../data/ratingData.ts';
+import { PRECLAIM_CASES } from '../data/preclaimData.ts';
 import type { AnalyticsFilters } from '../filters.ts';
 import type { AnalyticsPageId } from '../routing.ts';
 import './overview.css';
 
-const total = (values: number[]) => values.reduce((sum, value) => sum + value, 0);
-
-export const OverviewDashboard = ({ filters, onNavigate }: { filters: AnalyticsFilters; onNavigate: (page: AnalyticsPageId) => void }) => {
-  const rows = filterOverviewRecords(OVERVIEW_RECORDS, filters);
-  const summary = summarizeOverview(rows);
-  const kpis: { label: string; value: number; note: string; page: AnalyticsPageId }[] = [
-    { label: 'Критичные и высокорисковые договоры', value: summary.criticalAndHighRiskContracts, note: 'критичность + высокий риск ПБ', page: 'indicators' },
-    { label: 'Бригады в красной и жёлтой зоне', value: summary.redAndYellowBrigades, note: 'по переданному цвету рейтинга', page: 'rating' },
-    { label: 'Критические нарушения рейтинга ПБ', value: summary.criticalBreaches, note: 'ВА, ВК и прочие нарушения', page: 'safety' },
-    { label: 'Случаи ДПР с отклонением', value: summary.dprDeviation, note: 'от нормативного срока', page: 'preclaim' },
-    { label: 'Стандартные отчёты', value: 5, note: 'включая реестр допсоглашений', page: 'reports' },
-  ];
-  const riskGroups = Object.values(rows.reduce<Record<string, { subsidiary: string; highRisk: number; mediumRisk: number; lowRisk: number }>>((groups, row) => {
-    const current = groups[row.subsidiary] || { subsidiary: row.subsidiary, highRisk: 0, mediumRisk: 0, lowRisk: 0 };
-    current.highRisk += row.contracts.highRisk;
-    current.mediumRisk += row.contracts.mediumRisk;
-    current.lowRisk += row.contracts.lowRisk;
-    groups[row.subsidiary] = current;
-    return groups;
-  }, {}));
-  const riskMax = Math.max(1, ...riskGroups.map(group => total([group.highRisk, group.mediumRisk, group.lowRisk])));
-
-  if (rows.length === 0) return <section className="analytics-empty"><h2>По выбранным фильтрам нет данных</h2><p>Сбросьте один или несколько фильтров, чтобы расширить периметр.</p></section>;
-
-  return (
-    <div className="overview-dashboard">
-      <section className="overview-kpis">{kpis.map(kpi => <button key={kpi.label} onClick={() => onNavigate(kpi.page)}><span>{kpi.label}</span><strong>{kpi.value}</strong><small>{kpi.note}</small><em>Открыть раздел →</em></button>)}</section>
-      <section className="overview-main">
-        <article className="overview-chart overview-chart--risk"><header><h2>Как распределены договоры по уровню риска ПБ?</h2><span>Расчёт по подтверждённым категориям риска</span></header><div className="risk-bars">{riskGroups.map(group => { const count = total([group.highRisk, group.mediumRisk, group.lowRisk]); return <button key={group.subsidiary} onClick={() => onNavigate('indicators')} title={`${group.subsidiary}: ${count} договоров`}><span>{group.subsidiary}</span><div style={{ width: `${Math.max(18, count / riskMax * 100)}%` }}><i style={{ flex: group.highRisk }} className="risk-high" /><i style={{ flex: group.mediumRisk }} className="risk-medium" /><i style={{ flex: group.lowRisk }} className="risk-low" /></div><b>{count}</b></button>})}</div><footer><span><i className="risk-high" />Высокий</span><span><i className="risk-medium" />Средний</span><span><i className="risk-low" />Низкий</span></footer></article>
-        <aside className="attention-panel"><header><h2>Требует внимания</h2><span>Без сводного приоритета</span></header>{rows.filter(row => row.contracts.critical || row.dprDeviation || row.addendumDeviation).slice(0, 5).map(row => <button key={row.contractor} onClick={() => onNavigate(row.contracts.critical ? 'indicators' : 'preclaim')}><strong>{row.contractor}</strong><span>{row.contracts.critical ? `Критичные договоры: ${row.contracts.critical}` : `ДПР с отклонением: ${row.dprDeviation}`}</span><small>{row.subsidiary} · {row.service}</small></button>)}</aside>
-      </section>
-      <section className="overview-secondary">
-        <article className="overview-chart"><header><h2>Как меняется распределение бригад по зонам?</h2><span>Предыдущий и выбранный периоды</span></header><div className="zone-compare">{(['ratingZonesPrevious', 'ratingZones'] as const).map((key, index) => { const zones = rows.reduce((acc, row) => ({ red: acc.red + row[key].red, yellow: acc.yellow + row[key].yellow, green: acc.green + row[key].green }), { red: 0, yellow: 0, green: 0 }); const sum = total(Object.values(zones)); return <div key={key}><span>{index ? 'III кв. 2026' : 'II кв. 2026'}</span><div><i className="zone-red" style={{ width: `${zones.red / sum * 100}%` }}>{zones.red}</i><i className="zone-yellow" style={{ width: `${zones.yellow / sum * 100}%` }}>{zones.yellow}</i><i className="zone-green" style={{ width: `${zones.green / sum * 100}%` }}>{zones.green}</i></div></div>})}</div></article>
-        <article className="overview-chart"><header><h2>Как распределены нарушения рейтинга по тяжести?</h2><span>В выбранном периметре</span></header><div className="breach-bars">{(['critical', 'significant', 'minor'] as const).map(key => { const value = rows.reduce((sum, row) => sum + row.breaches[key], 0); return <div key={key}><span>{{ critical: 'Критические', significant: 'Значительные', minor: 'Незначительные' }[key]}</span><div><i className={`breach-${key}`} style={{ width: `${value / Math.max(...(['critical', 'significant', 'minor'] as const).map(item => rows.reduce((sum, row) => sum + row.breaches[item], 0))) * 100}%` }} /></div><b>{value}</b></div>})}</div></article>
-      </section>
-    </div>
-  );
+type DetailKind='contracts'|'breaches'|'rating'|'dpr';
+const money=(value:number)=>new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0}).format(value);
+export const OverviewDashboard=({filters,onNavigate}:{filters:AnalyticsFilters;onNavigate:(page:AnalyticsPageId)=>void})=>{
+  const[dimension,setDimension]=useState<'service'|'kt777'|'subsidiary'>('service');
+  const[detail,setDetail]=useState<DetailKind>('contracts');
+  const contracts=filterIndicatorContracts(INDICATOR_CONTRACTS,filters);
+  const contractors=new Set(contracts.map(x=>x.contractor));
+  const breaches=CONTRACT_BREACHES.filter(x=>contractors.has(x.contractor));
+  const latestRatings=RATING_RECORDS.filter(x=>x.period==='Июл'&&contractors.has(x.contractor));
+  const redRatings=latestRatings.filter(x=>x.zone==='Красная');
+  const dpr=PRECLAIM_CASES.filter(x=>contractors.has(x.contractor));
+  const totalAmount=contracts.reduce((s,x)=>s+x.amountMln,0);
+  const groups=Object.entries(contracts.reduce<Record<string,{count:number;amount:number}>>((r,x)=>{const key=x[dimension];r[key]||={count:0,amount:0};r[key].count++;r[key].amount+=x.amountMln;return r},{})).sort((a,b)=>b[1].amount-a[1].amount).slice(0,12);
+  const maxAmount=Math.max(1,...groups.map(x=>x[1].amount));
+  const objects=detail==='contracts'?contracts:detail==='breaches'?breaches:detail==='rating'?redRatings:dpr;
+  return <div className="overview-dashboard">
+    <section className="overview-summary"><button onClick={()=>setDetail('contracts')}><span>Договоры</span><strong>{contracts.length}</strong><em>{money(totalAmount)} млн ₽</em><small>количество и общая стоимость</small></button><button onClick={()=>setDetail('rating')}><span>Подрядчики с красными бригадами</span><strong>{new Set(redRatings.map(x=>x.contractor)).size}</strong><em>по методологии «Флагман»</em></button><button onClick={()=>setDetail('breaches')}><span>Договорные нарушения</span><strong>{breaches.length}</strong><em>за выбранный период</em></button><button onClick={()=>setDetail('dpr')}><span>ДПР с отклонением</span><strong>{dpr.filter(x=>x.deviation>0).length}</strong><em>от нормативного срока</em></button></section>
+    <section className="overview-main"><article className="overview-chart"><header><div><h2>Как распределён объём договоров?</h2><span>Агрегация рассчитана на большие выборки; отображается top‑12</span></div><nav><button onClick={()=>setDimension('service')}>Группы</button><button onClick={()=>setDimension('kt777')}>Услуги КТ‑777</button><button onClick={()=>setDimension('subsidiary')}>ДО</button></nav></header><div className="money-bars">{groups.map(([label,value])=><button key={label} onClick={()=>setDetail('contracts')}><span>{label}</span><i><b style={{width:`${value.amount/maxAmount*100}%`}}/></i><strong>{money(value.amount)} млн ₽</strong><small>{value.count} дог.</small></button>)}</div></article>
+    <aside className="attention-panel"><header><h2>Требует внимания</h2><span>Прямые признаки без сводного приоритета</span></header>{contracts.filter(x=>x.oedkZone==='Красная').slice(0,1).map(x=><button key={'o'+x.id} onClick={()=>setDetail('contracts')}><strong>{x.contractor}</strong><span>Красная зона ОЭДК</span><small>{x.number}</small></button>)}{contracts.filter(x=>x.risk==='Высокий'&&(['contract-1','contract-6'].includes(x.id))).slice(0,1).map(x=><button key={'t'+x.id} onClick={()=>setDetail('contracts')}><strong>{x.contractor}</strong><span>Высокий риск, команда не назначена</span><small>Нет ЕОЛ / КИ · {x.number}</small></button>)}{dpr.filter(x=>x.deviation>0).slice(0,1).map(x=><button key={x.id} onClick={()=>setDetail('dpr')}><strong>{x.contractor}</strong><span>ДПР: +{x.deviation} дней</span><small>{x.id}</small></button>)}{redRatings.slice(0,1).map(x=><button key={x.brigade} onClick={()=>setDetail('rating')}><strong>{x.contractor}</strong><span>Бригада в красной зоне</span><small>{x.brigade} · {x.score} баллов</small></button>)}<div className="attention-unavailable"><strong>Просроченные ПКМ</strong><span>Нужна контрольная дата мероприятия</span></div></aside></section>
+    <section className="overview-secondary"><article className="overview-chart"><header><h2>Распределение бригад по зонам сейчас</h2><span>В разрезе подрядчиков</span></header><div className="current-zones">{latestRatings.map(x=><div key={x.brigade}><span>{x.contractor}</span><i className={`current-zone current-zone--${x.zone.toLowerCase()}`}/><strong>{x.brigade}</strong></div>)}</div></article><article className="overview-chart"><header><h2>Нарушения по категориям за 3 месяца</h2><span>Типовые и нетиповые</span></header><div className="breach-category-chart">{[...new Set(breaches.map(x=>x.category))].map(category=>{const typical=breaches.filter(x=>x.category===category&&x.kind==='Типовое').length,other=breaches.filter(x=>x.category===category&&x.kind==='Нетиповое').length;return<button key={category} onClick={()=>setDetail('breaches')}><span>{category}</span><i><b style={{flex:typical}}/><em style={{flex:other}}/></i><strong>{typical+other}</strong></button>})}</div><footer><span><i className="breach-typical"/>Типовые</span><span><i className="breach-atypical"/>Нетиповые</span></footer></article></section>
+    <section className="overview-objects"><header><div><h2>Объекты, из которых складывается показатель</h2><span>{({contracts:'Договоры',breaches:'Нарушения',rating:'Бригады',dpr:'ДПР'} as const)[detail]} · показаны первые 5 из {objects.length}</span></div><button onClick={()=>onNavigate(detail==='contracts'?'indicators':detail==='breaches'?'safety':detail==='rating'?'rating':'preclaim')}>Открыть раздел →</button></header><div>{objects.slice(0,5).map((item:any)=><article key={item.id||item.brigade}><strong>{item.number||item.id||item.brigade}</strong><span>{item.contractor}</span><small>{item.amountMln?`${money(item.amountMln)} млн ₽`:item.category||item.zone||item.stage}</small></article>)}</div></section>
+  </div>;
 };
