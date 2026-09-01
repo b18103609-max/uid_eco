@@ -3,6 +3,7 @@ import { getAnalyticsPage, type AnalyticsPageId } from '../analytics/routing.ts'
 import { GlobalFilterBar } from '../analytics/components/GlobalFilterBar.tsx';
 import { OverviewDashboard } from '../analytics/components/OverviewDashboard.tsx';
 import { IndicatorsDashboard } from '../analytics/components/IndicatorsDashboard.tsx';
+import { RatingDashboard } from '../analytics/components/RatingDashboard.tsx';
 import type { AnalyticsFilters } from '../analytics/filters.ts';
 
 const AnalyticsPage = ({
@@ -29,8 +30,9 @@ const AnalyticsPage = ({
       {page === 'overview' && <OverviewDashboard filters={filters} onNavigate={onNavigate} />}
 
       {page === 'indicators' && <IndicatorsDashboard filters={filters} onOpenContract={onOpenContract} />}
+      {page === 'rating' && <RatingDashboard filters={filters} />}
 
-      {page !== 'overview' && page !== 'indicators' && (
+      {page !== 'overview' && page !== 'indicators' && page !== 'rating' && (
         <section className="analytics-placeholder">
           <h2>{current.title}</h2>
           <p>
