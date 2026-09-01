@@ -160,6 +160,7 @@ const App = () => {
             onBackToHub={() => go({ name: 'hub' })}
             filters={analyticsFilters}
             onFiltersChange={setAnalyticsFilters}
+            onOpenContract={() => go({ name: 'contract' })}
           />
         )}
 

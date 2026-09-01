@@ -1,8 +1,8 @@
 import { AnalyticsPageShell } from '../analytics/components/AnalyticsPageShell.tsx';
 import { getAnalyticsPage, type AnalyticsPageId } from '../analytics/routing.ts';
-import ContractsIndicators from './ContractsIndicators.tsx';
 import { GlobalFilterBar } from '../analytics/components/GlobalFilterBar.tsx';
 import { OverviewDashboard } from '../analytics/components/OverviewDashboard.tsx';
+import { IndicatorsDashboard } from '../analytics/components/IndicatorsDashboard.tsx';
 import type { AnalyticsFilters } from '../analytics/filters.ts';
 
 const AnalyticsPage = ({
@@ -11,12 +11,14 @@ const AnalyticsPage = ({
   onBackToHub,
   filters,
   onFiltersChange,
+  onOpenContract,
 }: {
   page: AnalyticsPageId;
   onNavigate: (page: AnalyticsPageId) => void;
   onBackToHub: () => void;
   filters: AnalyticsFilters;
   onFiltersChange: (filters: AnalyticsFilters) => void;
+  onOpenContract: () => void;
 }) => {
   const current = getAnalyticsPage(page);
 
@@ -26,7 +28,7 @@ const AnalyticsPage = ({
 
       {page === 'overview' && <OverviewDashboard filters={filters} onNavigate={onNavigate} />}
 
-      {page === 'indicators' && <ContractsIndicators />}
+      {page === 'indicators' && <IndicatorsDashboard filters={filters} onOpenContract={onOpenContract} />}
 
       {page !== 'overview' && page !== 'indicators' && (
         <section className="analytics-placeholder">
