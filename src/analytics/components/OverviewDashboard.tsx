@@ -14,7 +14,7 @@ export const OverviewDashboard = ({ filters, onNavigate }: { filters: AnalyticsF
     { label: 'Бригады в красной и жёлтой зоне', value: summary.redAndYellowBrigades, note: 'по переданному цвету рейтинга', page: 'rating' },
     { label: 'Критические нарушения рейтинга ПБ', value: summary.criticalBreaches, note: 'ВА, ВК и прочие нарушения', page: 'safety' },
     { label: 'Случаи ДПР с отклонением', value: summary.dprDeviation, note: 'от нормативного срока', page: 'preclaim' },
-    { label: 'ДС с отклонением', value: summary.addendumDeviation, note: 'от плановой даты заключения', page: 'addendums' },
+    { label: 'Стандартные отчёты', value: 5, note: 'включая реестр допсоглашений', page: 'reports' },
   ];
   const riskGroups = Object.values(rows.reduce<Record<string, { subsidiary: string; highRisk: number; mediumRisk: number; lowRisk: number }>>((groups, row) => {
     const current = groups[row.subsidiary] || { subsidiary: row.subsidiary, highRisk: 0, mediumRisk: 0, lowRisk: 0 };

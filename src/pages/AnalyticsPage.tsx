@@ -1,5 +1,5 @@
 import { AnalyticsPageShell } from '../analytics/components/AnalyticsPageShell.tsx';
-import { getAnalyticsPage, type AnalyticsPageId } from '../analytics/routing.ts';
+import type { AnalyticsPageId } from '../analytics/routing.ts';
 import { GlobalFilterBar } from '../analytics/components/GlobalFilterBar.tsx';
 import { OverviewDashboard } from '../analytics/components/OverviewDashboard.tsx';
 import { IndicatorsDashboard } from '../analytics/components/IndicatorsDashboard.tsx';
@@ -7,6 +7,7 @@ import { RatingDashboard } from '../analytics/components/RatingDashboard.tsx';
 import { SafetyDashboard } from '../analytics/components/SafetyDashboard.tsx';
 import { PcmDashboard } from '../analytics/components/PcmDashboard.tsx';
 import { PreclaimDashboard } from '../analytics/components/PreclaimDashboard.tsx';
+import { ReportsDashboard } from '../analytics/components/ReportsDashboard.tsx';
 import type { AnalyticsFilters } from '../analytics/filters.ts';
 
 const AnalyticsPage = ({
@@ -24,11 +25,9 @@ const AnalyticsPage = ({
   onFiltersChange: (filters: AnalyticsFilters) => void;
   onOpenContract: () => void;
 }) => {
-  const current = getAnalyticsPage(page);
-
   return (
     <AnalyticsPageShell page={page} onNavigate={onNavigate} onBackToHub={onBackToHub}>
-      <GlobalFilterBar filters={filters} onChange={onFiltersChange} />
+      {page !== 'reports' && page !== 'addendums' && <GlobalFilterBar filters={filters} onChange={onFiltersChange} />}
 
       {page === 'overview' && <OverviewDashboard filters={filters} onNavigate={onNavigate} />}
 
@@ -37,14 +36,13 @@ const AnalyticsPage = ({
       {page === 'safety' && <SafetyDashboard filters={filters} />}
       {page === 'pcm' && <PcmDashboard filters={filters} />}
       {page === 'preclaim' && <PreclaimDashboard filters={filters} />}
+      {page === 'reports' && <ReportsDashboard />}
 
-      {page !== 'overview' && page !== 'indicators' && page !== 'rating' && page !== 'safety' && page !== 'pcm' && page !== 'preclaim' && (
+      {page === 'addendums' && (
         <section className="analytics-placeholder">
-          <h2>{current.title}</h2>
-          <p>
-            Адрес и навигационный каркас раздела уже готовы. Содержательные виджеты,
-            фильтры и детализация будут перенесены сюда на следующих шагах карты разработки.
-          </p>
+          <h2>Раздел перенесён в витрину отчётов</h2>
+          <p>Отдельная аналитическая страница скрыта. Реестр дополнительных соглашений доступен как стандартный отчёт.</p>
+          <button className="global-filters__reset" onClick={() => onNavigate('reports')}>Открыть витрину отчётов →</button>
         </section>
       )}
     </AnalyticsPageShell>

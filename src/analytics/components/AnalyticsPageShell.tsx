@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { ANALYTICS_PAGES, getAnalyticsPage, type AnalyticsPageId } from '../routing.ts';
+import { ANALYTICS_NAV_PAGES, getAnalyticsPage, type AnalyticsPageId } from '../routing.ts';
 import './analyticsShell.css';
 import { DataFreshnessBadge } from './DataFreshnessBadge.tsx';
 import { combineDataFreshness, DATA_FRESHNESS } from '../data/dataFreshness.ts';
@@ -44,7 +44,7 @@ export const AnalyticsPageShell = ({
       </header>
 
       <nav className="analytics-shell__nav" aria-label="Разделы аналитики">
-        {ANALYTICS_PAGES.map(item => (
+        {ANALYTICS_NAV_PAGES.map(item => (
           <button
             key={item.id}
             className={item.id === page ? 'analytics-shell__nav-item analytics-shell__nav-item--active' : 'analytics-shell__nav-item'}

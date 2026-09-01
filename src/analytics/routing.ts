@@ -10,6 +10,7 @@ export const ANALYTICS_PAGES = [
 ] as const;
 
 export type AnalyticsPageId = typeof ANALYTICS_PAGES[number]['id'];
+export const ANALYTICS_NAV_PAGES = ANALYTICS_PAGES.filter(page => page.id !== 'addendums');
 
 export const ANALYTICS_BASE_PATH = '/uid_eco';
 
