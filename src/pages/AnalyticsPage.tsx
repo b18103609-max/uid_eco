@@ -5,6 +5,7 @@ import { OverviewDashboard } from '../analytics/components/OverviewDashboard.tsx
 import { IndicatorsDashboard } from '../analytics/components/IndicatorsDashboard.tsx';
 import { RatingDashboard } from '../analytics/components/RatingDashboard.tsx';
 import { SafetyDashboard } from '../analytics/components/SafetyDashboard.tsx';
+import { PcmDashboard } from '../analytics/components/PcmDashboard.tsx';
 import type { AnalyticsFilters } from '../analytics/filters.ts';
 
 const AnalyticsPage = ({
@@ -33,8 +34,9 @@ const AnalyticsPage = ({
       {page === 'indicators' && <IndicatorsDashboard filters={filters} onOpenContract={onOpenContract} />}
       {page === 'rating' && <RatingDashboard filters={filters} />}
       {page === 'safety' && <SafetyDashboard filters={filters} />}
+      {page === 'pcm' && <PcmDashboard filters={filters} />}
 
-      {page !== 'overview' && page !== 'indicators' && page !== 'rating' && page !== 'safety' && (
+      {page !== 'overview' && page !== 'indicators' && page !== 'rating' && page !== 'safety' && page !== 'pcm' && (
         <section className="analytics-placeholder">
           <h2>{current.title}</h2>
           <p>
