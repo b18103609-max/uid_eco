@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
+import { DataFreshnessBadge } from '../analytics/components/DataFreshnessBadge.tsx';
+import { DataState } from '../analytics/components/DataState.tsx';
 import {
   countMeasuresByStatus,
   countMeasuresLinkedToBreach,
@@ -12,6 +14,12 @@ import {
   DEMO_MEASURE_BREACH_LINKS,
   DEMO_MEASURES,
 } from '../analytics/data/demoMeasures.ts';
+import {
+  combineDataFreshness,
+  DATA_FRESHNESS,
+  isBlockingDataState,
+  parseDataStateOverride,
+} from '../analytics/data/dataFreshness.ts';
 import './dashboard.css';
 
 const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
@@ -20,6 +28,13 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
   // Самодельный сводный рейтинг подрядчиков исключен из базового прототипа.
   const allowed = only && only.length > 0 ? only : [0, 1, 2, 3, 4, 5];
   const initialTab = allowed[0];
+  const pageFreshness = combineDataFreshness([
+    DATA_FRESHNESS['FMD-CONTRACTS'],
+    DATA_FRESHNESS['FORM-IDP'],
+    DATA_FRESHNESS['FORM-DPR'],
+  ]);
+  const dataState = parseDataStateOverride(window.location.search) || pageFreshness.state;
+  const blockingDataState = isBlockingDataState(dataState);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -499,7 +514,6 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
     on($('btnService'), 'click', (e: any) => { e.stopPropagation(); toggleDropdown('service'); });
     on($('btnReset'), 'click', resetFilters);
     root.querySelectorAll<HTMLElement>('.nav-tab').forEach((t, i) => on(t, 'click', () => showTab(i)));
-    $('hdate').textContent = new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' });
     buildMultiSelect('contractor', CONTRACTORS, CON_COLORS, 'contractors');
     buildMultiSelect('category', CATEGORIES, CAT_COLORS, 'categories');
     buildMultiSelect('service', SERVICE_LABELS, SVC_COLORS, 'services');
@@ -563,11 +577,20 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
         </div>
         <div className="filter-sep" />
         <button className="btn-reset" id="btnReset">↺ Сбросить</button>
-        <div className="header-pulse" style={{ marginLeft: 'auto' }}><span className="pulse-dot" />Данные обновлены</div>
-        <div className="header-date" id="hdate">—</div>
+        <div style={{ marginLeft: 'auto' }}>
+          <DataFreshnessBadge freshness={pageFreshness} state={dataState} />
+        </div>
         <div className="filter-chips" id="filterChips" />
       </div>
 
+      <DataState
+        state={dataState}
+        warning={dataState === 'partial' || dataState === 'delayed' || dataState === 'preliminary'
+          ? pageFreshness.warning
+          : undefined}
+      />
+
+      <div className={`dash-content${blockingDataState ? ' dash-content--hidden' : ''}`}>
       <nav className="dash-nav">
         <div className="nav-tab" style={{ display: allowed.includes(0) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--blue2)' }} />Договорные данные</div>
         <div className="nav-tab" style={{ display: allowed.includes(1) ? undefined : 'none' }}><span className="tab-dot" style={{ background: 'var(--yellow)' }} />Финансы и штрафы</div>
@@ -675,6 +698,7 @@ const ContractsIndicators = ({ only }: { only?: number[] } = {}) => {
           </div>
           <div className="dash-card mb" style={{ ['--card-accent' as any]: 'var(--orange)' }}><div className="card-header"><div className="card-title">Динамика выплат мотивации по месяцам</div><span className="card-num">#21 Stacked Line</span></div><div style={{ position: 'relative', height: 230 }}><canvas id="c21" /></div></div>
         </section>
+      </div>
       </div>
     </div>
   );
