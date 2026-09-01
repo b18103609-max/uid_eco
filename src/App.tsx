@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Theme, presetGpnDefault } from '@consta/uikit/Theme';
 import Layout from './Layout';
 import ContractMgmtHub from './pages/ContractMgmtHub';
@@ -12,6 +12,13 @@ import PkmSuccess from './pages/PkmSuccess';
 import PkmCard from './pages/PkmCard';
 import ViolationsRegistry from './pages/ViolationsRegistry';
 import ViolationCard from './pages/ViolationCard';
+import AnalyticsPage from './pages/AnalyticsPage';
+import {
+  analyticsBrowserPath,
+  appHomePath,
+  parseAnalyticsPath,
+  type AnalyticsPageId,
+} from './analytics/routing.ts';
 import {
   SEED_PKMS, SEED_REGISTRY_VIOLATIONS,
   type Pkm, type PkmStatus, type HistoryEntry,
@@ -29,7 +36,13 @@ type Route =
   | { name: 'pkm-success'; pkmId: string; back: Route }
   | { name: 'pkm-card'; pkmId: string; back: Route }
   | { name: 'violations-registry' }
-  | { name: 'violation-card'; rvId: string; back: Route };
+  | { name: 'violation-card'; rvId: string; back: Route }
+  | { name: 'analytics'; page: AnalyticsPageId };
+
+const routeFromLocation = (): Route => {
+  const analyticsPage = parseAnalyticsPath(window.location.pathname);
+  return analyticsPage ? { name: 'analytics', page: analyticsPage } : { name: 'hub' };
+};
 
 const todayStr = () => {
   const d = new Date();
@@ -37,10 +50,23 @@ const todayStr = () => {
 };
 
 const App = () => {
-  const [route, setRoute] = useState<Route>({ name: 'hub' });
+  const [route, setRoute] = useState<Route>(routeFromLocation);
   const [pkms, setPkms] = useState<Pkm[]>(SEED_PKMS);
   const [rviolations, setRviolations] = useState<RegistryViolation[]>(SEED_REGISTRY_VIOLATIONS);
-  const go = (r: Route) => setRoute(r);
+  const go = (nextRoute: Route) => {
+    if (nextRoute.name === 'analytics') {
+      window.history.pushState(null, '', analyticsBrowserPath(nextRoute.page));
+    } else if (nextRoute.name === 'hub' && route.name === 'analytics') {
+      window.history.pushState(null, '', appHomePath());
+    }
+    setRoute(nextRoute);
+  };
+
+  useEffect(() => {
+    const handlePopState = () => setRoute(routeFromLocation());
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const findPkm = (id: string) => pkms.find(p => p.id === id);
   const findRv = (id: string) => rviolations.find(v => v.id === id);
@@ -121,6 +147,15 @@ const App = () => {
             onOpenFlagman={() => go({ name: 'flagman' })}
             onOpenPkm={() => go({ name: 'pkm' })}
             onOpenViolations={() => go({ name: 'violations-registry' })}
+            onOpenAnalytics={() => go({ name: 'analytics', page: 'overview' })}
+          />
+        )}
+
+        {route.name === 'analytics' && (
+          <AnalyticsPage
+            page={route.page}
+            onNavigate={page => go({ name: 'analytics', page })}
+            onBackToHub={() => go({ name: 'hub' })}
           />
         )}
 

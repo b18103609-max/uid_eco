@@ -20,7 +20,19 @@ import './hub.css';
 
 type Tile = { label: string; icon: IconComponent; onClick?: () => void };
 
-const ContractMgmtHub = ({ onOpenContracts, onOpenFlagman, onOpenPkm, onOpenViolations }: { onOpenContracts: () => void; onOpenFlagman: () => void; onOpenPkm: () => void; onOpenViolations: () => void }) => {
+const ContractMgmtHub = ({
+  onOpenContracts,
+  onOpenFlagman,
+  onOpenPkm,
+  onOpenViolations,
+  onOpenAnalytics,
+}: {
+  onOpenContracts: () => void;
+  onOpenFlagman: () => void;
+  onOpenPkm: () => void;
+  onOpenViolations: () => void;
+  onOpenAnalytics: () => void;
+}) => {
   const c1Ref = useRef<HTMLCanvasElement>(null);
   const c2Ref = useRef<HTMLCanvasElement>(null);
 
@@ -64,6 +76,7 @@ const ContractMgmtHub = ({ onOpenContracts, onOpenFlagman, onOpenPkm, onOpenViol
     { label: 'Нарушения', icon: IconAlert, onClick: onOpenViolations },
   ];
   const row2: Tile[] = [
+    { label: 'Аналитика', icon: IconInfoCircle, onClick: onOpenAnalytics },
     { label: 'ПКМ', icon: IconList, onClick: onOpenPkm },
     { label: 'Допретензионная работа', icon: IconQuestion },
     { label: 'Рейтинг флагман', icon: IconFlagFilled, onClick: onOpenFlagman },
