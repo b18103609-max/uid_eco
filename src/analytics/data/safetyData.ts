@@ -1,0 +1,11 @@
+export type SafetyRecord = { id:string; subsidiary:string; contractor:string; service:string; brigade:string; source:'ВА'|'ВК'|'Прочие ПБ'; severity:'Критическое'|'Значительное'|'Незначительное'; status:'Открыто'|'Устранено'; selfAssessment:number; threshold:number; stopFactor:boolean; contractBreach:boolean; linkedMeasure:boolean };
+export const SAFETY_RECORDS: SafetyRecord[] = [
+{id:'PB-101',subsidiary:'ГПН-Ямал',contractor:'Альфа-Строй',service:'Бурение',brigade:'Бр-101',source:'ВА',severity:'Критическое',status:'Открыто',selfAssessment:76,threshold:80,stopFactor:false,contractBreach:true,linkedMeasure:true},
+{id:'PB-102',subsidiary:'ГПН-Ямал',contractor:'БетаГрупп',service:'ТКРС',brigade:'Бр-204',source:'ВК',severity:'Критическое',status:'Открыто',selfAssessment:62,threshold:80,stopFactor:true,contractBreach:true,linkedMeasure:false},
+{id:'PB-103',subsidiary:'Мессояханефтегаз',contractor:'Гамма-ТЭК',service:'Бурение',brigade:'Бр-307',source:'Прочие ПБ',severity:'Незначительное',status:'Устранено',selfAssessment:93,threshold:80,stopFactor:false,contractBreach:false,linkedMeasure:false},
+{id:'PB-104',subsidiary:'Мессояханефтегаз',contractor:'Дельта Инж',service:'Обустройство',brigade:'Бр-415',source:'ВА',severity:'Значительное',status:'Открыто',selfAssessment:81,threshold:80,stopFactor:false,contractBreach:true,linkedMeasure:true},
+{id:'PB-105',subsidiary:'Газпромнефть-Хантос',contractor:'Сигма Плюс',service:'ТКРС',brigade:'Бр-512',source:'ВК',severity:'Незначительное',status:'Устранено',selfAssessment:95,threshold:80,stopFactor:false,contractBreach:false,linkedMeasure:false},
+{id:'PB-106',subsidiary:'Газпромнефть-Хантос',contractor:'Омега-Сервис',service:'ГРП',brigade:'Бр-628',source:'Прочие ПБ',severity:'Критическое',status:'Открыто',selfAssessment:58,threshold:80,stopFactor:true,contractBreach:true,linkedMeasure:false},
+{id:'PB-107',subsidiary:'ГПН-Ямал',contractor:'БетаГрупп',service:'ТКРС',brigade:'Бр-204',source:'ВА',severity:'Значительное',status:'Устранено',selfAssessment:62,threshold:80,stopFactor:false,contractBreach:true,linkedMeasure:true},
+{id:'PB-108',subsidiary:'Газпромнефть-Хантос',contractor:'Омега-Сервис',service:'ГРП',brigade:'Бр-628',source:'ВК',severity:'Значительное',status:'Открыто',selfAssessment:58,threshold:80,stopFactor:false,contractBreach:true,linkedMeasure:true},
+];

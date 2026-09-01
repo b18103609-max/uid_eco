@@ -4,6 +4,7 @@ import { GlobalFilterBar } from '../analytics/components/GlobalFilterBar.tsx';
 import { OverviewDashboard } from '../analytics/components/OverviewDashboard.tsx';
 import { IndicatorsDashboard } from '../analytics/components/IndicatorsDashboard.tsx';
 import { RatingDashboard } from '../analytics/components/RatingDashboard.tsx';
+import { SafetyDashboard } from '../analytics/components/SafetyDashboard.tsx';
 import type { AnalyticsFilters } from '../analytics/filters.ts';
 
 const AnalyticsPage = ({
@@ -31,8 +32,9 @@ const AnalyticsPage = ({
 
       {page === 'indicators' && <IndicatorsDashboard filters={filters} onOpenContract={onOpenContract} />}
       {page === 'rating' && <RatingDashboard filters={filters} />}
+      {page === 'safety' && <SafetyDashboard filters={filters} />}
 
-      {page !== 'overview' && page !== 'indicators' && page !== 'rating' && (
+      {page !== 'overview' && page !== 'indicators' && page !== 'rating' && page !== 'safety' && (
         <section className="analytics-placeholder">
           <h2>{current.title}</h2>
           <p>
