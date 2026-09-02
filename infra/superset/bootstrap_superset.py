@@ -43,7 +43,8 @@ def load_env(path: str = ".env") -> dict[str, str]:
 
 
 class SupersetApi:
-    def __init__(self, username: str, password: str) -> None:
+    def __init__(self, username: str, password: str, base_url: str | None = None) -> None:
+        self.base_url = (base_url or BASE_URL).rstrip("/")
         self.cookies = http.cookiejar.CookieJar()
         self.opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(self.cookies))
         login = self._raw("POST", "/api/v1/security/login", {
@@ -62,8 +63,8 @@ class SupersetApi:
         if authenticated and hasattr(self, "token"):
             headers["Authorization"] = f"Bearer {self.token}"
         if authenticated and hasattr(self, "csrf") and method not in {"GET", "HEAD"}:
-            headers.update({"X-CSRFToken": self.csrf, "Referer": f"{BASE_URL}/", "Origin": BASE_URL})
-        request = urllib.request.Request(f"{BASE_URL}{path}", data=data, headers=headers, method=method)
+            headers.update({"X-CSRFToken": self.csrf, "Referer": f"{self.base_url}/", "Origin": self.base_url})
+        request = urllib.request.Request(f"{self.base_url}{path}", data=data, headers=headers, method=method)
         try:
             with self.opener.open(request, timeout=60) as response:
                 body = response.read()
@@ -303,7 +304,10 @@ def dashboard_layout(charts: list[dict[str, Any]]) -> str:
 
 def main() -> None:
     env = {**load_env(), **os.environ}
-    api = SupersetApi(env["SUPERSET_ADMIN_USERNAME"], env["SUPERSET_ADMIN_PASSWORD"])
+    # Production uses Secure session cookies. Prefer the configured HTTPS
+    # origin unless an explicit internal URL was supplied for local runs.
+    api_url = os.getenv("SUPERSET_INTERNAL_URL") or env.get("SUPERSET_PUBLIC_ORIGIN") or BASE_URL
+    api = SupersetApi(env["SUPERSET_ADMIN_USERNAME"], env["SUPERSET_ADMIN_PASSWORD"], api_url)
     db_name = "UID ECO Analytics"
     database = next((item for item in api.list("database") if item.get("database_name") == db_name), None)
     if database:
