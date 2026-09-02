@@ -5,7 +5,6 @@ import { IconDocFilled } from '@consta/icons/IconDocFilled';
 import { IconConnection } from '@consta/icons/IconConnection';
 import { IconAdd } from '@consta/icons/IconAdd';
 import { type Pkm, type PkmStatus, userInitials } from '../data';
-import ContractsIndicators from './ContractsIndicators';
 import './pkm.css';
 
 const statusCls = (s: PkmStatus): string => {
@@ -26,7 +25,6 @@ type Props = {
 };
 
 const PkmRegistry = ({ pkms, onBackToHub, onCreate, onOpenPkm }: Props) => {
-  const [tab, setTab] = useState<'registry' | 'indicators'>('registry');
   const [search, setSearch] = useState('');
 
   const filtered = useMemo(() => {
@@ -51,16 +49,9 @@ const PkmRegistry = ({ pkms, onBackToHub, onCreate, onOpenPkm }: Props) => {
           <h1 className="pkm-title">План корректирующих мероприятий</h1>
           <button className="pkm-create-btn" onClick={onCreate}><IconAdd size="s" />Создать ПКМ</button>
         </div>
-        <div className="tabs">
-          <div className={`tab${tab === 'registry' ? ' tab--active' : ''}`} onClick={() => setTab('registry')}>Реестр</div>
-          <div className={`tab${tab === 'indicators' ? ' tab--active' : ''}`} onClick={() => setTab('indicators')}>Показатели</div>
-        </div>
       </section>
 
-      {tab === 'indicators' ? (
-        <ContractsIndicators only={[4]} />
-      ) : (
-        <>
+      <>
           <section className="card">
             <div className="pkm-search-row">
               <div className="pkm-search">
@@ -132,8 +123,7 @@ const PkmRegistry = ({ pkms, onBackToHub, onCreate, onOpenPkm }: Props) => {
           ))
         )}
           </div>
-        </>
-      )}
+      </>
     </>
   );
 };

@@ -1,8 +1,8 @@
 export const ANALYTICS_PAGES = [
-  { id: 'overview', path: '/tdk/analytics', label: 'Обзор', title: 'Аналитика исполнения договоров', description: 'Сводная точка входа в аналитические разделы по исполнению договоров.' },
+  { id: 'overview', path: '/tdk/analytics', label: 'Фокус внимания', title: 'Фокус внимания', description: 'Критические сигналы, очередь действий и состояние портфеля на выбранную дату.' },
   { id: 'indicators', path: '/tdk/analytics/indicators', label: 'Договоры', title: 'Договоры', description: 'Портфель договоров, объёмы, освоение, ОЭДК и мотивация подрядных организаций.' },
-  { id: 'rating', path: '/tdk/analytics/rating', label: 'Рейтинг', title: 'Рейтинг подрядчиков', description: 'Сравнение подрядчиков по согласованной методике оценки.' },
-  { id: 'safety', path: '/tdk/analytics/safety', label: 'Нарушения', title: 'Договорные нарушения', description: 'Структура нарушений, объекты, подрядчики и принятые решения.' },
+  { id: 'rating', path: '/tdk/analytics/rating', label: 'Флагман', title: 'Флагман', description: 'Официальные срезы рейтинга и нарушения ПБ по функциям Бурение и ТКРС.' },
+  { id: 'safety', path: '/tdk/analytics/safety', label: 'Договорные нарушения', title: 'Договорные нарушения', description: 'События, статусы, повторяемость и связи с ДПР и ПКМ.' },
   { id: 'pcm', path: '/tdk/analytics/pcm', label: 'ПКМ', title: 'Предупреждающие и корректирующие мероприятия', description: 'Контроль мероприятий, сроков, статусов и связей с нарушениями.' },
   { id: 'preclaim', path: '/tdk/analytics/preclaim', label: 'ДПР', title: 'Допретензионная работа', description: 'Статусы допретензионной работы, суммы и сроки урегулирования.' },
   { id: 'addendums', path: '/tdk/analytics/addendums', label: 'Допсоглашения', title: 'Дополнительные соглашения', description: 'Изменения условий договоров и их влияние на сроки и стоимость.' },

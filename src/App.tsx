@@ -19,7 +19,6 @@ import {
   parseAnalyticsPath,
   type AnalyticsPageId,
 } from './analytics/routing.ts';
-import { DEFAULT_ANALYTICS_FILTERS, type AnalyticsFilters } from './analytics/filters.ts';
 import {
   SEED_PKMS, SEED_REGISTRY_VIOLATIONS,
   type Pkm, type PkmStatus, type HistoryEntry,
@@ -54,7 +53,6 @@ const App = () => {
   const [route, setRoute] = useState<Route>(routeFromLocation);
   const [pkms, setPkms] = useState<Pkm[]>(SEED_PKMS);
   const [rviolations, setRviolations] = useState<RegistryViolation[]>(SEED_REGISTRY_VIOLATIONS);
-  const [analyticsFilters, setAnalyticsFilters] = useState<AnalyticsFilters>(DEFAULT_ANALYTICS_FILTERS);
   const go = (nextRoute: Route) => {
     if (nextRoute.name === 'analytics') {
       window.history.pushState(null, '', analyticsBrowserPath(nextRoute.page));
@@ -158,9 +156,6 @@ const App = () => {
             page={route.page}
             onNavigate={page => go({ name: 'analytics', page })}
             onBackToHub={() => go({ name: 'hub' })}
-            filters={analyticsFilters}
-            onFiltersChange={setAnalyticsFilters}
-            onOpenContract={() => go({ name: 'contract' })}
           />
         )}
 

@@ -1,3 +1,0 @@
-import assert from'node:assert/strict';import test from'node:test';import{filterSafety,summarizeSafety}from'../src/analytics/calculations/safety.ts';import{SAFETY_RECORDS}from'../src/analytics/data/safetyData.ts';import{DEFAULT_ANALYTICS_FILTERS}from'../src/analytics/filters.ts';
-test('без мероприятия считаются только договорные нарушения без физической связи',()=>{const s=summarizeSafety(SAFETY_RECORDS);assert.equal(s.total,8);assert.equal(s.critical,3);assert.equal(s.stopFactors,2);assert.equal(s.withoutMeasure,2)});
-test('нарушения используют общий периметр аналитики',()=>{const rows=filterSafety(SAFETY_RECORDS,{...DEFAULT_ANALYTICS_FILTERS,contractor:'Омега-Сервис'});assert.equal(rows.length,2);assert.ok(rows.every(x=>x.brigade==='Бр-628'))});

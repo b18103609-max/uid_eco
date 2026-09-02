@@ -16,7 +16,8 @@ export const AnalyticsPageShell = ({
   children: ReactNode;
 }) => {
   const current = getAnalyticsPage(page);
-  const freshness = combineDataFreshness(Object.values(DATA_FRESHNESS));
+  const sources = page==='indicators'?[DATA_FRESHNESS['FORM-IDP']]:page==='preclaim'?[DATA_FRESHNESS['FORM-DPR']]:page==='rating'||page==='safety'||page==='pcm'?[DATA_FRESHNESS['FMD-CONTRACTS']]:Object.values(DATA_FRESHNESS);
+  const freshness = combineDataFreshness(sources);
 
   return (
     <div className="analytics-shell">

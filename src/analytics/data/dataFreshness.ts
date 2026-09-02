@@ -1,4 +1,4 @@
-import type { MetricSource } from './metricCatalog.ts';
+export type MetricSource = 'FMD-CONTRACTS' | 'FORM-IDP' | 'FORM-DPR' | 'FORM-DS';
 
 export type DataStateKind =
   | 'actual'

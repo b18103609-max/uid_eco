@@ -7,7 +7,6 @@ import {
   VIOLATION_TYPES, RV_STATUSES,
   type RegistryViolation, type ViolationType, type RegistryViolationStatus,
 } from '../data';
-import ContractsIndicators from './ContractsIndicators';
 import './rviolations.css';
 import './violations.css';
 
@@ -93,7 +92,6 @@ type Props = {
 };
 
 const ViolationsRegistry = ({ items, pkmNumByid, onBackToHub, onOpenCard, onOpenPkm, onCreatePkm }: Props) => {
-  const [tab, setTab] = useState<'registry' | 'indicators'>('registry');
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [type, setType] = useState<string[]>([...VIOLATION_TYPES]);
@@ -175,16 +173,9 @@ const ViolationsRegistry = ({ items, pkmNumByid, onBackToHub, onOpenCard, onOpen
         </div>
         <h1 className="rv-title">Нарушения</h1>
         <p className="rv-sub">Сводный реестр нарушений по договорам и контролю «Флагман»</p>
-        <div className="tabs" style={{ marginTop: 16 }}>
-          <div className={`tab${tab === 'registry' ? ' tab--active' : ''}`} onClick={() => setTab('registry')}>Реестр</div>
-          <div className={`tab${tab === 'indicators' ? ' tab--active' : ''}`} onClick={() => setTab('indicators')}>Показатели</div>
-        </div>
       </section>
 
-      {tab === 'indicators' ? (
-        <ContractsIndicators only={[2]} />
-      ) : (
-        <>
+      <>
       <section className="card">
         <div className="rv-toolbar">
           <div className="rv-search">
@@ -290,10 +281,9 @@ const ViolationsRegistry = ({ items, pkmNumByid, onBackToHub, onOpenCard, onOpen
           )}
         </div>
       </section>
-        </>
-      )}
+      </>
 
-      {tab === 'registry' && selected.size > 0 && (
+      {selected.size > 0 && (
         <div className="vio-actionbar" role="dialog" aria-label="Действия с выбранными нарушениями">
           <button className="vio-actionbar__btn vio-actionbar__btn--primary" onClick={() => onCreatePkm([...selected])}>
             Создать ПКМ

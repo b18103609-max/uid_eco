@@ -1,75 +1,39 @@
-import type {
-  MeasureBreachLink,
-  MeasureRecord,
-  MeasureStatus,
-} from '../calculations/metrics.ts';
+export type MeasureStatus = 'Реализовано' | 'В работе' | 'Новый';
+
+export type MeasureRecord = {
+  id: string; contractor: string; monthIndex: number; service: string; statusCode: MeasureStatus;
+  responsiblePerson?: string; reportDate?: string; title?: string; subsidiary?: string;
+  functionName?: string; field?: string; contractId?: string; contractNumber?: string;
+  violationId?: string; violationCategory?: string; plannedEndDate?: string; completedAt?: string;
+  observationBefore?: string; observationAfter?: string; similarBefore?: number; similarAfter?: number;
+};
+
+export type MeasureBreachLink = { measureId: string; breachId: string };
 
 export const ANALYTICS_SERVICES = [
-  '10203 — Зарезка боковых стволов и углублений под ключ',
-  '10204 — Бурение эксплуатационных скважин (суточная/фикс. ставка)',
-  '10205 — Зарезка боковых стволов и углубление (суточная/фикс. ставка)',
-  '10206 — ПИР при бурении/реконструкции скважин, авторский надзор',
-  '11014 — Строительный контроль за объектами строительства',
-  '11018 — ПИР Комплексное обустройство месторождений нефти и газа',
-  '11019 — ПИР Объекты добычи, подготовки и транспорта нефти',
-  '11016 — ПИР Прочие объекты обустройства',
+  '10203 — Зарезка боковых стволов',
+  '10204 — Бурение эксплуатационных скважин',
+  '10205 — Углубление скважин',
+  '10206 — ПИР при бурении и реконструкции',
+  '11014 — Строительный контроль',
+  '11018 — Обустройство месторождений',
 ] as const;
 
-type MonthlyMeasureScenario = {
-  done: readonly number[];
-  wip: readonly number[];
-  newCount: readonly number[];
-  withoutResponsible: readonly number[];
-  linkedToBreach: readonly number[];
-};
+export const DEMO_MEASURES: MeasureRecord[] = [
+  {id:'ПКМ-001',reportDate:'2026-07-20',title:'Повторный инструктаж допуска на объект',contractor:'БетаГрупп',subsidiary:'ГПН-Ямал',functionName:'ТКРС',service:ANALYTICS_SERVICES[0],field:'Новопортовское',contractId:'contract-2',contractNumber:'ГПН-ЯМ/25-044',violationId:'НАР-002',violationCategory:'Пропускной режим',monthIndex:6,statusCode:'Реализовано',responsiblePerson:'Сафин Р.Р.',plannedEndDate:'2026-07-30',completedAt:'2026-07-29',observationBefore:'май–июнь',observationAfter:'август–сентябрь',similarBefore:5,similarAfter:2},
+  {id:'ПКМ-002',reportDate:'2026-07-30',title:'Проверка чек-листа перед началом работ',contractor:'Гамма-ТЭК',subsidiary:'Мессояханефтегаз',functionName:'Бурение',service:ANALYTICS_SERVICES[3],field:'Мессояхское',contractId:'contract-3',contractNumber:'МНГ/24-318',violationId:'НАР-003',violationCategory:'Убытки',monthIndex:6,statusCode:'Реализовано',responsiblePerson:'Юдин В.А.',plannedEndDate:'2026-08-05',completedAt:'2026-08-04',observationBefore:'май–июнь',observationAfter:'август–сентябрь',similarBefore:3,similarAfter:1},
+  {id:'ПКМ-003',reportDate:'2026-08-10',title:'Актуализация контроля договорных сроков',contractor:'Дельта Инж',subsidiary:'Мессояханефтегаз',functionName:'КС',service:ANALYTICS_SERVICES[4],field:'Мессояхское',contractId:'contract-4',contractNumber:'МНГ/25-127',violationId:'НАР-004',violationCategory:'Нарушение условий договора',monthIndex:7,statusCode:'В работе',responsiblePerson:'Алиев М.М.',plannedEndDate:'2026-09-15',observationBefore:'июнь–июль',observationAfter:'октябрь–ноябрь',similarBefore:4,similarAfter:0},
+  {id:'ПКМ-004',reportDate:'2026-08-24',title:'Контроль защитных ограждений оборудования',contractor:'Омега-Сервис',subsidiary:'Газпромнефть-Хантос',functionName:'ГРП',service:ANALYTICS_SERVICES[5],field:'Ямбургское',contractId:'contract-6',contractNumber:'ХНТ/25-089',violationId:'НАР-006',violationCategory:'ПБ',monthIndex:7,statusCode:'В работе',responsiblePerson:'Тихонов А.В.',plannedEndDate:'2026-09-20',observationBefore:'июнь–июль',observationAfter:'октябрь–ноябрь',similarBefore:6,similarAfter:0},
+  {id:'ПКМ-005',reportDate:'2026-08-25',title:'Разбор причин НПВ с буровой бригадой',contractor:'Альфа-Строй',subsidiary:'ГПН-Ямал',functionName:'Бурение',service:ANALYTICS_SERVICES[1],field:'Ярудейское',contractId:'contract-1',contractNumber:'ГПН-ЯМ/24-101',violationId:'НАР-009',violationCategory:'НПВ',monthIndex:7,statusCode:'Новый',responsiblePerson:'Ким А.В.',plannedEndDate:'2026-09-25',observationBefore:'июнь–июль',observationAfter:'октябрь–ноябрь',similarBefore:4,similarAfter:0},
+  {id:'ПКМ-006',reportDate:'2026-08-26',title:'Проверка барьеров ПБ перед сменой',contractor:'Омега-Сервис',subsidiary:'Газпромнефть-Хантос',functionName:'ГРП',service:ANALYTICS_SERVICES[5],field:'Ямбургское',contractId:'contract-6',contractNumber:'ХНТ/25-089',violationId:'НАР-008',violationCategory:'ПБ',monthIndex:7,statusCode:'Новый',plannedEndDate:'2026-09-30',observationBefore:'июнь–июль',observationAfter:'октябрь–ноябрь',similarBefore:6,similarAfter:0},
+  {id:'ПКМ-007',reportDate:'2026-07-22',title:'Единый журнал пропусков подрядчика',contractor:'БетаГрупп',subsidiary:'ГПН-Ямал',functionName:'ТКРС',service:ANALYTICS_SERVICES[0],field:'Новопортовское',contractId:'contract-2',contractNumber:'ГПН-ЯМ/25-044',violationId:'НАР-002',violationCategory:'Пропускной режим',monthIndex:6,statusCode:'Реализовано',responsiblePerson:'Петрова О.В.',plannedEndDate:'2026-08-01',completedAt:'2026-08-01',observationBefore:'май–июнь',observationAfter:'август–сентябрь',similarBefore:5,similarAfter:2},
+  {id:'ПКМ-008',reportDate:'2026-08-12',title:'Входной контроль отчетных материалов',contractor:'Дельта Инж',subsidiary:'Мессояханефтегаз',functionName:'КС',service:ANALYTICS_SERVICES[4],field:'Мессояхское',contractId:'contract-4',contractNumber:'МНГ/25-127',violationId:'НАР-004',violationCategory:'Нарушение условий договора',monthIndex:7,statusCode:'Реализовано',responsiblePerson:'Ершов К.В.',plannedEndDate:'2026-08-20',completedAt:'2026-08-19',observationBefore:'май–июнь',observationAfter:'август–сентябрь',similarBefore:4,similarAfter:3},
+  {id:'ПКМ-009',reportDate:'2026-08-18',title:'Проверка расчета производственных потерь',contractor:'Сигма Плюс',subsidiary:'Газпромнефть-Хантос',functionName:'ТКРС',service:ANALYTICS_SERVICES[2],field:'Вынгапуровское',contractId:'contract-5',contractNumber:'ХНТ/24-205',violationId:'НАР-005',violationCategory:'НПВ',monthIndex:7,statusCode:'Реализовано',responsiblePerson:'Крылов Н.А.',plannedEndDate:'2026-08-28',completedAt:'2026-08-27',observationBefore:'май–июнь',observationAfter:'август–сентябрь',similarBefore:2,similarAfter:2},
+  {id:'ПКМ-010',reportDate:'2026-08-29',title:'Дополнительный аудит требований ПБ',contractor:'Альфа-Строй',subsidiary:'ГПН-Ямал',functionName:'Бурение',service:ANALYTICS_SERVICES[1],field:'Ярудейское',contractId:'contract-1',contractNumber:'ГПН-ЯМ/24-101',violationId:'НАР-001',violationCategory:'ПБ',monthIndex:7,statusCode:'В работе',responsiblePerson:'Орлова Е.С.',plannedEndDate:'2026-09-18',observationBefore:'июнь–июль',observationAfter:'октябрь–ноябрь',similarBefore:3,similarAfter:0},
+  {id:'ПКМ-011',reportDate:'2026-09-01',title:'Обновление матрицы ответственности',contractor:'Дельта Инж',subsidiary:'Мессояханефтегаз',functionName:'КС',service:ANALYTICS_SERVICES[4],field:'Мессояхское',contractId:'contract-4',contractNumber:'МНГ/25-127',violationId:'НАР-010',violationCategory:'Убытки',monthIndex:8,statusCode:'Новый',plannedEndDate:'2026-10-05',observationBefore:'июль–август',observationAfter:'ноябрь–декабрь',similarBefore:2,similarAfter:0},
+  {id:'ПКМ-012',reportDate:'2026-09-01',title:'Контроль соблюдения технологического окна',contractor:'БетаГрупп',subsidiary:'ГПН-Ямал',functionName:'ТКРС',service:ANALYTICS_SERVICES[0],field:'Новопортовское',contractId:'contract-2',contractNumber:'ГПН-ЯМ/25-044',violationId:'НАР-007',violationCategory:'Прочее',monthIndex:8,statusCode:'Новый',responsiblePerson:'Сафин Р.Р.',plannedEndDate:'2026-10-10',observationBefore:'июль–август',observationAfter:'ноябрь–декабрь',similarBefore:3,similarAfter:0},
+];
 
-const SCENARIOS: Record<string, MonthlyMeasureScenario> = {
-  'Альфа-Строй': { done: [10, 12, 13, 12, 13, 12, 14, 12], wip: [3, 3, 3, 3, 3, 3, 3, 3], newCount: [2, 2, 2, 2, 2, 2, 2, 2], withoutResponsible: [1, 1, 2, 1, 1, 1, 2, 1], linkedToBreach: [10, 12, 13, 12, 13, 12, 14, 12] },
-  'БетаГрупп': { done: [9, 10, 11, 10, 11, 10, 11, 10], wip: [4, 4, 5, 4, 5, 4, 5, 4], newCount: [3, 3, 4, 3, 4, 3, 4, 3], withoutResponsible: [2, 2, 2, 2, 2, 2, 3, 2], linkedToBreach: [11, 12, 14, 12, 14, 12, 14, 12] },
-  'Гамма-ТЭК': { done: [12, 13, 14, 13, 14, 13, 15, 13], wip: [2, 2, 2, 2, 2, 2, 2, 2], newCount: [1, 1, 1, 1, 1, 1, 1, 1], withoutResponsible: [1, 1, 1, 1, 1, 1, 1, 1], linkedToBreach: [11, 12, 13, 12, 13, 12, 14, 12] },
-  'Дельта Инж': { done: [10, 11, 12, 11, 12, 11, 12, 11], wip: [3, 3, 3, 3, 3, 3, 3, 3], newCount: [2, 2, 2, 2, 2, 2, 2, 2], withoutResponsible: [1, 1, 1, 1, 1, 1, 2, 1], linkedToBreach: [10, 11, 12, 11, 12, 11, 12, 11] },
-  'Сигма Плюс': { done: [13, 14, 15, 14, 15, 14, 15, 14], wip: [1, 1, 2, 1, 2, 1, 2, 1], newCount: [1, 1, 1, 1, 1, 1, 1, 1], withoutResponsible: [0, 1, 1, 1, 1, 1, 1, 1], linkedToBreach: [11, 12, 13, 12, 13, 12, 13, 12] },
-  'Омега-Сервис': { done: [7, 8, 8, 8, 8, 8, 9, 8], wip: [5, 5, 5, 5, 5, 5, 6, 5], newCount: [4, 4, 5, 4, 5, 4, 5, 4], withoutResponsible: [2, 2, 3, 2, 3, 2, 3, 2], linkedToBreach: [12, 13, 14, 13, 14, 13, 15, 13] },
-};
-
-const statusAt = (index: number, scenario: MonthlyMeasureScenario, month: number): MeasureStatus => {
-  if (index < scenario.done[month]) return 'Реализовано';
-  if (index < scenario.done[month] + scenario.wip[month]) return 'В работе';
-  return 'Новый';
-};
-
-const buildDemoMeasures = () => {
-  const measures: MeasureRecord[] = [];
-  const links: MeasureBreachLink[] = [];
-
-  Object.entries(SCENARIOS).forEach(([contractor, scenario], contractorIndex) => {
-    scenario.done.forEach((done, monthIndex) => {
-      const total = done + scenario.wip[monthIndex] + scenario.newCount[monthIndex];
-
-      for (let index = 0; index < total; index += 1) {
-        const id = `PCM-${contractorIndex + 1}-${monthIndex + 1}-${index + 1}`;
-        measures.push({
-          id,
-          contractor,
-          monthIndex,
-          service: ANALYTICS_SERVICES[(index + contractorIndex + monthIndex) % ANALYTICS_SERVICES.length],
-          statusCode: statusAt(index, scenario, monthIndex),
-          responsiblePerson: index < scenario.withoutResponsible[monthIndex]
-            ? undefined
-            : `Ответственный ${contractorIndex + 1}.${(index % 4) + 1}`,
-        });
-
-        if (index < scenario.linkedToBreach[monthIndex]) {
-          links.push({ measureId: id, breachId: `BREACH-${contractorIndex + 1}-${monthIndex + 1}-${index + 1}` });
-        }
-      }
-    });
-  });
-
-  return { measures, links };
-};
-
-const demoData = buildDemoMeasures();
-
-export const DEMO_MEASURES = demoData.measures;
-export const DEMO_MEASURE_BREACH_LINKS = demoData.links;
+export const DEMO_MEASURE_BREACH_LINKS: MeasureBreachLink[] = DEMO_MEASURES
+  .filter(item => item.violationId)
+  .map(item => ({ measureId: item.id, breachId: item.violationId! }));
