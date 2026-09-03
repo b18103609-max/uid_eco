@@ -3,8 +3,3 @@ dist
 *.log
 .DS_Store
 tsconfig.tsbuildinfo
-infra/superset/.env
-infra/superset/bootstrap-result.json
-graphify-out/
-__pycache__/
-*.pyc

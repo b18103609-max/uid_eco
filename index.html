@@ -3,17 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Управление исполнением договора</title>
-    <script>
-      (function () {
-        var params = new URLSearchParams(location.search);
-        var route = params.get('route');
-        if (!route) return;
-        params.delete('route');
-        var query = params.toString();
-        history.replaceState(null, '', '/uid_eco' + route + (query ? (route.includes('?') ? '&' : '?') + query : ''));
-      })();
-    </script>
+    <title>Карточка договора — Информация</title>
   </head>
   <body>
     <div id="root"></div>
